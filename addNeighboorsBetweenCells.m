@@ -8,28 +8,35 @@
 ##nextCell_row, nextCell_col= posición de la siguiente celda en la grilla.
 ##
 ## neighboors: vecinos calculados entre las celdas en cuestión y en pasos anteriores.
-function neighboors = addNeighboorsBetweenCells(N,grid,previousNeighboors,particles,currentCell_row, currentCell_col, nextCell_row,nextCell_col,rc)
+
+
+
+function neighboors = addNeighboorsBetweenCells(N,matrix,previousNeighboors,particles,currentCell_row, currentCell_col, nextCell_row,nextCell_col,rc,periodic,M)
+
 ##constantes, posiciones de los datos de cada partícula
 x_pos=1;
 y_pos=2;
 radius_pos=3;
 color_pos=4;
 ##
-currentCell=grid{currentCell_row,currentCell_col};
-nextCell=grid{nextCell_row,nextCell_row};
+[nextCell_row,nextCell_col]=getPeriodicPosition(nextCell_row, nextCell_col,periodic,M);
+
+currentCell=matrix{currentCell_row, currentCell_col};
+nextCell=matrix{nextCell_row, nextCell_row};
 
 for currentParticleID=currentCell
 
-	currentParticleData=particles(currentParticleId);##vector con los datos de la partícula actual
-	currentParticlePosition=[currenParticleData(x_pos), currentParticleData(y_pos)];
+	currentParticleData=particles(currentParticleID,:);##vector con los datos de la partícula actual
+	currentParticlePosition=[currentParticleData(x_pos), currentParticleData(y_pos)];
 	currentParticleRadius=currentParticleData(radius_pos);
-	for nextParticuleID=nextCell
-		nextParticleData=particles(nextParticuleID);
+	for nextParticleID=nextCell
+		nextParticleData=particles(nextParticleID,:);
 		nextParticlePosition=[nextParticleData(x_pos),nextParticleData(y_pos)];
 		nextParticleRadius=nextParticleData(radius_pos);
-		distance=norm(currentParticlePosition-nextPariclePosition,2)-currentParticleRadius-nextParticleRadius;
+		%distancia borde-borde
+		distance=norm(currentParticlePosition-nextParticlePosition,2)-currentParticleRadius-nextParticleRadius;
 		if(distance<rc) %se agrega el id de la particula vecina
-			previousNeighboors(currentParticleID)=[previousNeighboors(currentParticleID),nextParticuleID];
+			previousNeighboors{1,currentParticleID}=[previousNeighboors{1,currentParticleID},nextParticleID];
 		endif
 	endfor
 
@@ -39,4 +46,18 @@ endfor
 
 neighboors=previousNeighboors;
 
-endfunction;
+endfunction
+
+
+%!test
+%! rc=6;
+%!
+%!
+%!
+%! [matrix,L,N,M] = createGrid("./ArchivosEjemplo/Static100.txt",rc);
+%! particles = loadParticles("./ArchivosEjemplo/Static100.txt","./ArchivosEjemplo/Dynamic100.txt");
+%!
+%!
+%! matrix = setUpGrid(matrix,L,N,M,particles);
+%! neighboors=cell(1,N);
+%! neighboors=addNeighboorsBetweenCells (N, matrix, neighboors, particles, 3, 3, 3, 4, rc, true, M);
