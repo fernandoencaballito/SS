@@ -22,39 +22,46 @@ color_pos=4;
 [nextCell_row,nextCell_col]=getPeriodicPosition(nextCell_row, nextCell_col,periodic,M);
 
 currentCell=matrix{currentCell_row, currentCell_col};
-nextCell=matrix{nextCell_row, nextCell_row};
-
-for currentParticleID=currentCell
-
-	currentParticleData=particles(currentParticleID,:);##vector con los datos de la partícula actual
-	currentParticlePosition=[currentParticleData(x_pos), currentParticleData(y_pos)];
-	currentParticleRadius=currentParticleData(radius_pos);
-	for nextParticleID=nextCell
-		nextParticleData=particles(nextParticleID,:);
-		nextParticlePosition=[nextParticleData(x_pos),nextParticleData(y_pos)];
-		nextParticleRadius=nextParticleData(radius_pos);
-		%distancia borde-borde
-		distance=norm(currentParticlePosition-nextParticlePosition,2)-currentParticleRadius-nextParticleRadius;
-		if(distance<rc) %se agrega el id de la particula vecina
-			previousNeighboors{1,currentParticleID}=[previousNeighboors{1,currentParticleID},nextParticleID];
-		endif
-	endfor
-
-
-endfor
-
-
+nextCell=matrix{nextCell_row, nextCell_col};
 neighboors=previousNeighboors;
+
+if(!(currentCell_col==nextCell_col && currentCell_row==nextCell_row))
+      for currentParticleID=currentCell
+
+        currentParticleData=particles(currentParticleID,:);##vector con los datos de la partícula actual
+        currentParticlePosition=[currentParticleData(x_pos), currentParticleData(y_pos)];
+        currentParticleRadius=currentParticleData(radius_pos);
+        for nextParticleID=nextCell
+          
+          if(nextParticleID!=currentParticleID)		
+              nextParticleData=particles(nextParticleID,:);
+              nextParticlePosition=[nextParticleData(x_pos),nextParticleData(y_pos)];
+              nextParticleRadius=nextParticleData(radius_pos);
+              %distancia borde-borde
+              distance=norm(currentParticlePosition-nextParticlePosition,2)-currentParticleRadius-nextParticleRadius;
+              if(distance<rc) %se agrega el id de la particula vecina
+                neighboors{1,currentParticleID}=[neighboors{1,currentParticleID},nextParticleID];
+                neighboors{1,nextParticleID}=[neighboors{1,nextParticleID},currentParticleID];
+              endif
+          endif
+        endfor
+
+
+       endfor
+endif;
+
+
+
 
 endfunction
 
 
 %!test
 %! rc=6;
+%! M=10;
 %!
 %!
-%!
-%! [matrix,L,N,M] = createGrid("./ArchivosEjemplo/Static100.txt",rc);
+%! [matrix,L,N] = createGrid("./ArchivosEjemplo/Static100.txt",rc,M);
 %! particles = loadParticles("./ArchivosEjemplo/Static100.txt","./ArchivosEjemplo/Dynamic100.txt");
 %!
 %!
