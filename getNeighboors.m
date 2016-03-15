@@ -22,13 +22,15 @@ function neighboors=getNeighboors(N,grid,particles,rc,M,periodic)
 			## se compara la celda (i,j) contra (i+1,j+1)
 			neighboors=addNeighboorsBetweenCells(N,grid,neighboors,particles,i, j,(i+1) ,j+1,rc,periodic,M);			
 		
+			##se agregan los vecinos dentro de una misma celda
+			neighboors=addNeighboorsSameCell(grid,neighboors,particles,i, j,rc);
 		endfor
 	endfor
 
 
 endfunction
 
-#esta prueba pasa correctamente
+#Prueba1: esta prueba pasa correctamente
 %!test
 %! rc=2.4;
 %! N=3;
@@ -49,6 +51,40 @@ endfunction
 %! assert(any (neighboors{1,1}==3 ) );
 %! assert(any (neighboors{1,2}==1 ) );
 %! assert(any (neighboors{1,3}==1 ) );
+
+
+#Prueba2:
+%!test
+%! rc=2.4;
+%! N=5;
+%! M=2;
+%! L=10;
+%! matrix = cell(M);
+%! matrix{1,1}=[2];
+%! matrix{1,2}=[3];
+%! matrix{2,1}=[1,4,5];
+%! particles=[1,1,3,1; 1, 6.5, 0.5,1; 5.5, 5.5,1 ,1;4.5,1,0.5,1;3,1,0.5,1];
+%!
+%! neighboors=getNeighboors(N,matrix,particles,rc,M,false) 
+%! 
+%! assert(length (neighboors{1,1})==4);
+%! assert(length (neighboors{1,2})==1);
+%! assert(length (neighboors{1,3})==1);
+%! assert(length (neighboors{1,4})==2);
+%! assert(length (neighboors{1,5})==2);
+%! assert(any (neighboors{1,1}==2 ) );
+%! assert(any (neighboors{1,1}==3 ) );
+%! assert(any (neighboors{1,1}==4 ) );
+%! assert(any (neighboors{1,1}==5 ) );
+%! assert(any (neighboors{1,2}==1 ) );
+%! assert(any (neighboors{1,3}==1 ) );
+%! assert(any (neighboors{1,4}==1 ) );
+%! assert(any (neighboors{1,4}==5 ) );
+%! assert(any (neighboors{1,5}==1 ) );
+%! assert(any (neighboors{1,5}==4 ) );
+
+
+
 
 # esta prueba corresponde con los datos de ejemplo.Algunos valores no coinciden con la supuesta respuesta.
 %!test

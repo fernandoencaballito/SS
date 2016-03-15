@@ -1,5 +1,5 @@
 ##
-##función que agrega los vecinos para las partículas de la actual celda que se encuentran en la siguiente celda.
+##función que agrega los vecinos para las partículas de la actual celda que se encuentran en la siguiente celda.TIENEN QUE SER CELDAS DISTINTAS.
 ##N: es la cantidad de partículas.
 ##grid: es la grilla, en cada celda se tiene un vector que contiene los IDs de las partículas que se ubican en dicha celda.
 ##previousNeighboors:son los vecinos calculados en pasos anteriores. Debe estar inicializada.
