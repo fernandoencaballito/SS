@@ -8,7 +8,7 @@ grid = setUpGrid(grid,L,N,M,particles);
 rc
 maxRc = L/M
 
-neighbours=getNeighboors(N,grid,particles,rc,M,periodic);
+neighbours=getNeighboors(N,grid,particles,rc,M,periodic,L);
 writeNeighbours("./ArchivosEjemplo/outputTest.txt",neighbours,N);
 
 plotParticles(particles,L,M);

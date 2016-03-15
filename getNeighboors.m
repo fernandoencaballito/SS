@@ -5,22 +5,22 @@
 ## particles: datos de cada partícula.
 ##M: ancho de la grilla en celdas
 ## periodic: booleano que indica si hay condiciones periódicas de contorno.
-function neighboors=getNeighboors(N,grid,particles,rc,M,periodic)
+function neighboors=getNeighboors(N,grid,particles,rc,M,periodic,L)
 	neighboors=cell(1,N);
 	for i=(1:M)
 		for j=(1:M)
 			#function neighboors = addNeighboorsBetweenCells(N,grid,previousNeighboors,particles,currentCell_row, currentCell_col, nextCell_row,nextCell_col,rc,periodic,M)
 			##se compara la celda (i,j) contra (i-1,j)
-			neighboors = addNeighboorsBetweenCells(N,grid,neighboors,particles,i, j,(i-1) , j, rc, periodic, M);			
+			neighboors = addNeighboorsBetweenCells(N,grid,neighboors,particles,i, j,(i-1) , j, rc, periodic, M,L);			
 		
 			##se compara la celda (i,j) contra (i-1,j+1)
-			neighboors=addNeighboorsBetweenCells(N,grid,neighboors,particles,i, j,(i-1) ,j+1,rc,periodic,M);			
+			neighboors=addNeighboorsBetweenCells(N,grid,neighboors,particles,i, j,(i-1) ,j+1,rc,periodic,M,L);			
 		
 			## se compara la celda (i,j) contra (i,j+1)
-			neighboors=addNeighboorsBetweenCells(N,grid,neighboors,particles,i, j,i ,j+1,rc,periodic,M);			
+			neighboors=addNeighboorsBetweenCells(N,grid,neighboors,particles,i, j,i ,j+1,rc,periodic,M,L);			
 		
 			## se compara la celda (i,j) contra (i+1,j+1)
-			neighboors=addNeighboorsBetweenCells(N,grid,neighboors,particles,i, j,(i+1) ,j+1,rc,periodic,M);			
+			neighboors=addNeighboorsBetweenCells(N,grid,neighboors,particles,i, j,(i+1) ,j+1,rc,periodic,M,L);			
 		
 			##se agregan los vecinos dentro de una misma celda
 			neighboors=addNeighboorsSameCell(grid,neighboors,particles,i, j,rc);
@@ -42,7 +42,7 @@ endfunction
 %! matrix{2,1}=[1];
 %! particles=[1,1,3,1; 1, 6.5, 0.5,1; 5.5, 5.5,1 ,1];
 %!
-%! neighboors=getNeighboors(N,matrix,particles,rc,M,false) 
+%! neighboors=getNeighboors(N,matrix,particles,rc,M,false,L) 
 %! 
 %! assert(length (neighboors{1,1})==2);
 %! assert(length (neighboors{1,2})==1);
@@ -65,7 +65,7 @@ endfunction
 %! matrix{2,1}=[1,4,5];
 %! particles=[1,1,3,1; 1, 6.5, 0.5,1; 5.5, 5.5,1 ,1;4.5,1,0.5,1;3,1,0.5,1];
 %!
-%! neighboors=getNeighboors(N,matrix,particles,rc,M,false) 
+%! neighboors=getNeighboors(N,matrix,particles,rc,M,false,L) 
 %! 
 %! assert(length (neighboors{1,1})==4);
 %! assert(length (neighboors{1,2})==1);
@@ -84,6 +84,24 @@ endfunction
 %! assert(any (neighboors{1,5}==4 ) );
 
 
+#Prueba3:
+%!test
+%! rc=1.9;
+%! N=2;
+%! M=5;
+%! L=10;
+%! matrix = cell(M);
+%! matrix{5,1}=[2];
+%! matrix{1,5}=[1];
+%! particles=[10,10,1.5,1; 0,0,1,1];
+%!
+%! neighboors=getNeighboors(N,matrix,particles,rc,M,true,L) 
+%! 
+%! assert(length (neighboors{1,1})==1);
+%! assert(length (neighboors{1,2})==1);
+%! assert(any (neighboors{1,1}==2 ) );
+%! assert(any (neighboors{1,2}==1 ) );
+
 
 
 # esta prueba corresponde con los datos de ejemplo.Algunos valores no coinciden con la supuesta respuesta.
@@ -98,7 +116,7 @@ endfunction
 %!
 %! grid = setUpGrid(grid,L,N,M,particles);
 %! 
-%! neighboors=getNeighboors(N,grid,particles,rc,M,true);
+%! neighboors=getNeighboors(N,grid,particles,rc,M,true,L);
 %! 
 %! assert(length (neighboors{1,9})==0);
 %! assert(length (neighboors{1,13})==0);

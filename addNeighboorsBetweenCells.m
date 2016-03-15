@@ -11,7 +11,7 @@
 
 
 
-function neighboors = addNeighboorsBetweenCells(N,matrix,previousNeighboors,particles,currentCell_row, currentCell_col, nextCell_row,nextCell_col,rc,periodic,M)
+function neighboors = addNeighboorsBetweenCells(N,matrix,previousNeighboors,particles,currentCell_row, currentCell_col, nextCell_row,nextCell_col,rc,periodic,M,L)
 
 ##constantes, posiciones de los datos de cada partícula
 x_pos=1;
@@ -34,15 +34,25 @@ if(!(currentCell_col==nextCell_col && currentCell_row==nextCell_row))
         for nextParticleID=nextCell
           
           if(nextParticleID!=currentParticleID)		
-              nextParticleData=particles(nextParticleID,:);
-              nextParticlePosition=[nextParticleData(x_pos),nextParticleData(y_pos)];
-              nextParticleRadius=nextParticleData(radius_pos);
-              %distancia borde-borde
-              distance=norm(currentParticlePosition-nextParticlePosition,2)-currentParticleRadius-nextParticleRadius;
-              if(distance<rc) %se agrega el id de la particula vecina
-                neighboors{1,currentParticleID}=[neighboors{1,currentParticleID},nextParticleID];
-                neighboors{1,nextParticleID}=[neighboors{1,nextParticleID},currentParticleID];
-              endif
+                nextParticleData=particles(nextParticleID,:);
+                nextParticlePosition=[nextParticleData(x_pos),nextParticleData(y_pos)];
+                nextParticleRadius=nextParticleData(radius_pos);
+                %distancia borde-borde
+                distance=norm(currentParticlePosition-nextParticlePosition,2)-currentParticleRadius-nextParticleRadius;
+                if(distance<rc) %se agrega el id de la particula vecina
+                  neighboors{1,currentParticleID}=[neighboors{1,currentParticleID},nextParticleID];
+                  neighboors{1,nextParticleID}=[neighboors{1,nextParticleID},currentParticleID];
+                
+                else
+                    deltaX= abs(nextParticlePosition(1)-currentParticlePosition(1));
+                    deltaY=abs(nextParticlePosition(2)-currentParticlePosition(2));
+                    ##caso en el que sean vecinas por condiciones periodicas
+                    if(periodic && (sqrt((L-deltaX)^2 +(L-deltaY)^2 ))<rc)
+                      neighboors{1,currentParticleID}=[neighboors{1,currentParticleID},nextParticleID];
+                      neighboors{1,nextParticleID}=[neighboors{1,nextParticleID},currentParticleID];
+                
+                    endif
+                endif
           endif
         endfor
 
@@ -67,4 +77,4 @@ endfunction
 %!
 %! matrix = setUpGrid(matrix,L,N,M,particles);
 %! neighboors=cell(1,N);
-%! neighboors=addNeighboorsBetweenCells (N, matrix, neighboors, particles, 3, 3, 3, 4, rc, true, M);
+%! neighboors=addNeighboorsBetweenCells (N, matrix, neighboors, particles, 3, 3, 3, 4, rc, true, M,L);
