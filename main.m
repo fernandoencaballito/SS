@@ -1,14 +1,24 @@
 
 M=20;
-rc = 4;
+rc = 400;
 periodic = 0;
-[grid,L,N] = createGrid("./ArchivosEjemplo/Static100.txt",rc,M);
+
 particles = loadParticles("./ArchivosEjemplo/Static100.txt","./ArchivosEjemplo/Dynamic100.txt");
+[grid,L,N] = createGrid("./ArchivosEjemplo/Static100.txt",rc,M,particles);
 grid = setUpGrid(grid,L,N,M,particles);
 rc
 maxRc = L/M
 
-neighbours=getNeighboors(N,grid,particles,rc,M,periodic,L);
+#neighbours=getNeighboors(N,grid,particles,rc,M,periodic,L);
+neighbours = fuerzaBruta(particles, rc, N, periodic)
+
 writeNeighbours("./ArchivosEjemplo/outputTest.txt",neighbours,N);
+
+
+pid=24;
+particles(pid,4)=2;
+for neighbour = neighbours{1,pid}
+	particles(neighbour,4)=3;
+endfor
 
 plotParticles(particles,L,M);
