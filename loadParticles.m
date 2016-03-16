@@ -1,5 +1,5 @@
 function [particles,cant] = loadParticles(staticFile, dynamicFile)
-	particlesPos = dlmread(dynamicFile,"",1,0); #revisar esto para multiples tiempos
+	particlesPos = dlmread(dynamicFile,"",1,0); #archivo, delimitador,fila a empezar a leer,columna en la que se empieza a leer
 	particlesAttr = dlmread(staticFile,"",2,0);
 	
 	particles = particlesPos;

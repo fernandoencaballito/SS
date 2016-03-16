@@ -24,7 +24,7 @@ function [final_row, final_col] = getPeriodicPosition(row, col,periodic,M)
 			if(col>M)
 				final_col=M;
 			else
-				final_col=col
+				final_col=col;
 
 			endif
 		endif	
