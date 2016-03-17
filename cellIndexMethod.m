@@ -3,23 +3,26 @@ function cellIndexMethod(staticFile, dynamicFile, M, rc, periodic, outputFile, b
 	rc = 4;
 	periodic = 0;
 
-	particles = loadParticles("./ArchivosEjemplo/Static100.txt","./ArchivosEjemplo/Dynamic100.txt");
-	[grid,L,N] = createGrid("./ArchivosEjemplo/Static100.txt",rc,M,particles);
+	particles = loadParticles(staticFile,dynamicFile);
+	[grid,L,N] = createGrid(staticFile,rc,M,particles);
 	grid = setUpGrid(grid,L,N,M,particles);
 	rc
 	maxRc = L/M
+	
+	if !bruteForce
+		neighbours = getNeighboors(N,grid,particles,rc,M,periodic,L);
+	else	
+		neighbours = fuerzaBruta(particles, rc, N, periodic)
+	endif
 
-	neighbours=getNeighboors(N,grid,particles,rc,M,periodic,L);
-	#neighbours = fuerzaBruta(particles, rc, N, periodic)
+	writeNeighbours(otputFile,neighbours,N);
 
-	writeNeighbours("./ArchivosEjemplo/outputTest.txt",neighbours,N);
+#	pid=24;
+#	particles(pid,4)=2;
+#	for neighbour = neighbours{1,pid}
+#		particles(neighbour,4)=3;
+#	endfor
+#
+#	plotParticles(particles,L,M);
 
-
-	pid=24;
-	particles(pid,4)=2;
-	for neighbour = neighbours{1,pid}
-		particles(neighbour,4)=3;
-	endfor
-
-	plotParticles(particles,L,M);
 endfunction
