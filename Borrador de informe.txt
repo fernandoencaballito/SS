@@ -1,2 +1,0 @@
-Ejercicio1
-* El criterio L/M>rC se modifica cuando las particulas no son puntuales de la siguiente manera: L/M >rC +2*Radio_maximo.
