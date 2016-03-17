@@ -1,7 +1,7 @@
 #se miden los tiempos segun lo que se pide en el ejercicio 2
 warning("off","Octave:broadcast");
 N_min= 50;
-N_max=100;#poner un limite mayor!!
+N_max=300;#poner un limite mayor!!
 
 M_min=13;
 M_max=13; ##tiene que cumplir el criterio L/M>rc+ 2 *r_max
@@ -41,9 +41,46 @@ for N=(N_min:N_max)
    
     
  endfor
- result_CIM
-plot(N_min:N_max,result_CIM(:,1),'b')
+
+
+
+
+
+
+
+
+p = plot(N_min:N_max,result_CIM(:,1),'b');
 hold on
-plot(N_min:N_max,result_bruteForce(:,1),'r')
+p = plot(N_min:N_max,result_bruteForce(:,1),'r')
 hold off
+saveas(p,"./ArchivosEjemplo/testFuerzaBruta.jpg");
+
+
+#color = {'r','g','b','k'};
+#for k = M_min:M_max
+#	j = k - M_min + 1
+#	p = plot(N_min:N_max,result_CIM(:,j),"color",color{j});
+#	hold on
+#endfor
+#p = plot(N_min:N_max,result_bruteForce(:,1),'r')
+#title("tiempo de ejecucion por cantidad de particulas");
+#xlabel("N : cantidad de particulas");
+#ylabel("tiempo de ejecucion(s)");
+#legend("M=10","M=11","M=12","M=13","location","northwest");
+#hold off
+#saveas(p,"./ArchivosEjemplo/test1.jpg");
    
+#densidad = (N_min:N_max)./power(L,2);
+
+#for k = M_min:M_max
+#	j = k - M_min + 1;
+#	q = plot(densidad,result_CIM(:,j),"color",color{j});
+#	hold on
+#endfor
+#title("tiempo de ejecucion por densidad");
+#legend("M=10","M=11","M=12","M=13","location","northwest");
+#xlabel("densidad");
+#ylabel("tiempo de ejecucion(s)");
+#hold off
+#saveas(q,"./ArchivosEjemplo/test2.jpg");
+
