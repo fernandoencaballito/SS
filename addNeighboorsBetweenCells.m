@@ -69,11 +69,8 @@ endfunction
 %!test
 %! rc=6;
 %! M=10;
-%!
-%!
-%! [matrix,L,N] = createGrid("./ArchivosEjemplo/Static100.txt",rc,M);
-%! particles = loadParticles("./ArchivosEjemplo/Static100.txt","./ArchivosEjemplo/Dynamic100.txt");
-%!
+%! [particles,N] = loadParticles("./ArchivosEjemplo/Static100.txt","./ArchivosEjemplo/Dynamic100.txt");
+%! [matrix,L,N] = createGrid("./ArchivosEjemplo/Static100.txt",rc,M,particles);
 %!
 %! matrix = setUpGrid(matrix,L,N,M,particles);
 %! neighboors=cell(1,N);

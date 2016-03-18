@@ -18,7 +18,7 @@ endfunction
 %! M=2;
 %! L=10;
 %! matrix = cell(M);
-%! particles=[1,9,3,1; 1, 3.5, 0.5,1; 5.5, 4.5,1 ,1;4.5,9,0.5,1;3,9,0.5,1]
+%! particles=[1,1,3,1; 1, 6.5, 0.5,1; 5.5, 5.5,1 ,1;4.5,1,0.5,1;3,1,0.5,1]
 %! matrix = setUpGrid(matrix,L,N,M,particles)
 %! assert(any (matrix{1,1}==2 ) );
 %! assert(any (matrix{1,2}==3 ) );
