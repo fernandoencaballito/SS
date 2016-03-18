@@ -1,8 +1,8 @@
 #se miden los tiempos segun lo que se pide en el ejercicio 2
 warning("off","Octave:broadcast");
 
-N_min= 10;
-N_max= 100;#poner un limite mayor!!
+N_min= 30;
+N_max= 70;#poner un limite mayor!!
 paceParticle = 1;
 
 M_min=10;
@@ -64,6 +64,11 @@ for N=particlesCant
 	p=plot(particlesCant, result_CIM(:,Mplot-M_min+1),'r')
 	hold on
 	p=plot(particlesCant, result_bruteForce(:,Mplot-M_min+1),'b')
+	grid
+	title("test fuerza bruta");
+	xlabel("cantidad de particulas");
+	ylabel("tiempo de ejecucion (s)");
+	legend("cell index method","brute force");
 	hold off
 	fileName
 	saveas(p,fileName);
