@@ -200,3 +200,20 @@ endfunction
 %! assert(final_col==M);
  
 
+#unica celda
+%!test
+%! M=1;
+%! row=0;
+%! col=0;
+%! [final_row,final_col]=getPeriodicPosition(row, col,false,M);
+%! assert(final_row==1);
+%! assert(final_col==1);
+
+#unica celda2
+%!test
+%! M=1;
+%! row=1;
+%! col=0;
+%! [final_row,final_col]=getPeriodicPosition(row, col,true,M);
+%! assert(final_row==1);
+%! assert(final_col==1);

@@ -22,6 +22,8 @@ color_pos=4;
 [nextCell_row,nextCell_col]=getPeriodicPosition(nextCell_row, nextCell_col,periodic,M);
 
 currentCell=matrix{currentCell_row, currentCell_col};
+##nextCell_row
+##nextCell_col
 nextCell=matrix{nextCell_row, nextCell_col};
 neighboors=previousNeighboors;
 

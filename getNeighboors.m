@@ -104,7 +104,7 @@ endfunction
 
 
 
-# esta prueba corresponde con los datos de ejemplo.Algunos valores no coinciden con la supuesta respuesta.
+# esta prueba corresponde con los datos de ejemplo.
 %!test
 %! rc=6;
 %!
@@ -132,3 +132,4 @@ endfunction
 %! assert(any (neighboors{1,91}==41 ) );
 %! assert(any (neighboors{1,91}==84 ) );
 %! assert(length(neighboors{1,91})==3  );
+
