@@ -12,6 +12,26 @@ Es posible instruirle al algoritmo que tome los bordes de la matriz generada com
 
 ![Ejemplo de condiciones periodicas](https://github.com/fernandoencaballito/SS/raw/master/periodic-conditions.jpg)
 
+## Eficiencia del Algoritmo
+
+Para estudiar la eficiencia del algoritmo se lo probo con distintos M que cumplan con el criterio:
+
+    L/M > Rc + 2 * Rp
+    L=20, Rc=1 y Rp=0.25
+    
+    => M < 13,33
+    
+Luego, las unicas variables son N, y el número de celdas M. Los siguientes son graficos correspondientes a `M = 2` y `M = 4`. Como se puede ver, se produce una inversion en la tasa de crecimiento de las curvas. Lo cual nos lleva a suponer que con `M = 3` se produce un punto de inflexión. Éste último fenomeno se puede apreciar en el tercer grafico, en donde las curvas coinciden.
+
+## `M = 2`
+![M = 2](https://raw.githubusercontent.com/fernandoencaballito/SS/testingNeighboors/ArchivosEjemplo/bruteForceCompareM%3D2.jpg)
+
+## `M = 4`
+![M = 4](https://raw.githubusercontent.com/fernandoencaballito/SS/testingNeighboors/ArchivosEjemplo/bruteForceCompareM%3D4.jpg)
+
+## `M = 3`
+![M = 3](https://raw.githubusercontent.com/fernandoencaballito/SS/testingNeighboors/ArchivosEjemplo/bruteForceCompareM%3D3.jpg)
+
 13/3/2016
 -----
 * El archivo dinamico no tiene velocidades.POR AHORA NO SE USA.
