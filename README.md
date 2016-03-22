@@ -12,25 +12,43 @@ Es posible instruirle al algoritmo que tome los bordes de la matriz generada com
 
 ![Ejemplo de condiciones periodicas](https://github.com/fernandoencaballito/SS/raw/master/periodic-conditions.jpg)
 
-## Eficiencia del Algoritmo
+## Eficiencia del Algoritmo (ejercicio2)
 
-Para estudiar la eficiencia del algoritmo se lo probo con distintos M que cumplan con el criterio:
+Para estudiar la eficiencia del algoritmo se lo probó con distintos M que cumplen con el criterio:
 
     L/M > Rc + 2 * Rp
     L=20, Rc=1 y Rp=0.25
     
     => M < 13,33
-    
-Luego, las unicas variables son N, y el número de celdas M. Los siguientes son graficos correspondientes a `M = 2` y `M = 4`. Como se puede ver, se produce una inversion en la tasa de crecimiento de las curvas. Lo cual nos lleva a suponer que con `M = 3` se produce un punto de inflexión. Éste último fenomeno se puede apreciar en el tercer grafico, en donde las curvas coinciden.
+
+, donde L, Rc y Radio están fijos según solicita el enunciado.    
+Luego, las unicas variables son N, y el número de celdas M. Los siguientes son gráficos que comparan al tiempo requerido por el algoritmo CIT con el tiempo requerido por el algoritmo de fuerza bruta. Como se puede ver, se produce una inversion en la tasa de crecimiento de las curvas. Lo cual nos lleva a suponer que con `M = 3` se produce un punto de inflexión. Éste último fenomeno se puede apreciar en el gráfico con M=3, en donde las curvas coinciden.
+Además, a medida que se aumenta el M, se mejora el tiempo del algoritmo con respecto al caso de fuerza bruta.
 
 ## `M = 2`
-![M = 2](https://raw.githubusercontent.com/fernandoencaballito/SS/testingNeighboors/ArchivosEjemplo/bruteForceCompareM%3D2.jpg)
-
-## `M = 4`
-![M = 4](https://raw.githubusercontent.com/fernandoencaballito/SS/testingNeighboors/ArchivosEjemplo/bruteForceCompareM%3D4.jpg)
-
+![M = 2](https://raw.githubusercontent.com/fernandoencaballito/SS/master/ArchivosEjemplo/bruteForceCompareM%3D2.jpg)
 ## `M = 3`
-![M = 3](https://raw.githubusercontent.com/fernandoencaballito/SS/testingNeighboors/ArchivosEjemplo/bruteForceCompareM%3D3.jpg)
+![M = 3](https://raw.githubusercontent.com/fernandoencaballito/SS/master/ArchivosEjemplo/bruteForceCompareM%3D3.jpg)
+## `M = 4`
+![M = 4](https://raw.githubusercontent.com/fernandoencaballito/SS/master/ArchivosEjemplo/bruteForceCompareM%3D4.jpg)
+
+## `M = 5`
+![M = 5](https://raw.githubusercontent.com/fernandoencaballito/SS/master/ArchivosEjemplo/bruteForceCompareM%3D5.jpg)
+
+## `M = 6`
+![M = 6](https://raw.githubusercontent.com/fernandoencaballito/SS/master/ArchivosEjemplo/bruteForceCompareM%3D6.jpg)
+
+## `M = 7`
+![M = 7](https://raw.githubusercontent.com/fernandoencaballito/SS/master/ArchivosEjemplo/bruteForceCompareM%3D7.jpg)
+
+## `M = 8`
+![M = 8](https://raw.githubusercontent.com/fernandoencaballito/SS/master/ArchivosEjemplo/bruteForceCompareM%3D8.jpg)
+
+## `M = 9`
+![M = 9](https://raw.githubusercontent.com/fernandoencaballito/SS/master/ArchivosEjemplo/bruteForceCompareM%3D9.jpg)
+## `M = 10`
+![M = 4](https://raw.githubusercontent.com/fernandoencaballito/SS/master/ArchivosEjemplo/bruteForceCompareM%3D4.jpg)
+
 
 13/3/2016
 -----
