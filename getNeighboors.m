@@ -10,25 +10,29 @@ function neighboors=getNeighboors(N,grid,particles,rc,M,periodic,L)
 	for i=(1:M)
 		for j=(1:M)
       if(length(grid{i,j})>0)
-            if(M<3 || !periodic)
+            if(M<3 )
                   #se evaluan que no se repitan las posiciones de celdas antes de calcular vecinos
                   [next4_x,next4_y]=getPeriodicPosition(i+1,j,periodic,M);
-                  nextPositions=[next4_x,next4_y];
-                    
+                  if(!(next4_x==-1 || next4_y==-1))
+                    nextPositions=[next4_x,next4_y];
+                  else
+                    nextPositions=[]; 
+                  endif;
+                   
                   #posicion(i+1,j+1)
                   [next1_x,next1_y]=getPeriodicPosition(i+1,j+1,periodic,M);
-                  if(! contains2D(nextPositions,next1_x,next1_y) ) 
+                  if(! contains2D(nextPositions,next1_x,next1_y) && !(next1_x==-1 || next1_y==-1) ) 
                            nextPositions=[nextPositions;next1_x,next1_y];
                   endif
               
                   #posicion (i,j+1)
                   [next2_x,next2_y]=getPeriodicPosition(i,j+1,periodic,M);
-                  if(! contains2D(nextPositions,next2_x,next2_y) ) 
+                  if(! contains2D(nextPositions,next2_x,next2_y) && !(next2_x==-1 || next2_y==-1)) 
                            nextPositions=[nextPositions;next2_x,next2_y];
                   endif
                   #posicion (i-1,j+1)  
                   [next3_x,next3_y]=getPeriodicPosition(i-1,j+1,periodic,M);
-                  if(! contains2D(nextPositions,next3_x,next3_y) ) 
+                  if(! contains2D(nextPositions,next3_x,next3_y) && !(next3_x==-1 || next3_y==-1)) 
                            nextPositions=[nextPositions;next3_x,next3_y];
                   endif
                   
@@ -39,6 +43,8 @@ function neighboors=getNeighboors(N,grid,particles,rc,M,periodic,L)
                       neighboors = addNeighboorsBetweenCells(N,grid,neighboors,particles,i, j, next_x, next_y, rc, periodic, M,L);			
               
                   endfor
+                  
+                 
                   
               
             else #en los demas casos no se repiten las posiciones de celdas
@@ -59,11 +65,14 @@ function neighboors=getNeighboors(N,grid,particles,rc,M,periodic,L)
                 
             endif
             ##se agregan los vecinos dentro de una misma celda
-            neighboors=addNeighboorsSameCell(grid,neighboors,particles,i, j,rc);
+            neighboors=addNeighboorsSameCell(grid,neighboors,particles,i, j,rc,periodic,M,L);
 		  endif
     endfor
 	endfor
-
+ 
+    if(M==2)
+         neighboors=eliminateDuplicated(neighboors);
+    endif
 
 endfunction
 
@@ -198,3 +207,48 @@ endfunction
 %!         
 %!    endfor
    
+   
+#Prueba 6:probando muchos ejemplos para ver que coincidan bruteforce con cim
+%!test
+%! N_min= 100;
+%! N_max= 300;
+%! stepParticle = 100;
+%! 
+%! M_min=1;
+%! M_max=13; ##tiene que cumplir el criterio L/M>rc+ 2 *r_max
+%!           ## es decir hasta 13
+%! stepM = 1;
+%! 
+%!  #periodic=true;
+%! radius=0.25;
+%! rc=1;
+%! L=20;
+%! 
+%! particlesCant = N_min:stepParticle:N_max;
+%! cellCants = M_min:stepM:M_max;
+%! 
+%! 
+%! for periodic=[true,false]
+%! periodic
+%!   for N=particlesCant
+%!     N
+%!        particles=generateRandomParticles(N,L, radius);
+%!         #brute force
+%!            
+%!         neighboursBruteForce=fuerzaBruta(particles, rc, N, periodic, L);
+%!       for M=cellCants
+%!            M 
+%!            #cell index method
+%!           
+%!            grid= cell(M);
+%!            grid = setUpGrid(grid,L,N,M,particles);
+%!            neighboursCIM=getNeighboors(N,grid,particles,rc,M,periodic,L);
+%! 
+%!           assert(compareCell(neighboursCIM,neighboursBruteForce,particles)); 
+%!           
+%!       endfor
+%! 
+%!       
+%!    endfor
+%! endfor
+ 
