@@ -15,7 +15,7 @@ for k = 1 : length(particles(:,1))
 				if(periodic)
 					x = L - x;
 					y = L - y;
-					d = sqrt(x^2+y^2) - particles(k,3) - particles(j,3);;
+					d = sqrt(x^2+y^2) - particles(k,3) - particles(j,3);;##distancia periodica
 						if(d <= rc)
 							neighbours = addNeighbours(neighbours,k,j, particles);
 						endif

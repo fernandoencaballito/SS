@@ -48,8 +48,9 @@ if(!(currentCell_col==nextCell_col && currentCell_row==nextCell_row))
                 else
                     deltaX= abs(nextParticlePosition(1)-currentParticlePosition(1));
                     deltaY=abs(nextParticlePosition(2)-currentParticlePosition(2));
+                    periodic_distance=sqrt((L-deltaX)^2 +(L-deltaY)^2 )-currentParticleRadius-nextParticleRadius;
                     ##caso en el que sean vecinas por condiciones periodicas
-                    if(periodic && (sqrt((L-deltaX)^2 +(L-deltaY)^2 ))<rc)
+                    if(periodic && periodic_distance<rc)
                       neighboors{1,currentParticleID}=[neighboors{1,currentParticleID},nextParticleID];
                       neighboors{1,nextParticleID}=[neighboors{1,nextParticleID},currentParticleID];
                 

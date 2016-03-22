@@ -1,6 +1,7 @@
 function grid = setUpGrid(grid,L,N,M,particles)
 	anchoCelda = L/M;
-	for k=1:length(particles)
+	[rows,cols]=size(particles);
+  for k=1:rows
 		particle = particles(k,1:2);
 		i = floor(particle(2)/anchoCelda)+1;	
 		j = floor(particle(1)/anchoCelda)+1;
