@@ -5,6 +5,6 @@ rc=6;
 periodic=true;
 outputFile="ArchivosEjemplo/Output1.txt";
 bruteForce=false;
-plotParticle=26;
+plotParticle=50;
 
 main(staticFile, dynamicFile, M, rc, periodic,outputFile, bruteForce, plotParticle);

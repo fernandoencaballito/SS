@@ -18,7 +18,7 @@ function main(staticFile, dynamicFile, M, rc, periodic, outputFile, bruteForce, 
 	if !bruteForce
 		neighbours = getNeighboors(N,matrix,particles,rc,M,periodic,L);
 	else	
-		neighbours = fuerzaBruta(particles, rc, N, periodic)
+		neighbours = fuerzaBruta(particles, rc, N, periodic,L)
 	endif
 
 	writeNeighbours(outputFile,neighbours,N);
@@ -26,10 +26,10 @@ function main(staticFile, dynamicFile, M, rc, periodic, outputFile, bruteForce, 
 	if(plotParticle)
 		particles(:,4)=1;
 		particles(plotParticle,4)=3;
-		for neighbour = neighbours(plotParticle)
+		for neighbour = neighbours{1,plotParticle}
 			particles(neighbour,4)=2;
 		endfor
-		plotParticles(particles);
+		plotParticles(particles,L,M);
 	endif
 endfunction
 
