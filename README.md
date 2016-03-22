@@ -25,29 +25,45 @@ Para estudiar la eficiencia del algoritmo se lo probó con distintos M que cumpl
 Luego, las unicas variables son N, y el número de celdas M. Los siguientes son gráficos que comparan al tiempo requerido por el algoritmo CIT con el tiempo requerido por el algoritmo de fuerza bruta. Como se puede ver, se produce una inversion en la tasa de crecimiento de las curvas. Lo cual nos lleva a suponer que con `M = 3` se produce un punto de inflexión. Éste último fenomeno se puede apreciar en el gráfico con M=3, en donde las curvas coinciden.
 Además, a medida que se aumenta el M, se mejora el tiempo del algoritmo con respecto al caso de fuerza bruta.
 
-## `M = 2`
+### `M = 2`
 ![M = 2](https://raw.githubusercontent.com/fernandoencaballito/SS/master/ArchivosEjemplo/bruteForceCompareM%3D2.jpg)
-## `M = 3`
+### `M = 3`
 ![M = 3](https://raw.githubusercontent.com/fernandoencaballito/SS/master/ArchivosEjemplo/bruteForceCompareM%3D3.jpg)
-## `M = 4`
+### `M = 4`
 ![M = 4](https://raw.githubusercontent.com/fernandoencaballito/SS/master/ArchivosEjemplo/bruteForceCompareM%3D4.jpg)
 
-## `M = 5`
+### `M = 5`
 ![M = 5](https://raw.githubusercontent.com/fernandoencaballito/SS/master/ArchivosEjemplo/bruteForceCompareM%3D5.jpg)
 
-## `M = 6`
+### `M = 6`
 ![M = 6](https://raw.githubusercontent.com/fernandoencaballito/SS/master/ArchivosEjemplo/bruteForceCompareM%3D6.jpg)
 
-## `M = 7`
+### `M = 7`
 ![M = 7](https://raw.githubusercontent.com/fernandoencaballito/SS/master/ArchivosEjemplo/bruteForceCompareM%3D7.jpg)
 
-## `M = 8`
+### `M = 8`
 ![M = 8](https://raw.githubusercontent.com/fernandoencaballito/SS/master/ArchivosEjemplo/bruteForceCompareM%3D8.jpg)
 
-## `M = 9`
+### `M = 9`
 ![M = 9](https://raw.githubusercontent.com/fernandoencaballito/SS/master/ArchivosEjemplo/bruteForceCompareM%3D9.jpg)
-## `M = 10`
-![M = 4](https://raw.githubusercontent.com/fernandoencaballito/SS/master/ArchivosEjemplo/bruteForceCompareM%3D4.jpg)
+
+### `M = 10`
+![M = 10](https://raw.githubusercontent.com/fernandoencaballito/SS/master/ArchivosEjemplo/bruteForceCompareM%3D10.jpg)
+
+### `M = 11`
+![M = 11](https://raw.githubusercontent.com/fernandoencaballito/SS/master/ArchivosEjemplo/bruteForceCompareM%3D11.jpg)
+
+### `M = 12`
+![M = 12](https://raw.githubusercontent.com/fernandoencaballito/SS/master/ArchivosEjemplo/bruteForceCompareM%3D12.jpg)
+
+### `M = 13`
+![M = 13](https://raw.githubusercontent.com/fernandoencaballito/SS/master/ArchivosEjemplo/bruteForceCompareM%3D13.jpg)
+
+## Valor de M óptimo (ejercicio 3).
+ 
+Como se puede apreciar del siguiente gráfico, a mayor valor de M, menos tiempo toma en obtener los vecinos.
+
+![](https://raw.githubusercontent.com/fernandoencaballito/SS/master/Plots/testOptimo.jpg)
 
 
 13/3/2016
