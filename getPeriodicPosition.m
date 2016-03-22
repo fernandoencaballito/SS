@@ -3,55 +3,61 @@
 ## col: número de columna
 ## M: limite
 function [final_row, final_col] = getPeriodicPosition(row, col,periodic,M)
-	if (!periodic)
-		#fila
-		if(row<1)
-			final_row=1;
-		else
-			if(row>M)
-				final_row=M;
-			else
-				final_row=row;
-			endif
-		
-			
-		endif
+	 
+   if(!periodic && (row>M || col>M || row<1 || col<1))
+    #Se invalida la posicion
+      final_row=(-1);
+      final_col=(-1);
+   else
+          if (!periodic)
+            #fila
+            if(row<1)
+              final_row=1;
+            else
+              if(row>M)
+                final_row=M;
+              else
+                final_row=row;
+              endif
+            
+              
+            endif
 
-		#columna
-		if(col<1)
-			final_col=1;
-		else
-			if(col>M)
-				final_col=M;
-			else
-				final_col=col;
+            #columna
+            if(col<1)
+              final_col=1;
+            else
+              if(col>M)
+                final_col=M;
+              else
+                final_col=col;
 
-			endif
-		endif	
-	else #caso con condiciones periódicas
-		#fila
-		if(row<1)
-			final_row=row+M;
-		else
-			if(row>M)
-				final_row=mod(row,M);
-			else 
-				final_row=row;
-			endif
-		endif
-		
-		#columna
-		if(col<1)
-			final_col=col+M;
-		else
-			if(col>M)
-				final_col=mod(col,M);
-			else
-				final_col=col;
-			endif
-		endif
-	endif
-	
+              endif
+            endif	
+          else #caso con condiciones periódicas
+            #fila
+            if(row<1)
+              final_row=row+M;
+            else
+              if(row>M)
+                final_row=mod(row,M);
+              else 
+                final_row=row;
+              endif
+            endif
+            
+            #columna
+            if(col<1)
+              final_col=col+M;
+            else
+              if(col>M)
+                final_col=mod(col,M);
+              else
+                final_col=col;
+              endif
+            endif
+          endif
+     endif 
 
 
 endfunction
@@ -200,3 +206,20 @@ endfunction
 %! assert(final_col==M);
  
 
+#unica celda
+%!test
+%! M=1;
+%! row=0;
+%! col=0;
+%! [final_row,final_col]=getPeriodicPosition(row, col,false,M);
+%! assert(final_row==1);
+%! assert(final_col==1);
+
+#unica celda2
+%!test
+%! M=1;
+%! row=1;
+%! col=0;
+%! [final_row,final_col]=getPeriodicPosition(row, col,true,M);
+%! assert(final_row==1);
+%! assert(final_col==1);

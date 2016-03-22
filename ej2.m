@@ -1,13 +1,13 @@
 #se miden los tiempos segun lo que se pide en el ejercicio 2
 warning("off","Octave:broadcast");
 
-N_min= 30;
-N_max= 70;#poner un limite mayor!!
-paceParticle = 1;
+N_min= 10;
+N_max= 1000;#poner un limite mayor!!
+stepParticle = 10;
 
-M_min=10;
+M_min=1;
 M_max=13; ##tiene que cumplir el criterio L/M>rc+ 2 *r_max
-paceCell = 1;
+stepM = 1;
 
 periodic=true;
 radius=0.25;
@@ -15,23 +15,29 @@ rc=1;
 L=20;
 
 #plotVars
-fileName="./ArchivosEjemplo/bruteForceCompare1.jpg";
+fileName1 ="./ArchivosEjemplo/bruteForceCompareM="
+fileName2 =".jpg";
 Mplot=13;
 Nplot=N_max;
 
-particlesCant = N_min:paceParticle:N_max;
-cellsCant = M_min:paceCell:M_max;
+particlesCant = N_min:stepParticle:N_max;
+cellCants = M_min:stepM:M_max;
 
 
-result_bruteForce=zeros(length(particlesCant),length(cellsCant));
-result_CIM=zeros(length(particlesCant),length(cellsCant));
+result_bruteForce=zeros(length(particlesCant),length(cellCants));
+result_CIM=zeros(length(particlesCant),length(cellCants));
 for N=particlesCant
 	N
-	N_i=(N - N_min)/paceParticle +1;
+	N_i=(N - N_min)/stepParticle +1;
 	
     particles=generateRandomParticles(N,L, radius);
-    for M=cellsCant
-              
+    #brute force
+    tic
+    neighbours2=fuerzaBruta(particles, rc, N, periodic, L);     
+    time2=toc;
+    
+    for M=cellCants
+         M 
          #cell index method
          tic;
          grid= cell(M);
@@ -44,12 +50,7 @@ for N=particlesCant
          result_CIM(N_i,M-M_min+1)=time;
          
          
-         #brute force
-         tic
-         neighbours2=fuerzaBruta(particles, rc, N, periodic, L);
          
-         
-         time2=toc;
     
          result_bruteForce(N_i,M-M_min+1)=time2;
     endfor
@@ -61,15 +62,21 @@ for N=particlesCant
 #plot
 	size(particlesCant)
 	size(result_CIM)
-	p=plot(particlesCant, result_CIM(:,Mplot-M_min+1),'r')
-	hold on
-	p=plot(particlesCant, result_bruteForce(:,Mplot-M_min+1),'b')
-	grid
-	title("test fuerza bruta");
-	xlabel("cantidad de particulas");
-	ylabel("tiempo de ejecucion (s)");
-	legend("cell index method","brute force");
-	hold off
-	fileName
-	saveas(p,fileName);
-
+  
+  for M=cellCants
+  
+       
+        filename=strcat(fileName1,num2str(M),fileName2);
+        
+        p=plot(particlesCant, result_CIM(:,M-M_min+1),'r')
+        hold on
+        p=plot(particlesCant, result_bruteForce(:,M-M_min+1),'b')
+        grid
+        title("test fuerza bruta vs CIM");
+        xlabel("cantidad de particulas");
+        ylabel("tiempo de ejecucion [s]");
+        legend("cell index method","brute force");
+        hold off
+        filename
+        saveas(p,filename);
+  endfor

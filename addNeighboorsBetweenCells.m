@@ -21,11 +21,18 @@ color_pos=4;
 ##
 [nextCell_row,nextCell_col]=getPeriodicPosition(nextCell_row, nextCell_col,periodic,M);
 
-currentCell=matrix{currentCell_row, currentCell_col};
-nextCell=matrix{nextCell_row, nextCell_col};
+
+##nextCell_row
+##nextCell_col
+
 neighboors=previousNeighboors;
 
-if(!(currentCell_col==nextCell_col && currentCell_row==nextCell_row))
+if(!(nextCell_col==-1 || nextCell_row==-1)  && !(currentCell_col==nextCell_col && currentCell_row==nextCell_row)  )
+      currentCell=matrix{currentCell_row, currentCell_col};
+      
+      nextCell=matrix{nextCell_row, nextCell_col};
+      
+      
       for currentParticleID=currentCell
 
         currentParticleData=particles(currentParticleID,:);##vector con los datos de la partícula actual
@@ -39,15 +46,16 @@ if(!(currentCell_col==nextCell_col && currentCell_row==nextCell_row))
                 nextParticleRadius=nextParticleData(radius_pos);
                 %distancia borde-borde
                 distance=norm(currentParticlePosition-nextParticlePosition,2)-currentParticleRadius-nextParticleRadius;
-                if(distance<rc) %se agrega el id de la particula vecina
+                if(distance<=rc) %se agrega el id de la particula vecina
                   neighboors{1,currentParticleID}=[neighboors{1,currentParticleID},nextParticleID];
                   neighboors{1,nextParticleID}=[neighboors{1,nextParticleID},currentParticleID];
                 
                 else
                     deltaX= abs(nextParticlePosition(1)-currentParticlePosition(1));
                     deltaY=abs(nextParticlePosition(2)-currentParticlePosition(2));
+                    periodic_distance=sqrt((L-deltaX)^2 +(L-deltaY)^2 )-currentParticleRadius-nextParticleRadius;
                     ##caso en el que sean vecinas por condiciones periodicas
-                    if(periodic && (sqrt((L-deltaX)^2 +(L-deltaY)^2 ))<rc)
+                    if(periodic && (periodic_distance<=rc))
                       neighboors{1,currentParticleID}=[neighboors{1,currentParticleID},nextParticleID];
                       neighboors{1,nextParticleID}=[neighboors{1,nextParticleID},currentParticleID];
                 

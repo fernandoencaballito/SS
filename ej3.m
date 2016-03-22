@@ -58,6 +58,7 @@ colormap cool
 	color = colormap();	
 	color(1,:)
 	for M = cellsCant
+    M
 		color = colors(k);
 		q= polyfit(particlesCant,result_CIM(:,M-M_min+1)',1);
 		#particlesCant, result_CIM(:,M-M_min+1), "*", 
