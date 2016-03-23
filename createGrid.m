@@ -1,5 +1,6 @@
 function [grid, L, N] = createGrid(staticFile, rc,M, particles)
-	[L,N]=textread(staticFile,"%f",2);
+	[N,L]=textread(staticFile,"%f",2);
+
 	densidad = N/(L^2);
 	radios = particles(:,3);
 	rmax = max(radios);

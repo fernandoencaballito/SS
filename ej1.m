@@ -1,10 +1,9 @@
-staticFile="ArchivosEjemplo/Static100.txt";
-dynamicFile="ArchivosEjemplo/Dynamic100.txt";
+staticFile="ArchivosPrueba/Static500.txt";
+dynamicFile="ArchivosPrueba/Dynamic500.txt";
 M=10;
 rc=6;
 periodic=true;
-outputFile="ArchivosEjemplo/Output1.txt";
+outputFile="ArchivosPrueba/Output.txt";
 bruteForce=false;
-plotParticle=50;
-
+plotParticle=83;##83   187   222   494   496
 main(staticFile, dynamicFile, M, rc, periodic,outputFile, bruteForce, plotParticle);

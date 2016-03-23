@@ -1,5 +1,5 @@
 function plotParticles(particles,L,M)
-  particles
+  particles;
 	anchoCelda = L/M
 	colormap cool
 	p = scatter(particles(:,1),particles(:,2),20*particles(:,3),particles(:,4),'filled');

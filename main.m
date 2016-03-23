@@ -14,6 +14,7 @@ function main(staticFile, dynamicFile, M, rc, periodic, outputFile, bruteForce, 
 	[matrix,L,N] = createGrid(staticFile,rc,M,particles);
 	matrix = setUpGrid(matrix,L,N,M,particles);
 
+  matrix{1,10}
 	
 	if !bruteForce
 		neighbours = getNeighboors(N,matrix,particles,rc,M,periodic,L);
