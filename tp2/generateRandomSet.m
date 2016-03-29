@@ -1,4 +1,4 @@
-function grid = generateRandomSet(N,L, defaultVelocity, radius)
+function particles = generateRandomSet(N,L, defaultVelocity, radius)
 
 	printf("generating random particle set\n N = %d\nL = %d\n", N, L);
 	  
@@ -8,9 +8,9 @@ function grid = generateRandomSet(N,L, defaultVelocity, radius)
 	#generates random exponential radius
 	direction = unifrnd(0, 2*pi, N, 1);
 
-  grid=[positions direction];
+  particles=[positions direction];
   
-  grid(:,4) = defaultVelocity;
-  grid(:,5) = radius;
+  particles(:,4) = defaultVelocity;
+  particles(:,5) = radius;
 
 endfunction
