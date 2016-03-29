@@ -1,5 +1,9 @@
-function  simulate(staticFileName,init_dynamicFile,duration,periodic)
-		
+function simulate(simOutputFile, N, L, defaultVelocity, duration, periodic)
+		 
+  grid = generateRandomSet(N, L, defaultVelocity)
+  
+  
+  
 	[stats, L, N] = getStats(staticFileName);
 	[particles,t] = getState(init_dynamicFile);
 	t_end = t + duration;
