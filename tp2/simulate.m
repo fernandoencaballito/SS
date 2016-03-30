@@ -1,20 +1,23 @@
-function simulate(simOutputFile, N, L, defaultVelocity, duration, periodic, radius)
+function simulate(simOutputFile, N, L, defaultVelocity, duration, periodic, radius,delta_t)
 		 
   particles = generateRandomSet(N, L, defaultVelocity, radius);
   
   outputFile = fopen(simOutputFile, 'w');
   
-  t = 0;
-  
-  for i=1:100
-  
-  particles = generateRandomSet(N, L, defaultVelocity, radius);
-  
-  appendXYToOutput(outputFile, particles, i);
-  
-  endfor
+  appendXYToOutput(outputFile, particles, 0);
   
   
+  ## lo de luis
+
+	for t = (delta_t:delta_t:duration)
+    neighbours=
+		
+		[nextPos,nextAngle]=simulateParicle(particles,id,delta_t,n, neighbours,L)
+		dynamicFileName = ["./Data/dynamicFile_" num2str(N) "_" num2str(L) "_" num2str(t) ".txt"];
+		saveState(particles,t,dynamicFileName)
+	endwhile
+
+
   
   
   ## ciclo por tiempo

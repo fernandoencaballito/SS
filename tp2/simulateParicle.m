@@ -22,7 +22,7 @@ global angle_pos=6;
 global radio_pos=3;
 
 
-function nextParticleState=simulateParicle(particles,id,delta_t,n, neighbours,L)
+function [nextPos,nextAngle]=simulateParicle(particles,id,delta_t,n, neighbours,L)
 
     #valores actuales
     position=particles(id,x_pos:y_pos);
@@ -34,63 +34,43 @@ function nextParticleState=simulateParicle(particles,id,delta_t,n, neighbours,L)
 
     #siguientes valores
 
-    nextPos=getNextPeriodicPos(position,speed_modulo,radius,L)
+    nextPos=getNextPeriodicPos(position,speed_modulo,L,delta_t)
     
     current_neighbours=neighbours{1,id};
     #vector que contiene id de particula junto con sus vecinos 
     current_particles_id=[id,current_neighbours];
     
     current_particles_data=particles(current_particles_id,angle_pos);
+    
+    current_particles_angles=current_particles_data(:,angle_pos);
+    
     #calculo de los senos de la formula de tita
-    numerator_values=sin(current_particles_data);
+    numerator_values=sin(current_particles_angles);
     
     #calculo de los cosenos de la formula de tita
-    denominator_values=cos(current_particles_data);
+    denominator_values=cos(current_particles_angles);
     
     nextAngle=atan(mean(numerator_values)/mean(denominator_values))  + uniformNoise(n);
+    nextAngle=mod(nextAngle,2*pi);
     
-    
 
 endfunction
 
 
 
 
-function [next_pos, next_vel] = getNextPeriodicPos(pos, vel, radius, L)
-	next_pos = pos + vel;
-	next_vel = vel;
-	if next_pos  > L	
-			next_pos = (mod(next_pos,L));
-		
-	else	if next_pos  < 0
-				next_pos = (L - mod(abs(next_pos),L) );
-			endif
-	endif
-	if( next_pos > L || next_pos < 0)
-		error("#getNextPeriodicPos# la posicion resultatnte es invalida");
-	endif
+function next_pos = getNextPeriodicPos(pos, vel, L,delta_t)
+      next_pos = pos + vel*delta_t;
+      
+      if next_pos  > L	
+          next_pos = (mod(next_pos,L));
+        
+      else	if next_pos  < 0
+            next_pos = (L - mod(abs(next_pos),L) );
+          endif
+      endif
+      if( next_pos > L || next_pos < 0)
+        error("#getNextPeriodicPos# la posicion resultatnte es invalida");
+      endif
 endfunction
 
-
-function next_vel = getNextVel(id,neighbours, position, velocity, radius, vel_max)
-	
-	next_vel = velocity(pid);
-	for neighbour = neighbours{1,id}
-		dist = position(pid) - position(neighbour);
-		a = 0.1/dist;
-		next_vel = next_vel + a;
-	endfor
-
-	if(abs(next_vel) > vel_max)
-		next_vel = vel_max * sign(next_vel); 
-	endif
-endfunction
-
-
-
-
-  
-
-
- nextAngle= 
-endfunction

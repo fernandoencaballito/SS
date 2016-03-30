@@ -6,16 +6,24 @@
 |  x  |  y  |  radio  | color  | modulo velocidad | angulo|
 
 
-## Tareas
+## ACCIONES DEL PROGRAMA
 
 * (1) Generar un mapa al azar.( SEBAS: LISTO). ->se genera una tabla "particles"
 * (2)"particles" -> grabar estado inicial en archivo.
 * (3)"particles"-> Obtener vecinos(LISTO DEL TP1).
-* (4)vecinos -> Calcular nuevas posiciones y velocidades. -> modificar "particles"
-* (5)grabar datos para graficar( posicion, color).
+* (4)vecinos -> Calcular nuevas posiciones y velocidades. -> modificar "particles" ( FER/ LUIS)
+* (5)grabar datos para graficar( posicion X, pos y, vel x, vel y, radio,¿color?).(SEBAS)
 * (6) volver a (3).
-* (6) codigo aparte, levanta datos de posiciones y crea la animación.
+* (7) codigo aparte, levanta datos de posiciones y crea la animación.(SEBAS)
 
+## tareas
++ tunear lo de vecinos para que no use archivos.(FER)
++ orquestar la simulacion con todas particulas
++ terminar simulacion de una sola particula("simulateParticle.m").(FER).
++ agregar color simulacion (rgb).(SEBAS)
++ hacer presentacion
++ revisar manejo de angulos en simulacion de particula. 
++ revisar si tiene algun problema la funcion arctg
 ## PRESENTACION <parte,quien la da>
 + Fundamentos
 + Implementacion
