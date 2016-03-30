@@ -8,9 +8,20 @@ function particles = generateRandomSet(N,L, defaultVelocity, radius)
 	#generates random exponential radius
 	direction = unifrnd(0, 2*pi, N, 1);
 
-  particles=[positions direction];
+  # X Y RAD COL MODVEL ANG
+  particles=positions;
   
-  particles(:,4) = defaultVelocity;
-  particles(:,5) = radius;
+  %Radio
+  particles(:,3) = radius;
+  
+  %Color
+  particles(:,4) = 1;
+  
+  %Modulo Velocidad
+  particles(:,5) = defaultVelocity;
+  
+  %Direccion
+  particles=[particles, direction];
+
 
 endfunction
