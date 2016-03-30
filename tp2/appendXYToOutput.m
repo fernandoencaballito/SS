@@ -1,11 +1,19 @@
-function appendXYToOutput(outputFile, particles, props, time)
+function appendXYToOutput(outputFile, particles, time)
 
   particleCount = size(particles, 1);
   
-  fprintf(outputFile, "%d\nLattice=\"5.44 0.0 0.0 0.0 5.44 0.0 0.0 0.0 5.44\" Properties=pos:R:2%s Time=%d\n", particleCount, props, time)
+  fprintf(outputFile, "%d\nTime=%d\n", particleCount, time);
 
-  dlmwrite(outputFile, particles(:,1:2), "\t\t");
+  temp = zeros(particleCount, 6);
   
-  fprintf(outputFile, "\n");
+  vel = particles(:,5);
+  angle = particles(:,6);
+  
+  % X Y VEL_X VEL_Y RAD COLOR
+  temp = [particles(:,1:2) , vel.*cos(angle), vel.*sin(angle), particles(:,3:4)];
+  
+  dlmwrite(outputFile, temp, "  ");
+  
+%  fprintf(outputFile, "\n");
 
 endfunction
