@@ -1,3 +1,4 @@
+#BORRAR, NO SE USA
 function particles = nextState(particles,N,L,periodic,rc, vel_max)
 	position = particles(:,1:2);
 	velocity = particles(:,3:4);
