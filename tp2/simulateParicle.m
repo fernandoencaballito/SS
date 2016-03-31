@@ -9,20 +9,22 @@
 
 
 
-#posicion de x en particles
-global x_pos=1;
-#posicion de y en particles
-global y_pos=2;
-#posicion del modulo de la velocidad en particles
-global v_pos=5;
-#posicion del angulo en particles
-global angle_pos=6;
-
-#posicion del radio
-global radio_pos=3;
 
 
 function [nextPos,nextAngle]=simulateParicle(particles,id,delta_t,n, neighbours,L)
+#posicion de x en particles
+ x_pos=1;
+#posicion de y en particles
+y_pos=2;
+#posicion del modulo de la velocidad en particles
+ v_pos=5;
+#posicion del angulo en particles
+ angle_pos=6;
+
+#posicion del radio
+ radio_pos=3;
+
+
 
     #valores actuales
     position=particles(id,x_pos:y_pos);
@@ -34,13 +36,13 @@ function [nextPos,nextAngle]=simulateParicle(particles,id,delta_t,n, neighbours,
 
     #siguientes valores
 
-    nextPos=getNextPeriodicPos(position,speed_modulo,L,delta_t)
+    nextPos=getNextPeriodicPos(position,speed_modulo,L,delta_t);
     
     current_neighbours=neighbours{1,id};
     #vector que contiene id de particula junto con sus vecinos 
     current_particles_id=[id,current_neighbours];
     
-    current_particles_data=particles(current_particles_id,angle_pos);
+    current_particles_data=particles(current_particles_id,:);
     
     current_particles_angles=current_particles_data(:,angle_pos);
     
