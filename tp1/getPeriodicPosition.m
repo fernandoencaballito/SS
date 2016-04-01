@@ -62,6 +62,7 @@ function [final_row, final_col] = getPeriodicPosition(row, col,periodic,M)
 
 endfunction
 
+
 #posición sin cambio
 %!test
 %! row=3;
@@ -87,15 +88,15 @@ endfunction
 %! assert(final_col==col);
  
 
-#posición que se excede en una fila, condiciones no periódicas
+#posición que se excede en una fila, condiciones no periódicas, se invalida posicion
 
 %!test
 %! M=5;
 %! row=6;
 %! col=3;
 %! [final_row,final_col]=getPeriodicPosition(row, col,false,M);
-%! assert(final_row==M);
-%! assert(final_col==col);
+%! assert(final_row==-1);
+%! assert(final_col==-1);
  
 #posición que se excede en uno en columnas, condiciones periódicas
 
@@ -108,15 +109,15 @@ endfunction
 %! assert(final_col==1);
  
 
-#posición que se excede en una columna, condiciones no periódicas
+#posición que se excede en una columna, condiciones no periódicas, se invalida posicion
 
 %!test
 %! M=5;
 %! row=3;
 %! col=6;
 %! [final_row,final_col]=getPeriodicPosition(row, col,false,M);
-%! assert(final_row==row);
-%! assert(final_col==M);
+%! assert(final_row==-1);
+%! assert(final_col==-1);
 
 
 #posición que se excede en -1 en filas, condiciones periódicas
@@ -130,15 +131,15 @@ endfunction
 %! assert(final_col==col);
  
 
-#posición que se excede en -1 en filas, condiciones no periódicas
+#posición que se excede en -1 en filas, condiciones no periódicas, se invalida
 
 %!test
 %! M=5;
 %! row=0;
 %! col=3;
 %! [final_row,final_col]=getPeriodicPosition(row, col,false,M);
-%! assert(final_row==1);
-%! assert(final_col==col);
+%! assert(final_row==-1);
+%! assert(final_col==-1);
 
 
 #posición que se excede en -1 en columnas, condiciones periódicas
@@ -152,15 +153,15 @@ endfunction
 %! assert(final_col==M);
  
 
-#posición que se excede en -1 en  columna, condiciones no periódicas
+#posición que se excede en -1 en  columna, condiciones no periódicas,se invalida
 
 %!test
 %! M=5;
 %! row=3;
 %! col=0;
 %! [final_row,final_col]=getPeriodicPosition(row, col,false,M);
-%! assert(final_row==row);
-%! assert(final_col==1);
+%! assert(final_row==-1);
+%! assert(final_col==-1);
 
 #posición que se excede en -1 en columnas y en filas, condiciones periódicas
 
@@ -180,8 +181,8 @@ endfunction
 %! row=0;
 %! col=0;
 %! [final_row,final_col]=getPeriodicPosition(row, col,false,M);
-%! assert(final_row==1);
-%! assert(final_col==1);
+%! assert(final_row==-1);
+%! assert(final_col==-1);
 
 
 #posición que se excede en uno en filas y columnas, condiciones periódicas
@@ -202,8 +203,8 @@ endfunction
 %! row=6;
 %! col=6;
 %! [final_row,final_col]=getPeriodicPosition(row, col,false,M);
-%! assert(final_row==M);
-%! assert(final_col==M);
+%! assert(final_row==-1);
+%! assert(final_col==-1);
  
 
 #unica celda
@@ -212,8 +213,8 @@ endfunction
 %! row=0;
 %! col=0;
 %! [final_row,final_col]=getPeriodicPosition(row, col,false,M);
-%! assert(final_row==1);
-%! assert(final_col==1);
+%! assert(final_row==-1);
+%! assert(final_col==-1);
 
 #unica celda2
 %!test
@@ -221,5 +222,18 @@ endfunction
 %! row=1;
 %! col=0;
 %! [final_row,final_col]=getPeriodicPosition(row, col,true,M);
+%! assert(final_row==1);
+%! assert(final_col==1);
+
+
+#unica celda3
+%!test
+%! M=1;
+%! row=1;
+%! col=1;
+%! [final_row,final_col]=getPeriodicPosition(row,col, false,M);
+%! assert(final_row==1);
+%! assert(final_col==1);
+%! [final_row,final_col]=getPeriodicPosition(row,col, true,M);
 %! assert(final_row==1);
 %! assert(final_col==1);
