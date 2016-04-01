@@ -1,3 +1,5 @@
+#! /bin/octave -qf
+
 N = 300;
 L = 25;
 defaultVelocity = 0.03;
