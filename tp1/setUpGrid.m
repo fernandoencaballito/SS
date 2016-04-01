@@ -3,8 +3,15 @@ function grid = setUpGrid(grid,L,N,M,particles)
 	[rows,cols]=size(particles);
   for k=1:rows
 		particle = particles(k,1:2);
-		i = floor(particle(2)/anchoCelda)+1;	
+    if(particle(1)>L )
+        error("x tiene que ser menor a L");
+	  endif
+    if(particle(2)>L)
+        error("y tiene que ser menor a L");
+	  endif
+  	i = floor(particle(2)/anchoCelda)+1;	
 		j = floor(particle(1)/anchoCelda)+1;
+    
 		cellParticles = grid{i,j};
 		cellParticles(end+1)=k;
 		grid(i,j) = cellParticles;

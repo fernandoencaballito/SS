@@ -36,7 +36,8 @@ y_pos=2;
 
     #siguientes valores
 
-    nextPos=getNextPeriodicPos(position,speed_modulo,L,delta_t);
+    nextPos(1)=getNextPeriodicPos(position(1),speed(1),L,delta_t);
+    nextPos(2)=getNextPeriodicPos(position(2),speed(2),L,delta_t);
     
     current_neighbours=neighbours{1,id};
     #vector que contiene id de particula junto con sus vecinos 
@@ -74,5 +75,7 @@ function next_pos = getNextPeriodicPos(pos, vel, L,delta_t)
       if( next_pos > L || next_pos < 0)
         error("#getNextPeriodicPos# la posicion resultatnte es invalida");
       endif
+      
+        
 endfunction
 

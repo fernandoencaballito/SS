@@ -5,10 +5,10 @@
 
 
 function simulate(simOutputFile, N, L, defaultVelocity, duration, periodic, radius,delta_t,M,rc,n)
-  addpath("../tp1/") 
+  addpath('../tp1/') 
   angle_pos=6;
   particles = generateRandomSet(N, L, defaultVelocity, radius);
-  
+  disp('#simulate# generado el conjunto inicial random');
   outputFile = fopen(simOutputFile, 'w');
   
   appendXYToOutput(outputFile, particles, 0);#se graba el estado inicial de las particulas en archivo a graficar
@@ -18,7 +18,7 @@ function simulate(simOutputFile, N, L, defaultVelocity, duration, periodic, radi
 
   
 	for t = (delta_t:delta_t:duration)
-    
+        t
         newParticles=particles;
         neighbours=mainNeighbours(L,N,M,particles,rc,periodic);
         
