@@ -1,10 +1,11 @@
+#RETORNA el ultimo estado de las particulas
 
 #radius: radio de las particulas.Para el tp2 deberia ser 0.
 #rc: radio de interaccion de las particulas.
 
 
 
-function simulate(simOutputFile, N, L, defaultVelocity, duration, periodic, radius,delta_t,M,rc,n)
+function particles=simulate(simOutputFile, N, L, defaultVelocity, duration, periodic, radius,delta_t,M,rc,n)
   addpath('../tp1/') 
   angle_pos=6;
   particles = generateRandomSet(N, L, defaultVelocity, radius);
@@ -34,6 +35,8 @@ function simulate(simOutputFile, N, L, defaultVelocity, duration, periodic, radi
 	endfor
 
 
+  
+  
   
   
   ## ciclo por tiempo
