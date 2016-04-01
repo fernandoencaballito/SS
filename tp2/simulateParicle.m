@@ -53,7 +53,7 @@ y_pos=2;
     #calculo de los cosenos de la formula de tita
     denominator_values=cos(current_particles_angles);
     
-    nextAngle=atan(mean(numerator_values)/mean(denominator_values))  + uniformNoise(n);
+    nextAngle=atan2(mean(numerator_values),mean(denominator_values))  + uniformNoise(n);
     nextAngle=mod(nextAngle,2*pi);
     
 
