@@ -10,12 +10,13 @@ function particles=simulate(simOutputFile, N, L, defaultVelocity, duration, peri
   angle_pos=6;
   
   if(rows(varargin)==0)
+      disp('#simulate# generado el conjunto inicial random');
      particles = generateRandomSet(N, L, defaultVelocity, radius);
   else
       particles=varargin{1,1};
   endif    
   
-  disp('#simulate# generado el conjunto inicial random');
+  
   outputFile = fopen(simOutputFile, 'w');
   
   appendXYToOutput(outputFile, particles, 0);#se graba el estado inicial de las particulas en archivo a graficar

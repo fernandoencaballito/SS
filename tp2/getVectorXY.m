@@ -2,6 +2,7 @@
 function ans=getVectorXY(vector_modulo, angle)
 x=vector_modulo*cos(angle);
 y=vector_modulo*sin(angle);
-ans=[x',y'];
+ans=[x,y];
+
 
 endfunction
