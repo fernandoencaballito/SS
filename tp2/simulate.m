@@ -5,10 +5,16 @@
 
 
 
-function particles=simulate(simOutputFile, N, L, defaultVelocity, duration, periodic, radius,delta_t,M,rc,n)
+function particles=simulate(simOutputFile, N, L, defaultVelocity, duration, periodic, radius,delta_t,M,rc,n,varargin)
   addpath('../tp1/') 
   angle_pos=6;
-  particles = generateRandomSet(N, L, defaultVelocity, radius);
+  
+  if(rows(varargin)==0)
+     particles = generateRandomSet(N, L, defaultVelocity, radius);
+  else
+      particles=varargin{1,1};
+  endif    
+  
   disp('#simulate# generado el conjunto inicial random');
   outputFile = fopen(simOutputFile, 'w');
   
