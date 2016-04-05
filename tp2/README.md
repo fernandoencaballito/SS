@@ -24,6 +24,7 @@
 + hacer presentacion
 + revisar manejo de angulos en simulacion de particula. 
 + revisar si tiene algun problema la funcion arctg
+
 ## PRESENTACION <parte,quien la da>
 + Fundamentos
 + Implementacion
