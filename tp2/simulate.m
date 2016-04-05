@@ -19,11 +19,11 @@ function particles=simulate(simOutputFile, N, L, defaultVelocity, duration, peri
   
   outputFile = fopen(simOutputFile, 'w');
   
+ 
   appendXYToOutput(outputFile, particles, 0);#se graba el estado inicial de las particulas en archivo a graficar
   
   
-  ## lo de luis
-
+  
   
 	for t = (delta_t:delta_t:duration)
         t
@@ -37,6 +37,7 @@ function particles=simulate(simOutputFile, N, L, defaultVelocity, duration, peri
         
         endfor
         
+       
         appendXYToOutput(outputFile, newParticles, t);
         particles=newParticles;
 	endfor
@@ -81,7 +82,7 @@ function particles=simulate(simOutputFile, N, L, defaultVelocity, duration, peri
 %	endwhile
 %
 
-
+ 
   fclose(outputFile)
 
 endfunction
