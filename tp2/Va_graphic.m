@@ -3,7 +3,7 @@
 defaultVelocity = 0.03;
 radius = 0;
 periodic = true;
-duration=100;
+duration=1000;
 
 simOutputFile = sprintf("./Data/va_sim.txt");
 delta_t=1;
@@ -22,7 +22,7 @@ simulation_data_values={40, 3.1, 's',6; 100, 5, '+',8; 400, 10, 'x',18}
 etha_values=0:0.25:5;
 
 
-times=5;
+times=20;
 hold on;
 
 for i=1:rows(simulation_data_values)

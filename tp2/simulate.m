@@ -8,20 +8,21 @@
 function particles=simulate(simOutputFile, N, L, defaultVelocity, duration, periodic, radius,delta_t,M,rc,n,varargin)
   addpath('../tp1/') 
   angle_pos=6;
-  
+  genParticles=true;
   if(rows(varargin)==0)
       disp('#simulate# generado el conjunto inicial random');
      particles = generateRandomSet(N, L, defaultVelocity, radius);
   else
       particles=varargin{1,1};
+      genParticles=false;
   endif    
   
   
   outputFile = fopen(simOutputFile, 'w');
   
- 
-  appendXYToOutput(outputFile, particles, 0);#se graba el estado inicial de las particulas en archivo a graficar
-  
+  if(genParticles)
+    appendXYToOutput(outputFile, particles, 0);#se graba el estado inicial de las particulas en archivo a graficar
+  endif;
   
   
   
@@ -37,8 +38,9 @@ function particles=simulate(simOutputFile, N, L, defaultVelocity, duration, peri
         
         endfor
         
-       
-        appendXYToOutput(outputFile, newParticles, t);
+       if(genParticles)
+          appendXYToOutput(outputFile, newParticles, t);
+        endif;
         particles=newParticles;
 	endfor
 
@@ -82,7 +84,7 @@ function particles=simulate(simOutputFile, N, L, defaultVelocity, duration, peri
 %	endwhile
 %
 
- 
-  fclose(outputFile)
-
+  if(genParticles)
+    fclose(outputFile)
+  endif
 endfunction
