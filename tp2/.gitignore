@@ -1,6 +1,5 @@
 *~
 ./Frames/*
 ./Data/*
-*.avi
-*.txt
+
 octave-workspace
