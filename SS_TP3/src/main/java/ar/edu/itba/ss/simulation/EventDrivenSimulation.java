@@ -22,7 +22,7 @@ public class EventDrivenSimulation {
 
         particles = ParticleSet.generateRandomParticleSet(width, height, particleCount);
 
-        queue.addAll(particles.getCollisions());
+        //queue.addAll(particles.getCollisions());
     }
 
     public void setWriter(StateWriter writer) {
@@ -31,7 +31,7 @@ public class EventDrivenSimulation {
 
     public ParticleSet simulate(double time) {
 
-        System.out.printf("Simulando hasta %f segundos...", time);
+        System.out.printf("Simulando hasta %f segundos...\n", time);
 
         double t = 0;
         do {
@@ -43,7 +43,7 @@ public class EventDrivenSimulation {
 
     public ParticleSet simulate(int collisions) {
 
-        System.out.printf("Simulando %d colisiones...", collisions);
+        System.out.printf("Simulando %d colisiones...\n", collisions);
 
         while (collisions > 0) {
             simulate();
@@ -69,6 +69,7 @@ public class EventDrivenSimulation {
         Particle p2 = next_collision.getP2();
 
         double time = next_collision.getTime();
+        System.out.println("Simulando para t= " + time);
 
         if (next_collision.getType() == CollisionType.PARTICLE) {
             p1.collide(p2);
@@ -117,6 +118,6 @@ public class EventDrivenSimulation {
     }
 
     public String nameFromParams() {
-        return String.format("%s_W%f_H%f_B%f_N%d", this.getClass().getCanonicalName(), width, height, barHeight, particleCount);
+        return String.format("%s_W%f_H%f_B%f_N%d.txt", this.getClass().getSimpleName(), width, height, barHeight, particleCount);
     }
 }
