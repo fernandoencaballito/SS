@@ -1,35 +1,40 @@
 package ar.edu.itba.ss.simulation;
 
-import java.io.IOException;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Set;
 
 public class EventDrivenSimulation {
 
     private final int particleCount;
     private final double width;
     private final double height;
-    private final double barHeight;
-    private Queue<Collision> queue = new PriorityQueue<Collision>();
-    private ParticleSet particles;
-    private double time;
+
+	private Queue<Collision> queue;
+	private ParticleSet particles;
+    private SimulationSpace space;
+	double time;
+
     private StateWriter writer = null;
 
-    public EventDrivenSimulation(double width, double height, final int particleCount, double barHeight) {
+	public EventDrivenSimulation(double width, double height, final int particleCount, Wall[] bars) {
         this.particleCount = particleCount;
         this.width = width;
         this.height = height;
-        this.barHeight = barHeight;
 
-        particles = ParticleSet.generateRandomParticleSet(width, height, particleCount);
+        queue = new PriorityQueue<Collision>();
+        space = new SimulationSpace(width,height,bars);
 
-        //queue.addAll(particles.getCollisions());
-    }
+		queue.addAll(particles.getCollisions(space));
+	}
+
 
     public void setWriter(StateWriter writer) {
         this.writer = writer;
     }
-
-    public ParticleSet simulate(double time) {
+	public ParticleSet simulate(double time) {
 
         System.out.printf("Simulando hasta %f segundos...\n", time);
 
@@ -38,56 +43,46 @@ public class EventDrivenSimulation {
             t = simulate();
         } while (t < time);
 
-        return particles;
-    }
+		return particles;
+	}
 
-    public ParticleSet simulate(int collisions) {
+	public ParticleSet simulate(int collisions) {
 
         System.out.printf("Simulando %d colisiones...\n", collisions);
 
         while (collisions > 0) {
             simulate();
+            collisions--;
         }
 
 
-        return particles;
-    }
+		return particles;
+	}
 
-    private double simulate() {
+	private double simulate() {
 
-        Collision next_collision;
+		Collision next_collision;
 
-        do {
-            next_collision = queue.poll();
-            if (next_collision == null)
-                System.exit(1);
-        } while (!next_collision.isValid());
+		do {
 
-        particles.advance(next_collision);
+			next_collision = queue.poll();
+			if (next_collision == null)
+				System.exit(123612);
+		} while (!next_collision.isValid());
 
-        Particle p1 = next_collision.getP1();
-        Particle p2 = next_collision.getP2();
+		particles.advance(next_collision);
 
-        double time = next_collision.getTime();
+		next_collision.collide();
         System.out.println("Simulando para t= " + time);
 
-        if (next_collision.getType() == CollisionType.PARTICLE) {
-            p1.collide(p2);
-            p2.collide(p1);
-        } else
-            p1.collide(next_collision.getType());
+		List<Particle> crash = next_collision.getParticles();
 
-        Set<Particle> crash = new HashSet<Particle>();
+		List<Collision> collisions = particles.getCollisions(crash,space);
+		for (Collision collision : collisions) {
+			collision.setAbsolutTime(time);
+		}
 
-        crash.add(next_collision.getP1());
-        crash.add(next_collision.getP2());
-
-        List<Collision> collisions = particles.getCollisions(crash);
-        for (Collision collision : collisions) {
-            collision.setAbsolutTime(time);
-        }
-
-        queue.addAll(collisions);
+		queue.addAll(collisions);
 
         if (writer != null) {
             try {
@@ -99,7 +94,7 @@ public class EventDrivenSimulation {
 
         return time;
 
-    }
+	}
 
     public int getParticleCount() {
         return particleCount;
@@ -120,4 +115,5 @@ public class EventDrivenSimulation {
     public String nameFromParams() {
         return String.format("%s_W%f_H%f_B%f_N%d.txt", this.getClass().getSimpleName(), width, height, barHeight, particleCount);
     }
+
 }
