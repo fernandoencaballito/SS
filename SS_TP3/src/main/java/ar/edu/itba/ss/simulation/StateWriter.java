@@ -9,9 +9,14 @@ import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 public class StateWriter {
     private BufferedWriter writer;
+    private final int every;
 
-    public StateWriter(String fileName) throws IOException {
+    private int stepsRemaining;
+
+    public StateWriter(String fileName, int every) throws IOException {
         writer = new BufferedWriter(new FileWriter(fileName));
+        this.every = every;
+        this.stepsRemaining = every;
     }
 
     // formato de output:
@@ -19,6 +24,15 @@ public class StateWriter {
     // tiempo
     // X Y VEL_X VEL_Y RAD moduloVelocidad
     public void writeParticles(ParticleSet particles, double time) throws IOException {
+
+        this.stepsRemaining--;
+
+        if (this.stepsRemaining > 0) {
+            return;
+        }
+
+        this.stepsRemaining = this.every;
+
         StringBuffer buffer = new StringBuffer();
         buffer.append(particles.size());
         buffer.append("\n");

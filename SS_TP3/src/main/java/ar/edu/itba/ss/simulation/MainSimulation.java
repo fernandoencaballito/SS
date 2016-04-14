@@ -22,7 +22,11 @@ public class MainSimulation {
             StateWriter writer = null;
 
             try {
-                writer = new StateWriter(sim.nameFromParams());
+                String name = sim.nameFromParams();
+
+                System.out.printf("Guardando datos en: %s\n", name);
+
+                writer = new StateWriter(name, 5);
             } catch (IOException e) {
                 System.out.println("No se pudo escribir en el archivo de salida. Abortando!");
                 return;
