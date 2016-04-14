@@ -1,28 +1,37 @@
 package ar.edu.itba.ss.simulation;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.Set;
+import java.io.IOException;
+import java.util.*;
 
 public class EventDrivenSimulation {
 
-    private Queue<Collision> queue;
+    private final int particleCount;
+    private final double width;
+    private final double height;
+    private final double barHeight;
+    private Queue<Collision> queue = new PriorityQueue<Collision>();
     private ParticleSet particles;
-    double time;
+    private double time;
+    private StateWriter writer = null;
 
-    public EventDrivenSimulation() {
-        queue = new PriorityQueue<Collision>();
+    public EventDrivenSimulation(double width, double height, final int particleCount, double barHeight) {
+        this.particleCount = particleCount;
+        this.width = width;
+        this.height = height;
+        this.barHeight = barHeight;
+
+        particles = ParticleSet.generateRandomParticleSet(width, height, particleCount);
 
         queue.addAll(particles.getCollisions());
     }
 
-    public static void main(String[] args) {
-
+    public void setWriter(StateWriter writer) {
+        this.writer = writer;
     }
 
     public ParticleSet simulate(double time) {
+
+        System.out.printf("Simulando hasta %f segundos...", time);
 
         double t = 0;
         do {
@@ -34,8 +43,12 @@ public class EventDrivenSimulation {
 
     public ParticleSet simulate(int collisions) {
 
-        while (collisions > 0)
+        System.out.printf("Simulando %d colisiones...", collisions);
+
+        while (collisions > 0) {
             simulate();
+        }
+
 
         return particles;
     }
@@ -75,8 +88,35 @@ public class EventDrivenSimulation {
 
         queue.addAll(collisions);
 
+        if (writer != null) {
+            try {
+                writer.writeParticles(particles, time);
+            } catch (IOException e) {
+                System.out.println("No se pudo escribir en el archivo!");
+            }
+        }
+
         return time;
 
     }
 
+    public int getParticleCount() {
+        return particleCount;
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public double getBarHeight() {
+        return barHeight;
+    }
+
+    public String nameFromParams() {
+        return String.format("%s_W%f_H%f_B%f_N%d", this.getClass().getCanonicalName(), width, height, barHeight, particleCount);
+    }
 }

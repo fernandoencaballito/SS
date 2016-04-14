@@ -5,7 +5,7 @@ import java.util.*;
 public class ParticleSet implements Iterable<Particle> {
     private Set<Particle> particles;
 
-    public ParticleSet(int n) {
+    private ParticleSet(int n) {
         this.particles = new HashSet<Particle>(n);
     }
 
@@ -18,14 +18,14 @@ public class ParticleSet implements Iterable<Particle> {
     private static final double PARTICLE_RADIUS = 0.005;
     private static final double PARTICLE_MASS = 1;
 
-    public ParticleSet generateRandomParticleSet(final double width, final double height, final int nParticles) {
+    public static ParticleSet generateRandomParticleSet(final double width, final double height, final int particleCount) {
 
-        ParticleSet particleSet = new ParticleSet(nParticles);
+        ParticleSet particleSet = new ParticleSet(particleCount);
 
         Random rand = new Random();
 
 
-        for (int i = 0; i < nParticles; i++) {
+        for (int i = 0; i < particleCount; i++) {
 
             double x = rand.nextDouble() * width;
             double y = rand.nextDouble() * height;
