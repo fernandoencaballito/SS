@@ -49,7 +49,7 @@ public class ParticleSet {
 				if(!crash.contains(particle))
 				{
 					time = crashed.getCollisionTime(particle);
-					ret.add(new Collision(crashed,particle,time));
+					ret.add(new Collision(crashed,particle,time,CollisionType.PARTICLE));
 			
 				}
 			}
