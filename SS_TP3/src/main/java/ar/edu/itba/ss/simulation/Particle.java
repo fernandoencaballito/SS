@@ -14,13 +14,14 @@ public class Particle {
 	
 	private double radius;
 	private double mass;
+	private long collision_count;
 	
 	public Particle(double x, double y, double vx, double vy, double radius, double mass) {
 		position = new Vector2D(x, y);
 		velocity = new Vector2D(vx, vy);
 		this.radius = radius;
 		this.mass = mass;
-
+		collision_count=0;
 	}
 
 	public void advance(double time) {
@@ -59,6 +60,7 @@ public class Particle {
 	}
 
 	public void collide(CollisionType w) {
+		collision_count++;
 		double vx = velocity.getX();
 		double vy = velocity.getY();
 		
@@ -80,5 +82,33 @@ public class Particle {
 	
 	private void setVelocity(double vx, double vy){
 		this.velocity = new Vector2D(vx, vy);
+	}
+	
+	public Vector2D getPosition() {
+		return position;
+	}
+
+	public void setPosition(Vector2D position) {
+		this.position = position;
+	}
+
+	public Vector2D getVelocity() {
+		return velocity;
+	}
+
+	public void setVelocity(Vector2D velocity) {
+		this.velocity = velocity;
+	}
+
+	public double getRadius() {
+		return radius;
+	}
+
+	public void setRadius(double radius) {
+		this.radius = radius;
+	}
+
+	public long getCollisionCount(){
+		return collision_count;
 	}
 }

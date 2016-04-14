@@ -3,9 +3,11 @@ package ar.edu.itba.ss.simulation;
 public final class Collision {
 
 	private Particle p1;
-
 	private Particle p2;
-	private boolean valid;
+	//cantidad de colisiones de las particulas, se usa para determinar si la colisión es válida.
+	private long p1_collisions;
+	private long p2_collisions;
+	//
 	private CollisionType type;
 	private double time;
 
@@ -14,6 +16,9 @@ public final class Collision {
 		this.p2 = p2;
 		this.time = time;
 		this.type = type;
+		p1_collisions=p1.getCollisionCount();
+		p2_collisions=p2.getCollisionCount();
+		
 	}
 
 	public Particle getP1() {
@@ -29,7 +34,7 @@ public final class Collision {
 	}
 
 	public boolean isValid() {
-		return valid;
+		return p1.getCollisionCount()==p1_collisions && p2.getCollisionCount()==p2_collisions; 
 	}
 
 	public void setAbsolutTime(double currentTime) {

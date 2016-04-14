@@ -10,7 +10,7 @@ public class EventDrivenSimulation {
 
 	private Queue<Collision> queue;
 	private ParticleSet particles;
-	double time;
+	private double time;
 
 	public EventDrivenSimulation() {
 		queue = new PriorityQueue<Collision>();

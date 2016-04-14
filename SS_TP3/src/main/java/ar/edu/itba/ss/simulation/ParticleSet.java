@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-public class ParticleSet {
+public class ParticleSet implements Iterable<Particle>{
 	private Set<Particle> particles;
 
 	public ParticleSet(int n) {
@@ -66,5 +66,15 @@ public class ParticleSet {
 	
 	public void advance(Collision next_collision) {
 		advance(next_collision.getTime());
+	}
+
+	public Iterator<Particle> iterator() {
+
+		return particles.iterator();
+		// TODO Auto-generated method stub
+	}
+	
+	public long size(){
+		return particles.size();
 	}
 }
