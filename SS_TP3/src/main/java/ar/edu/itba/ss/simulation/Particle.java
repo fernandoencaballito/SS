@@ -6,109 +6,108 @@ import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 public class Particle {
 
-	private int id;
+    private int id;
 
-	private Vector2D position;
-	private Vector2D velocity;
-	
-	
-	private double radius;
-	private double mass;
-	private long collision_count;
-	
-	public Particle(double x, double y, double vx, double vy, double radius, double mass) {
-		position = new Vector2D(x, y);
-		velocity = new Vector2D(vx, vy);
-		this.radius = radius;
-		this.mass = mass;
-		collision_count=0;
-	}
+    private Vector2D position;
+    private Vector2D velocity;
 
-	public void advance(double time) {
 
-		double x_pos = position.getX() + velocity.getX() * time;
-		double y_pos = position.getY() + velocity.getY() * time;
+    private double radius;
+    private double mass;
+    private long collision_count;
 
-		this.position = new Vector2D(x_pos, y_pos);
-	}
+    public Particle(double x, double y, double vx, double vy, double radius, double mass) {
+        position = new Vector2D(x, y);
+        velocity = new Vector2D(vx, vy);
+        this.radius = radius;
+        this.mass = mass;
+        collision_count = 0;
+    }
 
-	public double getCollisionTime(Particle p2) {
+    public void advance(double time) {
 
-		Vector2D delta_r = this.position.subtract(p2.position);
-		Vector2D delta_v = this.velocity.subtract(p2.velocity);
+        double x_pos = position.getX() + velocity.getX() * time;
+        double y_pos = position.getY() + velocity.getY() * time;
 
-		double sigma = this.radius + p2.radius;
+        this.position = new Vector2D(x_pos, y_pos);
+    }
 
-		double dotProductVR = delta_v.dotProduct(delta_r);
-		double dotProductRR = delta_r.dotProduct(delta_r);
-		double dotProductVV = delta_v.dotProduct(delta_v);
+    public double getCollisionTime(Particle p2) {
 
-		double d = Math.pow(dotProductVR, 2) - dotProductVV * (dotProductRR - Math.pow(sigma, 2));
+        Vector2D delta_r = this.position.subtract(p2.position);
+        Vector2D delta_v = this.velocity.subtract(p2.velocity);
 
-		if (dotProductVR >= 0 || d < 0)
-			return -1;
+        double sigma = this.radius + p2.radius;
 
-		double time = -(dotProductVR + Math.sqrt(d)) / dotProductVV;
+        double dotProductVR = delta_v.dotProduct(delta_r);
+        double dotProductRR = delta_r.dotProduct(delta_r);
+        double dotProductVV = delta_v.dotProduct(delta_v);
 
-		return time;
-	}
+        double d = Math.pow(dotProductVR, 2) - dotProductVV * (dotProductRR - Math.pow(sigma, 2));
 
-	
-	
-	public void collide(Particle p) {
-		
-	}
+        if (dotProductVR >= 0 || d < 0)
+            return -1;
 
-	public void collide(CollisionType w) {
-		collision_count++;
-		double vx = velocity.getX();
-		double vy = velocity.getY();
-		
-		switch (w) {
-			case NORTH :
-			case SOUTH :
-					vy = -vy;
-				break;
-				
-			case EAST :
-			case WEST :
-					vx = -vx;
-				break;
-		}
-		
-		setVelocity(vx, vy);
-		
-	}
-	
-	private void setVelocity(double vx, double vy){
-		this.velocity = new Vector2D(vx, vy);
-	}
-	
-	public Vector2D getPosition() {
-		return position;
-	}
+        double time = -(dotProductVR + Math.sqrt(d)) / dotProductVV;
 
-	public void setPosition(Vector2D position) {
-		this.position = position;
-	}
+        return time;
+    }
 
-	public Vector2D getVelocity() {
-		return velocity;
-	}
 
-	public void setVelocity(Vector2D velocity) {
-		this.velocity = velocity;
-	}
+    public void collide(Particle p) {
 
-	public double getRadius() {
-		return radius;
-	}
+    }
 
-	public void setRadius(double radius) {
-		this.radius = radius;
-	}
+    public void collide(CollisionType w) {
+        collision_count++;
+        double vx = velocity.getX();
+        double vy = velocity.getY();
 
-	public long getCollisionCount(){
-		return collision_count;
-	}
+        switch (w) {
+            case NORTH:
+            case SOUTH:
+                vy = -vy;
+                break;
+
+            case EAST:
+            case WEST:
+                vx = -vx;
+                break;
+        }
+
+        setVelocity(vx, vy);
+
+    }
+
+    private void setVelocity(double vx, double vy) {
+        this.velocity = new Vector2D(vx, vy);
+    }
+
+    public Vector2D getPosition() {
+        return position;
+    }
+
+    public void setPosition(Vector2D position) {
+        this.position = position;
+    }
+
+    public Vector2D getVelocity() {
+        return velocity;
+    }
+
+    public void setVelocity(Vector2D velocity) {
+        this.velocity = velocity;
+    }
+
+    public double getRadius() {
+        return radius;
+    }
+
+    public void setRadius(double radius) {
+        this.radius = radius;
+    }
+
+    public long getCollisionCount() {
+        return collision_count;
+    }
 }
