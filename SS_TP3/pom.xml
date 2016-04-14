@@ -6,8 +6,25 @@
 	<version>1</version>
 	<name>tp3</name>
 
-	<dependencies>
 
+
+	 <build>
+	  <plugins>
+	      <plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-eclipse-plugin</artifactId>
+	        <version>2.10</version>
+	        <configuration>
+	         <downloadSources>true</downloadSources>
+	         <downloadJavadocs>true</downloadJavadocs>
+	         <source>1.8</source>
+	         <target>1.8</target>
+	        </configuration>
+	      </plugin>
+	    </plugins>
+	  </build>
+
+	<dependencies>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-math3</artifactId>
@@ -19,7 +36,5 @@
 			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
-
-
 	</dependencies>
 </project>

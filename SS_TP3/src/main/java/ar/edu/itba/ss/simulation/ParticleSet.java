@@ -13,7 +13,7 @@ public class ParticleSet {
 		this.particles = new HashSet<Particle>(n);
 	}
 
-	public List<Collision> getCollisions() {
+	public List<Collision> getCollisions(SimulationSpace space) {
 
 		List<Collision> ret = new ArrayList<Collision>(particles.size() * particles.size());
 
@@ -27,11 +27,19 @@ public class ParticleSet {
 			Particle p1 = particlesArray[i];
 			for (int j = i + 1; j < length; j++) {
 				Particle p2 = particlesArray[j];
-				time = p1.getCollisionTime(p2);
+				time = Collision.getCollisionTime(p1,p2);
 				
-				if ( time > 0)
-					ret.add(new Collision(p1, p2, time, CollisionType.PARTICLE));
+				if ( time >= 0)
+					ret.add(new Collision(p1, p2, time));
 			}
+			
+			for (Wall wall : space.getWalls()) {
+				time = Collision.getCollisionTime(p1, wall);
+				if(time > 0)
+					ret.add(new Collision(p1,wall,time));
+			}
+			
+			
 		} 
 		
 				
@@ -40,7 +48,7 @@ public class ParticleSet {
 
 	}
 	
-	public List<Collision> getCollisions(Set<Particle> crash) {
+	public List<Collision> getCollisions(List<Particle> crash, SimulationSpace space) {
 
 		List<Collision> ret = new ArrayList<Collision>(particles.size() * crash.size());
 		double time;
@@ -48,11 +56,18 @@ public class ParticleSet {
 			for (Particle particle : particles) {
 				if(!crash.contains(particle))
 				{
-					time = crashed.getCollisionTime(particle);
-					ret.add(new Collision(crashed,particle,time,CollisionType.PARTICLE));
+					time = Collision.getCollisionTime(crashed,particle);
+					if(time >= 0)
+						ret.add(new Collision(crashed,particle,time));
 			
 				}
 			}
+			for (Wall wall : space.getWalls()) {
+				time = Collision.getCollisionTime(crashed, wall);
+				if(time > 0)
+					ret.add(new Collision(crashed,wall,time));
+			}
+			
 		}
 		return ret;
 	}

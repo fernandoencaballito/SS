@@ -10,12 +10,15 @@ public class EventDrivenSimulation {
 
 	private Queue<Collision> queue;
 	private ParticleSet particles;
+	private SimulationSpace space;
 	double time;
 
-	public EventDrivenSimulation() {
+	public EventDrivenSimulation(double width, double height, Wall[] bars) {
 		queue = new PriorityQueue<Collision>();
-
-		queue.addAll(particles.getCollisions());
+		space = new SimulationSpace(width,height,bars);
+		
+		queue.addAll(particles.getCollisions(space));
+		
 	}
 
 	;
@@ -36,8 +39,10 @@ public class EventDrivenSimulation {
 
 	public ParticleSet simulate(int collisions) {
 
-		while (collisions > 0)
+		while (collisions > 0) {
 			simulate();
+			collisions --;
+		}
 
 		return particles;
 	}
@@ -55,23 +60,11 @@ public class EventDrivenSimulation {
 
 		particles.advance(next_collision);
 
-		Particle p1 = next_collision.getP1();
-		Particle p2 = next_collision.getP2();
+		next_collision.collide();
 
-		double time = next_collision.getTime();
-
-		if(next_collision.getType() == CollisionType.PARTICLE) {
-			p1.collide(p2);
-			p2.collide(p1);
-		}else
-			p1.collide(next_collision.getType());
+		List<Particle> crash = next_collision.getParticles();
 		
-		Set<Particle> crash = new HashSet<Particle>();
-
-		crash.add(next_collision.getP1());
-		crash.add(next_collision.getP2());
-
-		List<Collision> collisions = particles.getCollisions(crash);
+		List<Collision> collisions = particles.getCollisions(crash,space);
 		for (Collision collision : collisions) {
 			collision.setAbsolutTime(time);
 		}

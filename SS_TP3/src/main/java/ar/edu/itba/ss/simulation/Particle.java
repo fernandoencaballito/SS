@@ -31,54 +31,37 @@ public class Particle {
 		this.position = new Vector2D(x_pos, y_pos);
 	}
 
-	public double getCollisionTime(Particle p2) {
-
-		Vector2D delta_r = this.position.subtract(p2.position);
-		Vector2D delta_v = this.velocity.subtract(p2.velocity);
-
-		double sigma = this.radius + p2.radius;
-
-		double dotProductVR = delta_v.dotProduct(delta_r);
-		double dotProductRR = delta_r.dotProduct(delta_r);
-		double dotProductVV = delta_v.dotProduct(delta_v);
-
-		double d = Math.pow(dotProductVR, 2) - dotProductVV * (dotProductRR - Math.pow(sigma, 2));
-
-		if (dotProductVR >= 0 || d < 0)
-			return -1;
-
-		double time = -(dotProductVR + Math.sqrt(d)) / dotProductVV;
-
-		return time;
-	}
-
 	
-	
-	public void collide(Particle p) {
-		
-	}
-
-	public void collide(CollisionType w) {
-		double vx = velocity.getX();
-		double vy = velocity.getY();
-		
-		switch (w) {
-			case NORTH :
-			case SOUTH :
-					vy = -vy;
-				break;
-				
-			case EAST :
-			case WEST :
-					vx = -vx;
-				break;
-		}
-		
-		setVelocity(vx, vy);
-		
+	public Vector2D getPosition() {
+		return this.position;
 	}
 	
-	private void setVelocity(double vx, double vy){
+	public double getXPosition() {
+		return this.position.getX();
+	}
+	public double getYPosition() {
+		return this.position.getY();
+	}
+	
+	public void setVelocity(double vx, double vy){
 		this.velocity = new Vector2D(vx, vy);
+	}
+	
+	public Vector2D getVelocity() {
+		return this.velocity;
+	}
+	
+	public double getXVelocity() {
+		return this.velocity.getX();
+	}
+	public double getYVelocity() {
+		return this.velocity.getY();
+	}
+	
+	public double getMass() {
+		return this.mass;
+	}
+	public double getRadius() {
+		return radius;
 	}
 }
