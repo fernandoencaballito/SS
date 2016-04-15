@@ -73,4 +73,8 @@ public class Particle {
     public long getCollisionCount() {
         return collision_count;
     }
+
+    public void incrementCollisionCount() {
+        this.collision_count++;
+    }
 }

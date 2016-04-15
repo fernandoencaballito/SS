@@ -22,7 +22,7 @@ public class ParticleSet implements Iterable<Particle> {
 
         ParticleSet particleSet = new ParticleSet(particleCount);
 
-        Random rand = new Random();
+        Random rand = new Random(1);
 
 
         for (int i = 0; i < particleCount; i++) {
@@ -44,7 +44,7 @@ public class ParticleSet implements Iterable<Particle> {
         List<Collision> ret = new ArrayList<Collision>(particles.size() * particles.size());
 
 
-        Particle[] particlesArray = (Particle[]) particles.toArray();
+        Particle[] particlesArray = particles.toArray(new Particle[particles.size()]);
         int length = particlesArray.length;
 
         double time;
@@ -101,10 +101,6 @@ public class ParticleSet implements Iterable<Particle> {
         for (Particle particle : particles) {
             particle.advance(time);
         }
-    }
-
-    public void advance(Collision next_collision) {
-        advance(next_collision.getTime());
     }
 
     public Iterator<Particle> iterator() {

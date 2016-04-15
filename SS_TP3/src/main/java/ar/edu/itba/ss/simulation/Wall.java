@@ -33,7 +33,9 @@ public class Wall {
 		public Vector2D getEnd() {
 			return segment.getEnd();
 		}
-		
-		
-	
+
+
+	public double getAngle() {
+		return segment.getLine().getAngle();
+	}
 }

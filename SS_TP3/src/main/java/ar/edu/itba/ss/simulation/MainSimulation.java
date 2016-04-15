@@ -7,7 +7,7 @@ public class MainSimulation {
     private static final double RECT_WIDTH = 1;
     private static final double RECT_HEIGHT = 0.5;
 
-    private static final int PARTICLE_COUNT = 100;
+    private static final int PARTICLE_COUNT = 1;
 
     private static final double[] BAR_HEIGTH = {0.05, 0.1, 0.2};
 
@@ -26,7 +26,7 @@ public class MainSimulation {
 
                 System.out.printf("Guardando datos en: %s\n", name);
 
-                writer = new StateWriter(name, 5);
+                writer = new StateWriter(name, 0.01);
             } catch (IOException e) {
                 System.out.println("No se pudo escribir en el archivo de salida. Abortando!");
                 return;
@@ -34,7 +34,7 @@ public class MainSimulation {
 
             sim.setWriter(writer);
 
-            sim.simulate(100.0f);
+            sim.simulate(1000.0f);
 
 
         }

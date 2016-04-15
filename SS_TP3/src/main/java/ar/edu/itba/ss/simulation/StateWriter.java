@@ -9,36 +9,35 @@ import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 public class StateWriter {
     private BufferedWriter writer;
-    private final int every;
 
-    private int stepsRemaining;
+    private double startTime = 0;
+    private double timeLimit;
 
-    public StateWriter(String fileName, int every) throws IOException {
+    public StateWriter(String fileName, double timeLimit) throws IOException {
         writer = new BufferedWriter(new FileWriter(fileName));
-        this.every = every;
-        this.stepsRemaining = every;
+        this.timeLimit = timeLimit;
     }
 
     // formato de output:
     // N
     // tiempo
     // X Y VEL_X VEL_Y RAD moduloVelocidad
-    public void writeParticles(ParticleSet particles, double time) throws IOException {
+    public void writeParticles(ParticleSet particles, double currentTime) throws IOException {
 
-        this.stepsRemaining--;
-
-        if (this.stepsRemaining > 0) {
+        if (currentTime - startTime < timeLimit) {
             return;
         }
 
-        this.stepsRemaining = this.every;
+        startTime = currentTime;
+
+        System.out.println("Grabando para t= " + currentTime);
 
         StringBuffer buffer = new StringBuffer();
         buffer.append(particles.size());
         buffer.append("\n");
 
         buffer.append("Time=");
-        buffer.append(time);
+        buffer.append(currentTime);
         buffer.append("\n");
 
         for (Particle p : particles) {
