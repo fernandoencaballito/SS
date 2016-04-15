@@ -1,5 +1,6 @@
 package ar.edu.itba.ss.simulation;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -108,12 +109,8 @@ public class EventDrivenSimulation {
         return height;
     }
 
-    public double getBarHeight() {
-        return barHeight;
-    }
-
     public String nameFromParams() {
-        return String.format("%s_W%f_H%f_B%f_N%d.txt", this.getClass().getSimpleName(), width, height, barHeight, particleCount);
+        return String.format("%s_W%f_H%f_N%d.txt", this.getClass().getSimpleName(), width, height, particleCount);
     }
 
 }

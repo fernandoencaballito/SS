@@ -17,7 +17,7 @@ public class MainSimulation {
 
         for (double aBAR_HEIGTH : BAR_HEIGTH) {
 
-            EventDrivenSimulation sim = new EventDrivenSimulation(RECT_WIDTH, RECT_HEIGHT, PARTICLE_COUNT, aBAR_HEIGTH);
+            EventDrivenSimulation sim = new EventDrivenSimulation(RECT_WIDTH, RECT_HEIGHT, PARTICLE_COUNT, null);//FIXME
 
             StateWriter writer = null;
 

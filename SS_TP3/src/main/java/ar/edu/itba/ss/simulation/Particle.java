@@ -6,62 +6,71 @@ import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 public class Particle {
 
-	private int id;
+    private int id;
 
-	private Vector2D position;
-	private Vector2D velocity;
-	
-	
-	private double radius;
-	private double mass;
-	
-	public Particle(double x, double y, double vx, double vy, double radius, double mass) {
-		position = new Vector2D(x, y);
-		velocity = new Vector2D(vx, vy);
-		this.radius = radius;
-		this.mass = mass;
-
-	}
-
-	public void advance(double time) {
-
-		double x_pos = position.getX() + velocity.getX() * time;
-		double y_pos = position.getY() + velocity.getY() * time;
-
-		this.position = new Vector2D(x_pos, y_pos);
-	}
+    private Vector2D position;
+    private Vector2D velocity;
 
 
-	public Vector2D getPosition() {
-		return this.position;
-	}
+    private double radius;
+    private double mass;
 
-	public double getXPosition() {
-		return this.position.getX();
-	}
-	public double getYPosition() {
-		return this.position.getY();
-	}
+    private long collision_count = 0;
 
-	public void setVelocity(double vx, double vy){
-		this.velocity = new Vector2D(vx, vy);
-	}
+    public Particle(double x, double y, double vx, double vy, double radius, double mass) {
+        position = new Vector2D(x, y);
+        velocity = new Vector2D(vx, vy);
+        this.radius = radius;
+        this.mass = mass;
 
-	public Vector2D getVelocity() {
-		return this.velocity;
-	}
+    }
 
-	public double getXVelocity() {
-		return this.velocity.getX();
-	}
-	public double getYVelocity() {
-		return this.velocity.getY();
-	}
+    public void advance(double time) {
 
-	public double getMass() {
-		return this.mass;
-	}
-	public double getRadius() {
-		return radius;
-	}
+        double x_pos = position.getX() + velocity.getX() * time;
+        double y_pos = position.getY() + velocity.getY() * time;
+
+        this.position = new Vector2D(x_pos, y_pos);
+    }
+
+
+    public Vector2D getPosition() {
+        return this.position;
+    }
+
+    public double getXPosition() {
+        return this.position.getX();
+    }
+
+    public double getYPosition() {
+        return this.position.getY();
+    }
+
+    public void setVelocity(double vx, double vy) {
+        this.velocity = new Vector2D(vx, vy);
+    }
+
+    public Vector2D getVelocity() {
+        return this.velocity;
+    }
+
+    public double getXVelocity() {
+        return this.velocity.getX();
+    }
+
+    public double getYVelocity() {
+        return this.velocity.getY();
+    }
+
+    public double getMass() {
+        return this.mass;
+    }
+
+    public double getRadius() {
+        return radius;
+    }
+
+    public long getCollisionCount() {
+        return collision_count;
+    }
 }
