@@ -46,7 +46,13 @@ public class Particle {
         return this.position.getY();
     }
 
-    public void setVelocity(double vx, double vy) {
+    @Override
+	public String toString() {
+		return "Particle [position=" + position + ", velocity=" + velocity + ", radius=" + radius
+				+ ", mass=" + mass + ", collision_count=" + collision_count + "]";
+	}
+
+	public void setVelocity(double vx, double vy) {
         this.velocity = new Vector2D(vx, vy);
     }
 

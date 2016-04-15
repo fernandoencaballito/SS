@@ -30,7 +30,7 @@ public class StateWriter {
 
         startTime = currentTime;
 
-        System.out.println("Grabando para t= " + currentTime);
+      //  System.out.println("Grabando para t= " + currentTime);
 
         StringBuffer buffer = new StringBuffer();
         buffer.append(particles.size());
@@ -70,5 +70,9 @@ public class StateWriter {
     public void closeWriter() throws IOException {
         writer.close();
     }
+
+	
+		
+	
 
 }

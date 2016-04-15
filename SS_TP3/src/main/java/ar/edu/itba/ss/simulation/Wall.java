@@ -7,7 +7,7 @@ import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 public class Wall {
 
-		public static final double TOLERANCE = 0.005;
+		public static final double TOLERANCE = 0.01;
 		private double length;
 
 		private Segment segment;

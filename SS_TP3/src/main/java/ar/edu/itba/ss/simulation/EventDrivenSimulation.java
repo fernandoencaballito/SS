@@ -31,6 +31,7 @@ public class EventDrivenSimulation {
         particles = ParticleSet.generateRandomParticleSet(width, height, particleCount);
 
         queue.addAll(particles.getCollisions(space));
+        
     }
 
 
@@ -40,8 +41,10 @@ public class EventDrivenSimulation {
 
     public ParticleSet simulate(double timeLimit) {
 
-        System.out.printf("Simulando hasta %f segundos...\n", timeLimit);
+ 
+        //System.out.printf("Simulando hasta %f segundos...\n", timeLimit);
 
+        
         do {
             time = simulate();
         } while (time < timeLimit);
@@ -51,7 +54,7 @@ public class EventDrivenSimulation {
 
     public ParticleSet simulate(int collisions) {
 
-        System.out.printf("Simulando %d colisiones...\n", collisions);
+        //System.out.printf("Simulando %d colisiones...\n", collisions);
 
         while (collisions > 0) {
             simulate();
@@ -76,7 +79,7 @@ public class EventDrivenSimulation {
         particles.advance(next_collision.getTime() - time);
 
         time = next_collision.getTime();
-
+               
         next_collision.collide();
 
         System.out.println("Simulando para t= " + time);

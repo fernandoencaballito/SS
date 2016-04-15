@@ -22,7 +22,7 @@ public class ParticleSet implements Iterable<Particle> {
 
         ParticleSet particleSet = new ParticleSet(particleCount);
 
-        Random rand = new Random(1);
+        Random rand = new Random();
 
 
         for (int i = 0; i < particleCount; i++) {
