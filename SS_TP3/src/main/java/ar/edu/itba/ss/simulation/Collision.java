@@ -198,6 +198,7 @@ public final class Collision implements Comparable<Collision> {
 		double vx = p1.getXVelocity();
 		double vy = p1.getYVelocity();
 
+		
 		double angle = w.getAngle();
 
 		double sin = Math.sin(angle);
@@ -224,8 +225,15 @@ public final class Collision implements Comparable<Collision> {
 		return particles;
 	}
 
+	public boolean isPeriodic(){
+		return this.type == CollisionType.PERIODIC;
+	}
+	
+	public Particle getParticle() {
+		return this.p1;
+	}
 	private enum CollisionType {
-		WALL, PARTICLE;
+		WALL, PARTICLE, PERIODIC;
 	}
 
 }

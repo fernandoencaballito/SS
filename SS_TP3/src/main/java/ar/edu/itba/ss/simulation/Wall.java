@@ -1,13 +1,25 @@
 package ar.edu.itba.ss.simulation;
 
-import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.euclidean.twod.Line;
 import org.apache.commons.math3.geometry.euclidean.twod.Segment;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 public class Wall {
 
-		public static final double TOLERANCE = 0.01;
+		public static final double TOLERANCE = 0.0001;
+		private boolean periodic;
+
+
+		public boolean isPeriodic() {
+			return periodic;
+		}
+
+
+		public Segment getSegment() {
+			return segment;
+		}
+
+
 		private double length;
 
 		private Segment segment;
@@ -17,11 +29,12 @@ public class Wall {
 		}
 
 	
-		public Wall(Vector2D start,Vector2D end) {
+		public Wall(Vector2D start,Vector2D end,boolean periodic) {
 
 			Line l = new Line(start,end,TOLERANCE);
 			this.segment = new Segment(start,end,l);
 			this.length= end.subtract(start).getNorm();
+			this.periodic=periodic;
 		}
 		
 		public Line getLine() {

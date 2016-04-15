@@ -2,6 +2,8 @@ package ar.edu.itba.ss.simulation;
 
 import java.util.*;
 
+import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
+
 public class ParticleSet implements Iterable<Particle> {
     private Set<Particle> particles;
 
@@ -17,7 +19,11 @@ public class ParticleSet implements Iterable<Particle> {
 
     private static final double PARTICLE_RADIUS = 0.005;
     private static final double PARTICLE_MASS = 1;
+	private static final double START_VELOCITY = 0.05;
 
+    
+
+    
     public static ParticleSet generateRandomParticleSet(final double width, final double height, final int particleCount) {
 
         ParticleSet particleSet = new ParticleSet(particleCount);
@@ -40,8 +46,9 @@ public class ParticleSet implements Iterable<Particle> {
     }
 
     public List<Collision> getCollisions(SimulationSpace space) {
+    	
 
-        List<Collision> ret = new ArrayList<Collision>(particles.size() * particles.size());
+        List<Collision> ret = new ArrayList<Collision>(particles.size());
 
 
         Particle[] particlesArray = particles.toArray(new Particle[particles.size()]);
@@ -112,4 +119,19 @@ public class ParticleSet implements Iterable<Particle> {
     public long size() {
         return particles.size();
     }
+
+	public static Vector2D randomReturnPos(double height,double width) {
+		Random rand = new Random();
+        double x = 0;
+        double y = rand.nextDouble() * height;
+        
+        return new Vector2D(x, y);
+	
+	}
+	public static Vector2D randomVelocity(double height, double width) {
+		double vx = START_VELOCITY;
+        double vy = 0;
+        
+        return new Vector2D(vx, vy);
+	}
 }

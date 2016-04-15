@@ -83,4 +83,12 @@ public class Particle {
     public void incrementCollisionCount() {
         this.collision_count++;
     }
+
+    public void setVelocity(Vector2D velocity) {
+    	this.velocity=velocity;
+    }
+    public void setPosition(Vector2D position) {
+    	this.position=position;
+    }
+
 }

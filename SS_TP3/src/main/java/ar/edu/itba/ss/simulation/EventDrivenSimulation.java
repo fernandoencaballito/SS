@@ -1,11 +1,9 @@
 package ar.edu.itba.ss.simulation;
 
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
-import java.util.Set;
 
 public class EventDrivenSimulation {
 
@@ -80,7 +78,12 @@ public class EventDrivenSimulation {
 
         time = next_collision.getTime();
                
-        next_collision.collide();
+        if(next_collision.isPeriodic()) {
+        	space.reinsert(next_collision.getParticle());
+        	
+        	
+        }else
+        	next_collision.collide();
 
         System.out.println("Simulando para t= " + time);
 
