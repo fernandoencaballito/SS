@@ -32,7 +32,7 @@ public final class Collision implements Comparable<Collision> {
 	public Collision(Particle p1, Wall wall, double time) {
 		this.p1 = p1;
 		this.time = time;
-		this.type = CollisionType.WALL;
+		this.type = (wall.isPeriodic()) ? CollisionType.PERIODIC : CollisionType.WALL;
 		this.wall = wall;
 		this.p1_collisions = p1.getCollisionCount();
 	}
@@ -146,9 +146,15 @@ public final class Collision implements Comparable<Collision> {
 	}
 
 	public boolean isValid() {
-		return (p1.getCollisionCount() == p1_collisions
-				&& (type != CollisionType.WALL && p2.getCollisionCount() == p2_collisions))
-				|| p1.getCollisionCount() == p1_collisions;
+//		return 		(   p1.getCollisionCount() == p1_collisions
+//						&& (type != CollisionType.WALL && p2.getCollisionCount() == p2_collisions)
+//					)
+//					|| p1.getCollisionCount() == p1_collisions;
+		
+		return  (p1.getCollisionCount() == p1_collisions)
+				&& (  (type==CollisionType.PARTICLE)? (p2.getCollisionCount()==p2_collisions):true
+					);
+		
 	}
 
 	public void setAbsolutTime(double currentTime) {

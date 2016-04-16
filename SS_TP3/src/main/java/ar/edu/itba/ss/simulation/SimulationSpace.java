@@ -44,8 +44,8 @@ public class SimulationSpace {
     }
 
 	public void reinsert(Particle particle) {
-		particle.setPosition(ParticleSet.randomReturnPos(width, height));
-		particle.setVelocity(ParticleSet.randomVelocity(height, width));
+		particle.setPosition(ParticleSet.randomReturnPos(height,width));
+		particle.setVelocity(ParticleSet.randomVelocity());
 		
 	}
 

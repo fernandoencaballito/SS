@@ -121,6 +121,8 @@ public class ParticleSet implements Iterable<Particle> {
         return particles.size();
     }
 
+    //posición al azar en el lado izquierdo de la caja de simulacion.
+    // se usa para reubicar la particula por las condiciones periódicas de lado derecho.
 	public static Vector2D randomReturnPos(double height,double width) {
 		Random rand = new Random();
         double x = 0;
@@ -129,10 +131,13 @@ public class ParticleSet implements Iterable<Particle> {
         return new Vector2D(x, y);
 	
 	}
-	public static Vector2D randomVelocity(double height, double width) {
-		double vx = START_VELOCITY;
-        double vy = 0;
-        
+	public static Vector2D randomVelocity() {
+		
+
+        Random rand = new Random();
+        double vx = MIN_VELOCITY_X + (MAX_VELOCITY_X - MIN_VELOCITY_X) * rand.nextDouble();
+        double vy = MIN_VELOCITY_Y + (MAX_VELOCITY_Y - MIN_VELOCITY_Y) * rand.nextDouble();
+
         return new Vector2D(vx, vy);
 	}
 }
