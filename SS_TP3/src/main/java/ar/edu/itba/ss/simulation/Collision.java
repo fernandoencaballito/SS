@@ -1,10 +1,11 @@
 package ar.edu.itba.ss.simulation;
 
-import org.apache.commons.math3.geometry.euclidean.twod.Line;
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
-
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.math3.geometry.euclidean.twod.Line;
+import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 public final class Collision implements Comparable<Collision> {
 
@@ -17,8 +18,8 @@ public final class Collision implements Comparable<Collision> {
 	// colisión es válida.
 	private long p1_collisions;
 	private long p2_collisions;
-	private static final double EPSILON = 0.0001;
-
+	private static  double EPSILON ;
+	
 	public Collision(Particle p1, Particle p2, double time) {
 		this.p1 = p1;
 		this.p2 = p2;
@@ -35,7 +36,8 @@ public final class Collision implements Comparable<Collision> {
 		this.wall = wall;
 		this.p1_collisions = p1.getCollisionCount();
 	}
-
+	
+	
 	public static double getCollisionTime(Particle p1, Particle p2) {
 
 		Vector2D delta_r = p1.getPosition().subtract(p2.getPosition());
@@ -234,6 +236,10 @@ public final class Collision implements Comparable<Collision> {
 	}
 	private enum CollisionType {
 		WALL, PARTICLE, PERIODIC;
+	}
+	public static void setEpsilon(double epsilon2) {
+		EPSILON=epsilon2;
+		
 	}
 
 }

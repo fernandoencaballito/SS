@@ -1,10 +1,13 @@
 package ar.edu.itba.ss.simulation;
 
+import static org.junit.Assert.*;
+
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
+import org.junit.Test;
 
 
 public class SimulationSpace {
-
+	private double EPSILON;//toleancia que se utiliza para ajustar las posiciones
 	private double width;
 	private double height;
 
@@ -14,10 +17,11 @@ public class SimulationSpace {
 
     private Wall[] walls;
 
-    public SimulationSpace(double width, double height, Wall[] bars) {
+   
+    public SimulationSpace(double width, double height, Wall[] bars, double epsilon) {
 
         int len = 0;
-
+        this.EPSILON=epsilon;
         this.height=height;
         this.width=width;
         
@@ -44,6 +48,43 @@ public class SimulationSpace {
 		particle.setVelocity(ParticleSet.randomVelocity(height, width));
 		
 	}
+
+	public Vector2D truncatePosition(double x_pos, double y_pos) {
+		
+		double x_pos_truncated=truncateValue(x_pos, width, 0);
+		double y_pos_truncated=truncateValue(y_pos, height, 0);
+		
+		return new Vector2D(x_pos_truncated,y_pos_truncated);
+	}
+	
+	private double truncateValue(double value,double max,double min){
+		
+//		double diff_max=value-max;
+//		double diff_min=min-value;
+//		
+//		if(0<diff_max && diff_max<EPSILON){
+//			return max;
+//		}else if(0<diff_min && diff_min<EPSILON){
+//			
+//			return min;
+//		}
+//		
+//		return value;
+		
+		if(value>max)
+			return max;
+		else if(value<min)
+			return min;
+		
+		
+		return value;
+					
+		
+	}
+	
+	
+	
+
 
 
 }

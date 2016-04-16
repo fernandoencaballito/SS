@@ -1,12 +1,12 @@
 package ar.edu.itba.ss.simulation;
 
 import java.awt.geom.Point2D;
+import java.math.BigDecimal;
 
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 public class Particle {
-
-    private int id;
+	
 
     private Vector2D position;
     private Vector2D velocity;
@@ -25,12 +25,29 @@ public class Particle {
 
     }
 
-    public void advance(double time) {
+    
+    // se avanza la particula con la velocidad actual un delta de tiempo.
+    public void advance(double time, SimulationSpace space) {
 
+    	
         double x_pos = position.getX() + velocity.getX() * time;
         double y_pos = position.getY() + velocity.getY() * time;
-
-        this.position = new Vector2D(x_pos, y_pos);
+        
+        Vector2D truncated=space.truncatePosition(x_pos,y_pos);
+        
+        double x_pos_truncated=truncated.getX();
+        double y_pos_truncated=truncated.getY();
+        
+        // BORRAR
+        if(x_pos_truncated>1 || x_pos_truncated<0 || y_pos_truncated>0.5 || y_pos_truncated<0)
+        	{System.out.println("posiciones invalidas: x_pos="+x_pos+" ypos="+y_pos);
+        	
+        	throw new RuntimeException();
+        	}
+        //
+        
+        //this.position = new Vector2D(x_pos_truncated, y_pos_truncated);
+        this.position =truncated;
     }
 
 
@@ -88,6 +105,18 @@ public class Particle {
     	this.velocity=velocity;
     }
     public void setPosition(Vector2D position) {
+    	
+    	double x_pos=position.getX();
+    	double y_pos=position.getY();
+    	 // BORRAR
+        if(x_pos>1 || x_pos<0 || y_pos>0.5 || y_pos<0)
+        {
+        	System.out.println("posiciones invalidas: x_pos="+x_pos+" ypos="+y_pos);
+    	
+    	throw new RuntimeException();
+    	}
+    	//
+    	
     	this.position=position;
     }
 

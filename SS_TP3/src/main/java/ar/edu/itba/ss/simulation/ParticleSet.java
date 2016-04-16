@@ -45,6 +45,7 @@ public class ParticleSet implements Iterable<Particle> {
         return particleSet;
     }
 
+    // solo se llama inicialmente, luego se usa el siguiente método getCollisions
     public List<Collision> getCollisions(SimulationSpace space) {
     	
 
@@ -104,9 +105,9 @@ public class ParticleSet implements Iterable<Particle> {
     }
 
 
-    public void advance(double time) {
+    public void advance(double time, SimulationSpace space) {
         for (Particle particle : particles) {
-            particle.advance(time);
+            particle.advance(time,space);
         }
     }
 

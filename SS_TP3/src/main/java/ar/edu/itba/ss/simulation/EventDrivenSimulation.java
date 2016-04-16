@@ -18,13 +18,13 @@ public class EventDrivenSimulation {
 
     private StateWriter writer = null;
 
-    public EventDrivenSimulation(double width, double height, final int particleCount, Wall[] bars) {
+    public EventDrivenSimulation(double width, double height, final int particleCount, Wall[] bars, double epsilon) {
         this.particleCount = particleCount;
         this.width = width;
         this.height = height;
 
         queue = new PriorityQueue<Collision>();
-        space = new SimulationSpace(width, height, bars);
+        space = new SimulationSpace(width, height, bars,epsilon);
 
         particles = ParticleSet.generateRandomParticleSet(width, height, particleCount);
 
@@ -74,7 +74,7 @@ public class EventDrivenSimulation {
                 System.exit(3);
         } while (!next_collision.isValid());
 
-        particles.advance(next_collision.getTime() - time);
+        particles.advance(next_collision.getTime() - time,space);
 
         time = next_collision.getTime();
                
