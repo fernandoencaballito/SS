@@ -10,7 +10,9 @@ public class ParticleSet implements Iterable<Particle> {
     public ParticleSet(int n) {
         this.particles = new HashSet<Particle>(n);
     }
-
+    public ParticleSet(Set<Particle> ps) {
+    	this.particles=ps;
+    }
     private static final double MIN_VELOCITY_X = 0;
     private static final double MAX_VELOCITY_X = 0.1;
 
@@ -38,6 +40,7 @@ public class ParticleSet implements Iterable<Particle> {
             double vx = MIN_VELOCITY_X + (MAX_VELOCITY_X - MIN_VELOCITY_X) * rand.nextDouble();
             double vy = MIN_VELOCITY_Y + (MAX_VELOCITY_Y - MIN_VELOCITY_Y) * rand.nextDouble();
 
+            
             particleSet.particles.add(new Particle(x, y, vx, vy, PARTICLE_RADIUS, PARTICLE_MASS));
         }
 

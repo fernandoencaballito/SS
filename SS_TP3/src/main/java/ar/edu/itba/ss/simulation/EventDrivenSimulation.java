@@ -1,6 +1,7 @@
 package ar.edu.itba.ss.simulation;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
@@ -27,7 +28,12 @@ public class EventDrivenSimulation {
         space = new SimulationSpace(width, height, bars,epsilon);
 
         particles = ParticleSet.generateRandomParticleSet(width, height, particleCount);
-
+//        //
+//        HashSet<Particle> aux=new HashSet<Particle>();
+//        aux.add(new Particle(0.0, 0.0419117188333572, 0.05, 0.0, 0.005, 1));
+//        particles=new ParticleSet(aux);
+//        //
+        
         queue.addAll(particles.getCollisions(space));
         
     }

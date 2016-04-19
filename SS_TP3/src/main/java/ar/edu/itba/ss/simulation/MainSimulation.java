@@ -9,11 +9,11 @@ public class MainSimulation {
 	private static final double RECT_WIDTH = 1;
 	private static final double RECT_HEIGHT = 0.5;
 
-	private static final int PARTICLE_COUNT = 1000;
+	private static final int PARTICLE_COUNT = 10;
 
 	private static final double[] BAR_HEIGTH = { 0.05, 0.1, 0.2 };
 
-	private static final double TIME_LIMIT = 100.0;
+	private static final double TIME_LIMIT = 1000.0;
 
 	private static final double EPSILON = 0.0001;// TOLERANCIA empleada en el cálculo de posiciones cercanas a las paredes. 
 												
@@ -28,7 +28,7 @@ public class MainSimulation {
 		walls[0] = new Wall(start, end, false);
 		Collision.setEpsilon(EPSILON);
 		
-	EventDrivenSimulation sim = new EventDrivenSimulation(RECT_WIDTH, RECT_HEIGHT, PARTICLE_COUNT, walls, EPSILON);// FIXME
+		EventDrivenSimulation sim = new EventDrivenSimulation(RECT_WIDTH, RECT_HEIGHT, PARTICLE_COUNT, walls, EPSILON);// FIXME
 
 		StateWriter writer = null;
 

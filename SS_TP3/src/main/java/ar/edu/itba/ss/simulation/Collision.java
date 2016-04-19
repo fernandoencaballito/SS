@@ -18,8 +18,8 @@ public final class Collision implements Comparable<Collision> {
 	// colisión es válida.
 	private long p1_collisions;
 	private long p2_collisions;
-	private static  double EPSILON ;
-	
+	private static double EPSILON;
+
 	public Collision(Particle p1, Particle p2, double time) {
 		this.p1 = p1;
 		this.p2 = p2;
@@ -36,8 +36,7 @@ public final class Collision implements Comparable<Collision> {
 		this.wall = wall;
 		this.p1_collisions = p1.getCollisionCount();
 	}
-	
-	
+
 	public static double getCollisionTime(Particle p1, Particle p2) {
 
 		Vector2D delta_r = p1.getPosition().subtract(p2.getPosition());
@@ -71,33 +70,28 @@ public final class Collision implements Comparable<Collision> {
 
 		Vector2D intercept = trajectory.intersection(wall.getLine());
 
+		
 		if (intercept == null)
 			return -1;
+		double deltaX = intercept.getX() - position.getX();
+		double deltaY = intercept.getY() - position.getY();
+		if (Math.abs(deltaX) < EPSILON
+				&& Math.abs(deltaY) < EPSILON) {
+			return -1;
+		}
 
-		if (Math.abs(intercept.getX() - position.getX()) < EPSILON) {
-			if (velocity.getX() != 0) {
-				return -1;
-			}
-		} else if (intercept.getX() > position.getX()) {
+		
+		
+		if (deltaX>EPSILON) {
 			if (!(velocity.getX() > 0)) {
 				return -1;
 			}
-		} else if (intercept.getX() < position.getX()) {
-			if (!(velocity.getX() < 0)) {
-				return -1;
-			}
-		}
+		} 
 
-		if (Math.abs(intercept.getY() - position.getY()) < EPSILON) {
-			if (velocity.getY() != 0) {
-				return -1;
-			}
-		} else if (intercept.getY() > position.getY()) {
+		
+		
+		if (deltaY>EPSILON) {
 			if (!(velocity.getY() > 0)) {
-				return -1;
-			}
-		} else if (intercept.getY() < position.getY()) {
-			if (!(velocity.getY() < 0)) {
 				return -1;
 			}
 		}
@@ -146,15 +140,15 @@ public final class Collision implements Comparable<Collision> {
 	}
 
 	public boolean isValid() {
-//		return 		(   p1.getCollisionCount() == p1_collisions
-//						&& (type != CollisionType.WALL && p2.getCollisionCount() == p2_collisions)
-//					)
-//					|| p1.getCollisionCount() == p1_collisions;
-		
-		return  (p1.getCollisionCount() == p1_collisions)
-				&& (  (type==CollisionType.PARTICLE)? (p2.getCollisionCount()==p2_collisions):true
-					);
-		
+		// return ( p1.getCollisionCount() == p1_collisions
+		// && (type != CollisionType.WALL && p2.getCollisionCount() ==
+		// p2_collisions)
+		// )
+		// || p1.getCollisionCount() == p1_collisions;
+
+		return (p1.getCollisionCount() == p1_collisions)
+				&& ((type == CollisionType.PARTICLE) ? (p2.getCollisionCount() == p2_collisions) : true);
+
 	}
 
 	public void setAbsolutTime(double currentTime) {
@@ -206,7 +200,6 @@ public final class Collision implements Comparable<Collision> {
 		double vx = p1.getXVelocity();
 		double vy = p1.getYVelocity();
 
-		
 		double angle = w.getAngle();
 
 		double sin = Math.sin(angle);
@@ -233,19 +226,21 @@ public final class Collision implements Comparable<Collision> {
 		return particles;
 	}
 
-	public boolean isPeriodic(){
+	public boolean isPeriodic() {
 		return this.type == CollisionType.PERIODIC;
 	}
-	
+
 	public Particle getParticle() {
 		return this.p1;
 	}
+
 	private enum CollisionType {
 		WALL, PARTICLE, PERIODIC;
 	}
+
 	public static void setEpsilon(double epsilon2) {
-		EPSILON=epsilon2;
-		
+		EPSILON = epsilon2;
+
 	}
 
 }
