@@ -1,246 +1,243 @@
 package ar.edu.itba.ss.simulation;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.math3.geometry.euclidean.twod.Line;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public final class Collision implements Comparable<Collision> {
 
-	private Particle p1;
-	private Particle p2;
-	private Wall wall;
-	private CollisionType type;
-	private double time;
-	// cantidad de colisiones de las particulas, se usa para determinar si la
-	// colisión es válida.
-	private long p1_collisions;
-	private long p2_collisions;
-	private static double EPSILON;
+    private Particle p1;
+    private Particle p2;
+    private Wall wall;
+    private CollisionType type;
+    private double time;
+    // cantidad de colisiones de las particulas, se usa para determinar si la
+    // colisión es válida.
+    private long p1_collisions;
+    private long p2_collisions;
+    private static double EPSILON;
 
-	public Collision(Particle p1, Particle p2, double time) {
-		this.p1 = p1;
-		this.p2 = p2;
-		this.time = time;
-		this.type = CollisionType.PARTICLE;
-		this.p1_collisions = p1.getCollisionCount();
-		this.p2_collisions = p2.getCollisionCount();
-	}
+    public Collision(Particle p1, Particle p2, double time) {
+        this.p1 = p1;
+        this.p2 = p2;
+        this.time = time;
+        this.type = CollisionType.PARTICLE;
+        this.p1_collisions = p1.getCollisionCount();
+        this.p2_collisions = p2.getCollisionCount();
+    }
 
-	public Collision(Particle p1, Wall wall, double time) {
-		this.p1 = p1;
-		this.time = time;
-		this.type = (wall.isPeriodic()) ? CollisionType.PERIODIC : CollisionType.WALL;
-		this.wall = wall;
-		this.p1_collisions = p1.getCollisionCount();
-	}
+    public Collision(Particle p1, Wall wall, double time) {
+        this.p1 = p1;
+        this.time = time;
+        this.type = (wall.isPeriodic()) ? CollisionType.PERIODIC : CollisionType.WALL;
+        this.wall = wall;
+        this.p1_collisions = p1.getCollisionCount();
+    }
 
-	public static double getCollisionTime(Particle p1, Particle p2) {
+    public static double getCollisionTime(Particle p1, Particle p2) {
 
-		Vector2D delta_r = p1.getPosition().subtract(p2.getPosition());
-		Vector2D delta_v = p2.getVelocity().subtract(p2.getVelocity());
+        Vector2D delta_r = p1.getPosition().subtract(p2.getPosition());
+        Vector2D delta_v = p2.getVelocity().subtract(p2.getVelocity());
 
-		double sigma = p1.getRadius() + p2.getRadius();
+        double sigma = p1.getRadius() + p2.getRadius();
 
-		return getCollsiionTime(delta_r, delta_v, sigma);
-	}
+        return getCollsiionTime(delta_r, delta_v, sigma);
+    }
 
-	private static double getCollsiionTime(Vector2D delta_r, Vector2D delta_v, double sigma) {
-		double dotProductVR = delta_v.dotProduct(delta_r);
-		double dotProductRR = delta_r.dotProduct(delta_r);
-		double dotProductVV = delta_v.dotProduct(delta_v);
+    private static double getCollsiionTime(Vector2D delta_r, Vector2D delta_v, double sigma) {
+        double dotProductVR = delta_v.dotProduct(delta_r);
+        double dotProductRR = delta_r.dotProduct(delta_r);
+        double dotProductVV = delta_v.dotProduct(delta_v);
 
-		double d = Math.pow(dotProductVR, 2) - dotProductVV * (dotProductRR - Math.pow(sigma, 2));
+        double d = Math.pow(dotProductVR, 2) - dotProductVV * (dotProductRR - Math.pow(sigma, 2));
 
-		if (dotProductVR >= 0 || d < 0)
-			return -1;
+        if (dotProductVR >= 0 || d < 0)
+            return -1;
 
-		double time = -(dotProductVR + Math.sqrt(d)) / dotProductVV;
+        double time = -(dotProductVR + Math.sqrt(d)) / dotProductVV;
 
-		return time;
-	}
+        return time;
+    }
 
-	public static double getCollisionTime(Particle p1, Wall wall) {
-		Vector2D position = p1.getPosition();
-		Vector2D velocity = p1.getVelocity();
+    public static double getCollisionTime(Particle p1, Wall wall) {
+        Vector2D position = p1.getPosition();
+        Vector2D velocity = p1.getVelocity();
 
-		Line trajectory = new Line(position, position.add(velocity), Wall.TOLERANCE);
+        Line trajectory = new Line(position, position.add(velocity), Wall.TOLERANCE);
 
-		Vector2D intercept = trajectory.intersection(wall.getLine());
+        Vector2D intercept = trajectory.intersection(wall.getLine());
 
-		
-		if (intercept == null)
-			return -1;
-		double deltaX = intercept.getX() - position.getX();
-		double deltaY = intercept.getY() - position.getY();
-		if (Math.abs(deltaX) < EPSILON
-				&& Math.abs(deltaY) < EPSILON) {
-			return -1;
-		}
 
-		
-		
-		if (deltaX>EPSILON) {
-			if (!(velocity.getX() > 0)) {
-				return -1;
-			}
-		} 
+        if (intercept == null)
+            return -1;
+        double deltaX = intercept.getX() - position.getX();
+        double deltaY = intercept.getY() - position.getY();
+        if (Math.abs(deltaX) < EPSILON
+                && Math.abs(deltaY) < EPSILON) {
+            return -1;
+        }
 
-		
-		
-		if (deltaY>EPSILON) {
-			if (!(velocity.getY() > 0)) {
-				return -1;
-			}
-		}
 
-		Vector2D start = wall.getStart();
-		Vector2D end = wall.getEnd();
+        if (deltaX > EPSILON) {
+            if (!(velocity.getX() > 0)) {
+                return -1;
+            }
+        }
 
-		if (start.getX() < end.getX()) {
-			if (intercept.getX() < start.getX() || intercept.getX() > end.getX()) {
-				return -1;
-			}
-		} else {
-			if (intercept.getX() < end.getX() || intercept.getX() > start.getX()) {
-				return -1;
-			}
-		}
-		if (start.getY() < end.getY()) {
-			if (intercept.getY() < start.getY() || intercept.getY() > end.getY()) {
-				return -1;
-			}
-		} else {
-			if (intercept.getY() < end.getY() || intercept.getY() > start.getY()) {
-				return -1;
-			}
-		}
 
-		double time = intercept.subtract(position).getNorm() / velocity.getNorm();
+        if (deltaY > EPSILON) {
+            if (!(velocity.getY() > 0)) {
+                return -1;
+            }
+        }
 
-		return time;
-	}
+        Vector2D start = wall.getStart();
+        Vector2D end = wall.getEnd();
 
-	public int compareTo(Collision o) {
-		double ans = this.time - o.time;
+        if (start.getX() < end.getX()) {
+            if (intercept.getX() < start.getX() || intercept.getX() > end.getX()) {
+                return -1;
+            }
+        } else {
+            if (intercept.getX() < end.getX() || intercept.getX() > start.getX()) {
+                return -1;
+            }
+        }
+        if (start.getY() < end.getY()) {
+            if (intercept.getY() < start.getY() || intercept.getY() > end.getY()) {
+                return -1;
+            }
+        } else {
+            if (intercept.getY() < end.getY() || intercept.getY() > start.getY()) {
+                return -1;
+            }
+        }
 
-		if (ans < 0) {
-			return -1;
-		} else if (ans > 0) {
-			return 1;
-		} else {
-			return 0;
-		}
-	}
+        double time = intercept.subtract(position).getNorm() / velocity.getNorm();
 
-	public double getTime() {
-		return time;
-	}
+        return time;
+    }
 
-	public boolean isValid() {
-		// return ( p1.getCollisionCount() == p1_collisions
-		// && (type != CollisionType.WALL && p2.getCollisionCount() ==
-		// p2_collisions)
-		// )
-		// || p1.getCollisionCount() == p1_collisions;
+    public int compareTo(Collision o) {
+        double ans = this.time - o.time;
 
-		return (p1.getCollisionCount() == p1_collisions)
-				&& ((type == CollisionType.PARTICLE) ? (p2.getCollisionCount() == p2_collisions) : true);
+        if (ans < 0) {
+            return -1;
+        } else if (ans > 0) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
 
-	}
+    public double getTime() {
+        return time;
+    }
 
-	public void setAbsolutTime(double currentTime) {
-		this.time += currentTime;
-	}
+    public boolean isValid() {
+        // return ( p1.getCollisionCount() == p1_collisions
+        // && (type != CollisionType.WALL && p2.getCollisionCount() ==
+        // p2_collisions)
+        // )
+        // || p1.getCollisionCount() == p1_collisions;
 
-	public CollisionType getType() {
-		return type;
-	}
+        return (p1.getCollisionCount() == p1_collisions)
+                && ((type == CollisionType.PARTICLE) ? (p2.getCollisionCount() == p2_collisions) : true);
 
-	public void collide() {
-		if (this.type == CollisionType.PARTICLE) {
-			collide(this.p1, this.p2);
-			p1.incrementCollisionCount();
-			p2.incrementCollisionCount();
-		} else {
-			collide(this.p1, this.wall);
-			p1.incrementCollisionCount();
-		}
-	}
+    }
 
-	private void collide(Particle p1, Particle p2) {
+    public void setAbsolutTime(double currentTime) {
+        this.time += currentTime;
+    }
 
-		Vector2D delta_r = p1.getPosition().subtract(p2.getPosition());
-		Vector2D delta_v = p2.getVelocity().subtract(p2.getVelocity());
+    public CollisionType getType() {
+        return type;
+    }
 
-		double sigma = p1.getRadius() + p2.getRadius();
+    public void collide() {
+        if (this.type == CollisionType.PARTICLE) {
+            collide(this.p1, this.p2);
+            p1.incrementCollisionCount();
+            p2.incrementCollisionCount();
+        } else {
+            collide(this.p1, this.wall);
+            p1.incrementCollisionCount();
+        }
+    }
 
-		double J = (2 * p1.getMass() * p2.getMass() * delta_r.dotProduct(delta_v))
-				/ (sigma * (p1.getMass() + p2.getMass()));
+    private void collide(Particle p1, Particle p2) {
 
-		double Jx = J * delta_r.getX() / sigma;
-		double Jy = J * delta_r.getY() / sigma;
+        Vector2D delta_r = p1.getPosition().subtract(p2.getPosition());
+        Vector2D delta_v = p2.getVelocity().subtract(p2.getVelocity());
 
-		double p1_vx = p1.getXVelocity() + Jx / p1.getMass();
-		double p1_vy = p1.getYVelocity() + Jy / p1.getMass();
+        double sigma = p1.getRadius() + p2.getRadius();
 
-		p1.setVelocity(p1_vx, p1_vy);
+        double J = (2 * p1.getMass() * p2.getMass() * delta_r.dotProduct(delta_v))
+                / (sigma * (p1.getMass() + p2.getMass()));
 
-		double p2_vx = p1.getXVelocity() + Jx / p2.getMass();
-		double p2_vy = p1.getYVelocity() + Jy / p2.getMass();
+        double Jx = J * delta_r.getX() / sigma;
+        double Jy = J * delta_r.getY() / sigma;
 
-		p2.setVelocity(p2_vx, p2_vy);
-		;
+        double p1_vx = p1.getXVelocity() + Jx / p1.getMass();
+        double p1_vy = p1.getYVelocity() + Jy / p1.getMass();
 
-	}
+        p1.setVelocity(p1_vx, p1_vy);
 
-	private void collide(Particle p1, Wall w) {
-		double vx = p1.getXVelocity();
-		double vy = p1.getYVelocity();
+        double p2_vx = p1.getXVelocity() + Jx / p2.getMass();
+        double p2_vy = p1.getYVelocity() + Jy / p2.getMass();
 
-		double angle = w.getAngle();
+        p2.setVelocity(p2_vx, p2_vy);
+        ;
 
-		double sin = Math.sin(angle);
-		double cos = Math.cos(angle);
+    }
 
-		double vxp = vx * cos - vy * sin;
-		double vyp = -(vx * sin + vy * cos);
+    private void collide(Particle p1, Wall w) {
+        double vx = p1.getXVelocity();
+        double vy = p1.getYVelocity();
 
-		sin = Math.sin(-angle);
-		cos = Math.cos(-angle);
+        double angle = w.getAngle();
 
-		vx = vxp * cos - vyp * sin;
-		vy = vxp * sin + vyp * cos;
+        double sin = Math.sin(angle);
+        double cos = Math.cos(angle);
 
-		p1.setVelocity(vx, vy);
-	}
+        double vxp = vx * cos - vy * sin;
+        double vyp = -(vx * sin + vy * cos);
 
-	public List<Particle> getParticles() {
-		List<Particle> particles = new ArrayList<Particle>(2);
-		particles.add(p1);
-		if (type == CollisionType.PARTICLE)
-			particles.add(p2);
+        sin = Math.sin(-angle);
+        cos = Math.cos(-angle);
 
-		return particles;
-	}
+        vx = vxp * cos - vyp * sin;
+        vy = vxp * sin + vyp * cos;
 
-	public boolean isPeriodic() {
-		return this.type == CollisionType.PERIODIC;
-	}
+        p1.setVelocity(vx, vy);
+    }
 
-	public Particle getParticle() {
-		return this.p1;
-	}
+    public List<Particle> getParticles() {
+        List<Particle> particles = new ArrayList<Particle>(2);
+        particles.add(p1);
+        if (type == CollisionType.PARTICLE)
+            particles.add(p2);
 
-	private enum CollisionType {
-		WALL, PARTICLE, PERIODIC;
-	}
+        return particles;
+    }
 
-	public static void setEpsilon(double epsilon2) {
-		EPSILON = epsilon2;
+    public boolean isPeriodic() {
+        return this.type == CollisionType.PERIODIC;
+    }
 
-	}
+    public Particle getParticle() {
+        return this.p1;
+    }
+
+    private enum CollisionType {
+        WALL, PARTICLE, PERIODIC;
+    }
+
+    public static void setEpsilon(double epsilon2) {
+        EPSILON = epsilon2;
+
+    }
 
 }

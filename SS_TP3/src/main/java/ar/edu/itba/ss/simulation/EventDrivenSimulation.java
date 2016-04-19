@@ -1,7 +1,6 @@
 package ar.edu.itba.ss.simulation;
 
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
@@ -25,7 +24,7 @@ public class EventDrivenSimulation {
         this.height = height;
 
         queue = new PriorityQueue<Collision>();
-        space = new SimulationSpace(width, height, bars,epsilon);
+        space = new SimulationSpace(width, height, bars, epsilon);
 
         particles = ParticleSet.generateRandomParticleSet(width, height, particleCount);
 //        //
@@ -33,9 +32,9 @@ public class EventDrivenSimulation {
 //        aux.add(new Particle(0.0, 0.0419117188333572, 0.05, 0.0, 0.005, 1));
 //        particles=new ParticleSet(aux);
 //        //
-        
+
         queue.addAll(particles.getCollisions(space));
-        
+
     }
 
 
@@ -45,10 +44,10 @@ public class EventDrivenSimulation {
 
     public ParticleSet simulate(double timeLimit) {
 
- 
+
         //System.out.printf("Simulando hasta %f segundos...\n", timeLimit);
 
-        
+
         do {
             time = simulate();
         } while (time < timeLimit);
@@ -80,16 +79,16 @@ public class EventDrivenSimulation {
                 System.exit(3);
         } while (!next_collision.isValid());
 
-        particles.advance(next_collision.getTime() - time,space);
+        particles.advance(next_collision.getTime() - time, space);
 
         time = next_collision.getTime();
-               
-        if(next_collision.isPeriodic()) {
-        	space.reinsert(next_collision.getParticle());
-        	
-        	
-        }else
-        	next_collision.collide();
+
+        if (next_collision.isPeriodic()) {
+            space.reinsert(next_collision.getParticle());
+
+
+        } else
+            next_collision.collide();
 
         System.out.println("Simulando para t= " + time);
 

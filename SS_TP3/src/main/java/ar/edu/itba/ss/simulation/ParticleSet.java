@@ -1,8 +1,8 @@
 package ar.edu.itba.ss.simulation;
 
-import java.util.*;
-
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
+
+import java.util.*;
 
 public class ParticleSet implements Iterable<Particle> {
     private Set<Particle> particles;
@@ -10,9 +10,11 @@ public class ParticleSet implements Iterable<Particle> {
     public ParticleSet(int n) {
         this.particles = new HashSet<Particle>(n);
     }
+
     public ParticleSet(Set<Particle> ps) {
-    	this.particles=ps;
+        this.particles = ps;
     }
+
     private static final double MIN_VELOCITY_X = 0;
     private static final double MAX_VELOCITY_X = 0.1;
 
@@ -21,11 +23,9 @@ public class ParticleSet implements Iterable<Particle> {
 
     private static final double PARTICLE_RADIUS = 0.005;
     private static final double PARTICLE_MASS = 1;
-	private static final double START_VELOCITY = 0.05;
+    private static final double START_VELOCITY = 0.05;
 
-    
 
-    
     public static ParticleSet generateRandomParticleSet(final double width, final double height, final int particleCount) {
 
         ParticleSet particleSet = new ParticleSet(particleCount);
@@ -40,7 +40,7 @@ public class ParticleSet implements Iterable<Particle> {
             double vx = MIN_VELOCITY_X + (MAX_VELOCITY_X - MIN_VELOCITY_X) * rand.nextDouble();
             double vy = MIN_VELOCITY_Y + (MAX_VELOCITY_Y - MIN_VELOCITY_Y) * rand.nextDouble();
 
-            
+
             particleSet.particles.add(new Particle(x, y, vx, vy, PARTICLE_RADIUS, PARTICLE_MASS));
         }
 
@@ -50,7 +50,7 @@ public class ParticleSet implements Iterable<Particle> {
 
     // solo se llama inicialmente, luego se usa el siguiente método getCollisions
     public List<Collision> getCollisions(SimulationSpace space) {
-    	
+
 
         List<Collision> ret = new ArrayList<Collision>(particles.size());
 
@@ -110,7 +110,7 @@ public class ParticleSet implements Iterable<Particle> {
 
     public void advance(double time, SimulationSpace space) {
         for (Particle particle : particles) {
-            particle.advance(time,space);
+            particle.advance(time, space);
         }
     }
 
@@ -126,21 +126,22 @@ public class ParticleSet implements Iterable<Particle> {
 
     //posición al azar en el lado izquierdo de la caja de simulacion.
     // se usa para reubicar la particula por las condiciones periódicas de lado derecho.
-	public static Vector2D randomReturnPos(double height,double width) {
-		Random rand = new Random();
+    public static Vector2D randomReturnPos(double height, double width) {
+        Random rand = new Random();
         double x = 0;
         double y = rand.nextDouble() * height;
-        
+
         return new Vector2D(x, y);
-	
-	}
-	public static Vector2D randomVelocity() {
-		
+
+    }
+
+    public static Vector2D randomVelocity() {
+
 
         Random rand = new Random();
         double vx = MIN_VELOCITY_X + (MAX_VELOCITY_X - MIN_VELOCITY_X) * rand.nextDouble();
         double vy = MIN_VELOCITY_Y + (MAX_VELOCITY_Y - MIN_VELOCITY_Y) * rand.nextDouble();
 
         return new Vector2D(vx, vy);
-	}
+    }
 }
