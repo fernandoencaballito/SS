@@ -15,8 +15,12 @@ public class EventDrivenSimulation {
     private ParticleSet particles;
     private SimulationSpace space;
     private double time = 0.0;
+    
+    private static final double RC = 0.05;
 
     private StateWriter writer = null;
+    
+    private CellIndexMethod cim;
 
     public EventDrivenSimulation(double width, double height, final int particleCount, Wall[] bars, double epsilon) {
         this.particleCount = particleCount;
@@ -34,6 +38,9 @@ public class EventDrivenSimulation {
 //        //
 
         queue.addAll(particles.getCollisions(space));
+        
+        
+      //  this.cim = new CellIndexMethod(particles, space, RC);
 
     }
 
@@ -84,6 +91,7 @@ public class EventDrivenSimulation {
         time = next_collision.getTime();
 
         if (next_collision.isPeriodic()) {
+        	next_collision.getParticle().incrementCollisionCount();
             space.reinsert(next_collision.getParticle());
 
 

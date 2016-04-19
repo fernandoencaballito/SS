@@ -62,7 +62,7 @@ public class Particle {
 
     @Override
     public String toString() {
-        return "Particle [position=" + position + ", velocity=" + velocity + ", radius=" + radius
+        return "Particle [position=" + position + ", velocityX=" + velocity.getX() + ",velocityY=" +velocity.getY()  + ", radius=" + radius
                 + ", mass=" + mass + ", collision_count=" + collision_count + "]";
     }
 

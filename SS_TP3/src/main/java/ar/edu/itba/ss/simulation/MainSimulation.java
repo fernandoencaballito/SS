@@ -13,7 +13,7 @@ public class MainSimulation {
 
     private static final double[] BAR_HEIGTH = {0.05, 0.1, 0.2};
 
-    private static final double TIME_LIMIT = 1000.0;
+    private static final double TIME_LIMIT = 100.0;
 
     private static final double EPSILON = 0.0001;// TOLERANCIA empleada en el cálculo de posiciones cercanas a las paredes.
 
@@ -24,7 +24,7 @@ public class MainSimulation {
 
         Wall[] walls = new Wall[1];
         Vector2D start = new Vector2D(0.25, 0.10);
-        Vector2D end = new Vector2D(0.45, 0.40);
+        Vector2D end = new Vector2D(0.25, 0.40);
         walls[0] = new Wall(start, end, false);
         Collision.setEpsilon(EPSILON);
 

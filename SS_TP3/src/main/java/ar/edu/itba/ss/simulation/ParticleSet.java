@@ -22,7 +22,7 @@ public class ParticleSet implements Iterable<Particle> {
     private static final double MAX_VELOCITY_Y = 0.1;
 
     private static final double PARTICLE_RADIUS = 0.005;
-    private static final double PARTICLE_MASS = 1;
+    private static final double PARTICLE_MASS = 0.001;
     private static final double START_VELOCITY = 0.05;
 
 
@@ -56,6 +56,8 @@ public class ParticleSet implements Iterable<Particle> {
 
 
         Particle[] particlesArray = particles.toArray(new Particle[particles.size()]);
+
+        
         int length = particlesArray.length;
 
         double time;
@@ -107,6 +109,35 @@ public class ParticleSet implements Iterable<Particle> {
         return ret;
     }
 
+    
+    
+    
+    public List<Collision> getCollisions(List<Particle> crash, SimulationSpace space, CellIndexMethod method) {
+
+        List<Collision> ret = new ArrayList<Collision>(particles.size() * crash.size());
+        List<Particle> neighbours;
+        double time;
+        for (Particle crashed : crash) {
+        	neighbours = method.getNeighbours(crashed);
+            for (Particle particle : neighbours) {
+
+                if (!crash.contains(particle)) {
+                    time = Collision.getCollisionTime(crashed, particle);
+                    if (time >= 0)
+                        ret.add(new Collision(crashed, particle, time));
+
+                }
+            }
+            for (Wall wall : space.getWalls()) {
+                time = Collision.getCollisionTime(crashed, wall);
+                if (time > 0)
+                    ret.add(new Collision(crashed, wall, time));
+            }
+
+        }
+        return ret;
+    }
+    
 
     public void advance(double time, SimulationSpace space) {
         for (Particle particle : particles) {

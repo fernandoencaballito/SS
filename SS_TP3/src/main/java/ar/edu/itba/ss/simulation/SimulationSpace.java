@@ -5,7 +5,19 @@ import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 public class SimulationSpace {
     private double EPSILON;//toleancia que se utiliza para ajustar las posiciones
-    private double width;
+    public double getEPSILON() {
+		return EPSILON;
+	}
+
+	public double getWidth() {
+		return width;
+	}
+
+	public double getHeight() {
+		return height;
+	}
+
+	private double width;
     private double height;
 
     public Wall[] getWalls() {

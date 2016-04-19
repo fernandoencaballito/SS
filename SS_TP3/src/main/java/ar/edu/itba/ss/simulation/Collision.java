@@ -38,8 +38,8 @@ public final class Collision implements Comparable<Collision> {
 
     public static double getCollisionTime(Particle p1, Particle p2) {
 
-        Vector2D delta_r = p2.getPosition().subtract(p2.getPosition());
-        Vector2D delta_v = p2.getVelocity().subtract(p2.getVelocity());
+        Vector2D delta_r = p1.getPosition().subtract(p2.getPosition());
+        Vector2D delta_v = p1.getVelocity().subtract(p2.getVelocity());
 
         double sigma = p1.getRadius() + p2.getRadius();
 
@@ -56,6 +56,7 @@ public final class Collision implements Comparable<Collision> {
         if (dotProductVR >= 0 || d < 0)
             return -1;
 
+ 
         double time = -(dotProductVR + Math.sqrt(d)) / dotProductVV;
 
         return time;
@@ -169,25 +170,33 @@ public final class Collision implements Comparable<Collision> {
 
     private void collide(Particle p1, Particle p2) {
 
-        Vector2D delta_r = p1.getPosition().subtract(p2.getPosition());
-        Vector2D delta_v = p1.getVelocity().subtract(p2.getVelocity());
+    //System.out.println("colliding p1:" + p1 + "p2:" + p2);
+        Vector2D delta_r = p2.getPosition().subtract(p1.getPosition());
+        Vector2D delta_v = p2.getVelocity().subtract(p1.getVelocity());
 
         double sigma = p1.getRadius() + p2.getRadius();
 
         double J = (2 * p1.getMass() * p2.getMass() * delta_v.dotProduct(delta_r))
                 / (sigma * (p1.getMass() + p2.getMass()));
 
+   //     System.out.println(delta_v.dotProduct(delta_r));
+    //    System.out.println(J);
+        
         double Jx = J * delta_r.getX() / sigma;
         double Jy = J * delta_r.getY() / sigma;
 
         double p1_vx = p1.getXVelocity() + Jx / p1.getMass();
         double p1_vy = p1.getYVelocity() + Jy / p1.getMass();
 
+       //System.out.println(p1_vx + " " + p1_vy);
+        
         p1.setVelocity(p1_vx, p1_vy);
 
-        double p2_vx = p2.getXVelocity() + Jx / p2.getMass();
-        double p2_vy = p2.getYVelocity() + Jy / p2.getMass();
+        double p2_vx = p2.getXVelocity() - Jx / p2.getMass();
+        double p2_vy = p2.getYVelocity() - Jy / p2.getMass();
 
+      //  System.out.println(p2_vx + " " + p2_vy);
+        
         p2.setVelocity(p2_vx, p2_vy);
         ;
 
@@ -195,50 +204,63 @@ public final class Collision implements Comparable<Collision> {
 
     private void collide(Particle p1, Wall w) {
 
+    	//System.out.println("colliding p1:" + p1 + " wall:" + wall);
         double dx = w.getEnd().getX() - w.getStart().getX();
         double dy = w.getEnd().getY() - w.getStart().getY();
 
         Vector2D normal = null;
-
-        if (p1.getXVelocity() > 0) {
-            normal = new Vector2D(dy, -dx);
-
-        } else if (p1.getXVelocity() < 0) {
-            normal = new Vector2D(-dy, dx);
-        } else {
-            return;
+        Vector2D velocity = null;
+        if(dx == 0) {
+        	velocity = new Vector2D(-p1.getXVelocity(),p1.getYVelocity());
+        }else if (dy == 0) {
+        	velocity = new Vector2D(p1.getXVelocity(),-p1.getYVelocity());
         }
-
-        double normalSq = normal.dotProduct(normal);
-        double dotProductVN = p1.getVelocity().dotProduct(normal);
-
-        double coef = dotProductVN / normalSq;
-
-        Vector2D u = normal.scalarMultiply(coef);
-        Vector2D w1 = p1.getVelocity().subtract(u);
-
-        Vector2D Vf = w1.subtract(u);
-
-        p1.setVelocity(Vf);
-
-
+        else
+        	throw new RuntimeException();
+        
+        	p1.setVelocity(velocity);
+        
+        return;
+//        if (p1.getXVelocity() > 0) {
+//            normal = new Vector2D(dy, -dx);
+//
+//        } else if (p1.getXVelocity() < 0) {
+//            normal = new Vector2D(-dy, dx);
+//        } else {
+//            return;
+//        }
+//
+//        double normalSq = normal.dotProduct(normal);
+//        double dotProductVN = p1.getVelocity().dotProduct(normal);
+//
+//        double coef = dotProductVN / normalSq;
+//
+//        Vector2D u = normal.scalarMultiply(coef);
+//        Vector2D w1 = p1.getVelocity().subtract(u);
+//
+//        Vector2D Vf = w1.subtract(u);
+//
+//
+//        p1.setVelocity(Vf);
+  
 //        double vx = p1.getXVelocity();
 //        double vy = p1.getYVelocity();
 //
 //        double angle = w.getAngle();
 //
-//        double sin = Math.sin(angle);
-//        double cos = Math.cos(angle);
+//       double sin = Math.sin(angle);
+//       double cos = Math.cos(angle);
 //
-//        double vxp = vx * cos - vy * sin;
+//       double vxp = vx * cos - vy * sin;
 //        double vyp = -(vx * sin + vy * cos);
 //
 //        sin = Math.sin(-angle);
 //        cos = Math.cos(-angle);
 //
 //        vx = vxp * cos - vyp * sin;
-//        vy = vxp * sin + vyp * cos;
+//       vy = vxp * sin + vyp * cos;
 //
+//       System.out.println(vy);
 //        p1.setVelocity(vx, vy);
     }
 
