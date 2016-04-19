@@ -38,7 +38,7 @@ public final class Collision implements Comparable<Collision> {
 
     public static double getCollisionTime(Particle p1, Particle p2) {
 
-        Vector2D delta_r = p1.getPosition().subtract(p2.getPosition());
+        Vector2D delta_r = p2.getPosition().subtract(p2.getPosition());
         Vector2D delta_v = p2.getVelocity().subtract(p2.getVelocity());
 
         double sigma = p1.getRadius() + p2.getRadius();
@@ -170,11 +170,11 @@ public final class Collision implements Comparable<Collision> {
     private void collide(Particle p1, Particle p2) {
 
         Vector2D delta_r = p1.getPosition().subtract(p2.getPosition());
-        Vector2D delta_v = p2.getVelocity().subtract(p2.getVelocity());
+        Vector2D delta_v = p1.getVelocity().subtract(p2.getVelocity());
 
         double sigma = p1.getRadius() + p2.getRadius();
 
-        double J = (2 * p1.getMass() * p2.getMass() * delta_r.dotProduct(delta_v))
+        double J = (2 * p1.getMass() * p2.getMass() * delta_v.dotProduct(delta_r))
                 / (sigma * (p1.getMass() + p2.getMass()));
 
         double Jx = J * delta_r.getX() / sigma;
@@ -185,8 +185,8 @@ public final class Collision implements Comparable<Collision> {
 
         p1.setVelocity(p1_vx, p1_vy);
 
-        double p2_vx = p1.getXVelocity() + Jx / p2.getMass();
-        double p2_vy = p1.getYVelocity() + Jy / p2.getMass();
+        double p2_vx = p2.getXVelocity() + Jx / p2.getMass();
+        double p2_vy = p2.getYVelocity() + Jy / p2.getMass();
 
         p2.setVelocity(p2_vx, p2_vy);
         ;
@@ -194,24 +194,52 @@ public final class Collision implements Comparable<Collision> {
     }
 
     private void collide(Particle p1, Wall w) {
-        double vx = p1.getXVelocity();
-        double vy = p1.getYVelocity();
 
-        double angle = w.getAngle();
+        double dx = w.getEnd().getX() - w.getStart().getX();
+        double dy = w.getEnd().getY() - w.getStart().getY();
 
-        double sin = Math.sin(angle);
-        double cos = Math.cos(angle);
+        Vector2D normal = null;
 
-        double vxp = vx * cos - vy * sin;
-        double vyp = -(vx * sin + vy * cos);
+        if (p1.getXVelocity() > 0) {
+            normal = new Vector2D(dy, -dx);
 
-        sin = Math.sin(-angle);
-        cos = Math.cos(-angle);
+        } else if (p1.getXVelocity() < 0) {
+            normal = new Vector2D(-dy, dx);
+        } else {
+            return;
+        }
 
-        vx = vxp * cos - vyp * sin;
-        vy = vxp * sin + vyp * cos;
+        double normalSq = normal.dotProduct(normal);
+        double dotProductVN = p1.getVelocity().dotProduct(normal);
 
-        p1.setVelocity(vx, vy);
+        double coef = dotProductVN / normalSq;
+
+        Vector2D u = normal.scalarMultiply(coef);
+        Vector2D w1 = p1.getVelocity().subtract(u);
+
+        Vector2D Vf = w1.subtract(u);
+
+        p1.setVelocity(Vf);
+
+
+//        double vx = p1.getXVelocity();
+//        double vy = p1.getYVelocity();
+//
+//        double angle = w.getAngle();
+//
+//        double sin = Math.sin(angle);
+//        double cos = Math.cos(angle);
+//
+//        double vxp = vx * cos - vy * sin;
+//        double vyp = -(vx * sin + vy * cos);
+//
+//        sin = Math.sin(-angle);
+//        cos = Math.cos(-angle);
+//
+//        vx = vxp * cos - vyp * sin;
+//        vy = vxp * sin + vyp * cos;
+//
+//        p1.setVelocity(vx, vy);
     }
 
     public List<Particle> getParticles() {

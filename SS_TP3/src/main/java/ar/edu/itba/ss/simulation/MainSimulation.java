@@ -9,7 +9,7 @@ public class MainSimulation {
     private static final double RECT_WIDTH = 1;
     private static final double RECT_HEIGHT = 0.5;
 
-    private static final int PARTICLE_COUNT = 10;
+    private static final int PARTICLE_COUNT = 1000;
 
     private static final double[] BAR_HEIGTH = {0.05, 0.1, 0.2};
 
@@ -24,7 +24,7 @@ public class MainSimulation {
 
         Wall[] walls = new Wall[1];
         Vector2D start = new Vector2D(0.25, 0.10);
-        Vector2D end = new Vector2D(0.25, 0.40);
+        Vector2D end = new Vector2D(0.45, 0.40);
         walls[0] = new Wall(start, end, false);
         Collision.setEpsilon(EPSILON);
 
