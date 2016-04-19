@@ -22,7 +22,6 @@ public class Particle {
 
     }
 
-
     // se avanza la particula con la velocidad actual un delta de tiempo.
     public void advance(double time, SimulationSpace space) {
 
@@ -30,21 +29,8 @@ public class Particle {
         double x_pos = position.getX() + velocity.getX() * time;
         double y_pos = position.getY() + velocity.getY() * time;
 
-        Vector2D truncated = space.truncatePosition(x_pos, y_pos);
-
-        double x_pos_truncated = truncated.getX();
-        double y_pos_truncated = truncated.getY();
-
-        // BORRAR
-        if (x_pos_truncated > 1 || x_pos_truncated < 0 || y_pos_truncated > 0.5 || y_pos_truncated < 0) {
-            System.out.println("posiciones invalidas: x_pos=" + x_pos + " ypos=" + y_pos);
-
-            throw new RuntimeException();
-        }
-        //
-
         //this.position = new Vector2D(x_pos_truncated, y_pos_truncated);
-        this.position = truncated;
+        this.position = space.truncatePosition(x_pos, y_pos);
     }
 
 

@@ -38,8 +38,8 @@ public final class Collision implements Comparable<Collision> {
 
     public static double getCollisionTime(Particle p1, Particle p2) {
 
-        Vector2D delta_r = p2.getPosition().subtract(p2.getPosition());
-        Vector2D delta_v = p2.getVelocity().subtract(p2.getVelocity());
+        Vector2D delta_r = p2.getPosition().subtract(p1.getPosition());
+        Vector2D delta_v = p2.getVelocity().subtract(p1.getVelocity());
 
         double sigma = p1.getRadius() + p2.getRadius();
 
@@ -56,9 +56,7 @@ public final class Collision implements Comparable<Collision> {
         if (dotProductVR >= 0 || d < 0)
             return -1;
 
-        double time = -(dotProductVR + Math.sqrt(d)) / dotProductVV;
-
-        return time;
+        return -(dotProductVR + Math.sqrt(d)) / dotProductVV;
     }
 
     public static double getCollisionTime(Particle p1, Wall wall) {
@@ -169,8 +167,8 @@ public final class Collision implements Comparable<Collision> {
 
     private void collide(Particle p1, Particle p2) {
 
-        Vector2D delta_r = p1.getPosition().subtract(p2.getPosition());
-        Vector2D delta_v = p1.getVelocity().subtract(p2.getVelocity());
+        Vector2D delta_r = p2.getPosition().subtract(p1.getPosition());
+        Vector2D delta_v = p2.getVelocity().subtract(p1.getVelocity());
 
         double sigma = p1.getRadius() + p2.getRadius();
 
@@ -185,11 +183,10 @@ public final class Collision implements Comparable<Collision> {
 
         p1.setVelocity(p1_vx, p1_vy);
 
-        double p2_vx = p2.getXVelocity() + Jx / p2.getMass();
-        double p2_vy = p2.getYVelocity() + Jy / p2.getMass();
+        double p2_vx = p2.getXVelocity() - Jx / p2.getMass();
+        double p2_vy = p2.getYVelocity() - Jy / p2.getMass();
 
         p2.setVelocity(p2_vx, p2_vy);
-        ;
 
     }
 
@@ -201,10 +198,10 @@ public final class Collision implements Comparable<Collision> {
         Vector2D normal = null;
 
         if (p1.getXVelocity() > 0) {
-            normal = new Vector2D(dy, -dx);
 
-        } else if (p1.getXVelocity() < 0) {
             normal = new Vector2D(-dy, dx);
+        } else if (p1.getXVelocity() < 0) {
+            normal = new Vector2D(dy, -dx);
         } else {
             return;
         }

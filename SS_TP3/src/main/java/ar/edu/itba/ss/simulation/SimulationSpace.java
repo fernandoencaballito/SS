@@ -43,6 +43,7 @@ public class SimulationSpace {
     public void reinsert(Particle particle) {
         particle.setPosition(ParticleSet.randomReturnPos(height, width));
         particle.setVelocity(new Vector2D(0.05, 0));//segun el enunciado, entran con vx=0.05 y vs=0;
+        particle.incrementCollisionCount();
 
     }
 

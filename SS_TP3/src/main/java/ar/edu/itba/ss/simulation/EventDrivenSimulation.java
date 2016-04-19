@@ -68,6 +68,8 @@ public class EventDrivenSimulation {
         return particles;
     }
 
+    private long counter = 0;
+
     private double simulate() {
 
         Collision next_collision;
@@ -85,12 +87,19 @@ public class EventDrivenSimulation {
 
         if (next_collision.isPeriodic()) {
             space.reinsert(next_collision.getParticle());
-
-
-        } else
+        } else {
             next_collision.collide();
+        }
 
-        System.out.println("Simulando para t= " + time);
+
+
+
+        if (counter % 200 == 0) {
+            System.out.println("Simulando para t= " + time);
+        }
+        counter++;
+        //System.out.print('.');
+
 
         List<Particle> crash = next_collision.getParticles();
 
