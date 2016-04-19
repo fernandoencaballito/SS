@@ -70,9 +70,9 @@ public class SimulationSpace {
 //		return value;
 
         if (value > max)
-            return max;
+            return max ;
         else if (value < min)
-            return min;
+            return min ;
 
 
         return value;
@@ -80,5 +80,13 @@ public class SimulationSpace {
 
     }
 
+	public double getWidth() {
+
+		return this.width;
+	}
+	public double getHeight() {
+
+		return height;
+	}
 
 }

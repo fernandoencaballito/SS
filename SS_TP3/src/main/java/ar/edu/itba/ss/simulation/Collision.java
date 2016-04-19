@@ -70,26 +70,31 @@ public final class Collision implements Comparable<Collision> {
 
         if (intercept == null)
             return -1;
+        
+
+        
         double deltaX = intercept.getX() - position.getX();
+        int deltaXCast = (int)(deltaX * 10000);
+        deltaX = ((double)deltaXCast)/10000;
+        
         double deltaY = intercept.getY() - position.getY();
-        if (Math.abs(deltaX) < EPSILON
-                && Math.abs(deltaY) < EPSILON) {
-            return -1;
-        }
-
-
-        if (deltaX > EPSILON) {
-            if (!(velocity.getX() > 0)) {
-                return -1;
-            }
-        }
-
-
-        if (deltaY > EPSILON) {
-            if (!(velocity.getY() > 0)) {
-                return -1;
-            }
-        }
+        int deltaYCast = (int)(deltaY * 10000);
+        deltaY = ((double)deltaYCast)/10000;
+        
+        
+        
+        if(velocity.getY() < 0 && deltaY >= 0)
+        	return -1;
+        
+        if(velocity.getY() > 0 && deltaY <= 0)
+        	return -1;
+        
+        if(velocity.getX() < 0 && deltaX >= 0)
+        	return -1;
+        
+        if(velocity.getX() > 0 && deltaX <= 0)
+        	return -1;
+        
 
         Vector2D start = wall.getStart();
         Vector2D end = wall.getEnd();
@@ -99,20 +104,24 @@ public final class Collision implements Comparable<Collision> {
                 return -1;
             }
         } else {
-            if (intercept.getX() < end.getX() || intercept.getX() > start.getX()) {
+            if (intercept.getX() < end.getX()|| intercept.getX() > start.getX()) {
                 return -1;
             }
         }
         if (start.getY() < end.getY()) {
-            if (intercept.getY() < start.getY() || intercept.getY() > end.getY()) {
+            if (intercept.getY() < start.getY()|| intercept.getY() > end.getY()) {
                 return -1;
             }
         } else {
-            if (intercept.getY() < end.getY() || intercept.getY() > start.getY()) {
+            if (intercept.getY() < end.getY()|| intercept.getY() > start.getY()) {
                 return -1;
             }
         }
 
+        Vector2D over = velocity.scalarMultiply(1/velocity.getNorm());
+        over = over.scalarMultiply(p1.getRadius());
+        
+        intercept = intercept.subtract(over);
         double time = intercept.subtract(position).getNorm() / velocity.getNorm();
 
         return time;

@@ -31,6 +31,8 @@ public class Particle {
 
         //this.position = new Vector2D(x_pos_truncated, y_pos_truncated);
         this.position = space.truncatePosition(x_pos, y_pos);
+        
+        
     }
 
 

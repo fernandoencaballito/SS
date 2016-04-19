@@ -128,9 +128,14 @@ public class ParticleSet implements Iterable<Particle> {
     // se usa para reubicar la particula por las condiciones periódicas de lado derecho.
     public static Vector2D randomReturnPos(double height, double width) {
         Random rand = new Random();
-        double x = 0;
+        double x = 0 + 0.0001;
         double y = rand.nextDouble() * height;
-
+        if(y == height)
+        	y -= 0.005;
+        else
+        	if(y == 0)
+        		y += 0.005;
+        
         return new Vector2D(x, y);
 
     }
