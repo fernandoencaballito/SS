@@ -21,7 +21,7 @@ public class ParticleSet implements Iterable<Particle> {
     private static final double MIN_VELOCITY_Y = -0.1;
     private static final double MAX_VELOCITY_Y = 0.1;
 
-    private static final double PARTICLE_RADIUS = 0.005;
+    private static final double PARTICLE_RADIUS = 0.001;
     private static final double PARTICLE_MASS = 1;
     private static final double START_VELOCITY = 0.05;
 
@@ -35,8 +35,8 @@ public class ParticleSet implements Iterable<Particle> {
 
         for (int i = 0; i < particleCount; i++) {
 
-            double x = rand.nextDouble() * width;
-            double y = rand.nextDouble() * height;
+            double x = rand.nextDouble() * (width-0.005) + 0.005;
+            double y = rand.nextDouble() * (height-0.005) +0.005;
             double vx = MIN_VELOCITY_X + (MAX_VELOCITY_X - MIN_VELOCITY_X) * rand.nextDouble();
             double vy = MIN_VELOCITY_Y + (MAX_VELOCITY_Y - MIN_VELOCITY_Y) * rand.nextDouble();
 

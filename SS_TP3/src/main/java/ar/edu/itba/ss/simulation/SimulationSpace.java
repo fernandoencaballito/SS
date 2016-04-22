@@ -25,18 +25,22 @@ public class SimulationSpace {
         if (bars != null) {
             len += bars.length;
         }
-
-        walls = new Wall[len + 4];
+        double delta = 0.00001;
+        walls = new Wall[len + 8];
         Vector2D[] corners = {new Vector2D(0, 0), new Vector2D(0, height), new Vector2D(width, height), new Vector2D(width, 0)};
-
+        Vector2D[] corners2 = {new Vector2D(delta, 0.005), new Vector2D(delta, height-delta), new Vector2D(width-delta, height-delta), new Vector2D(width-delta, delta)};
         walls[0] = new Wall(corners[0], corners[1], false);
         walls[1] = new Wall(corners[1], corners[2], false);
         walls[2] = new Wall(corners[3], corners[2], true);
         walls[3] = new Wall(corners[0], corners[3], false);
+        walls[4] = new Wall(corners2[0], corners2[1], false);
+        walls[5] = new Wall(corners2[1], corners2[2], false);
+        walls[6] = new Wall(corners2[3], corners2[2], true);
+        walls[7] = new Wall(corners2[0], corners2[3], false);
 
 
         for (int i = 0; i < len; i++) {
-            walls[i + 4] = bars[i];
+            walls[i + 8] = bars[i];
         }
     }
 

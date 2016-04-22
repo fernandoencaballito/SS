@@ -74,12 +74,8 @@ public final class Collision implements Comparable<Collision> {
 
         
         double deltaX = intercept.getX() - position.getX();
-        int deltaXCast = (int)(deltaX * 10000);
-        deltaX = ((double)deltaXCast)/10000;
         
         double deltaY = intercept.getY() - position.getY();
-        int deltaYCast = (int)(deltaY * 10000);
-        deltaY = ((double)deltaYCast)/10000;
         
         
         
