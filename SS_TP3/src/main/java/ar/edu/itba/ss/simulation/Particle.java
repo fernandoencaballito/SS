@@ -22,6 +22,12 @@ public class Particle {
 
     }
 
+    private int counterx = 0;
+    private int countery1 = 0;
+    private int countery2 = 0;
+    private int counterx2 = 0;
+
+
     // se avanza la particula con la velocidad actual un delta de tiempo.
     public void advance(double time, SimulationSpace space) {
 
@@ -31,8 +37,63 @@ public class Particle {
 
         //this.position = new Vector2D(x_pos_truncated, y_pos_truncated);
         this.position = space.truncatePosition(x_pos, y_pos);
-        
-        
+
+
+        //choque con la pared izquierda
+        if (getXPosition() == 0 && this.getXVelocity() < 0) {
+            counterx++;
+        }
+
+        if (getXPosition() == 0 && counterx > 20) {
+            this.velocity = new Vector2D(0.05, this.getYVelocity());
+            counterx = 0;
+            countery1 = 0;
+            countery2 = 0;
+            counterx2 = 0;
+        }
+
+
+        //choque con la de abajo
+        if (getYPosition() == 0 && this.getYVelocity() < 0) {
+            countery1++;
+        }
+
+        if (getYPosition() == 0 && countery1 > 20) {
+            this.velocity = new Vector2D(getXVelocity(), 0.05);
+            counterx = 0;
+            countery1 = 0;
+            countery2 = 0;
+            counterx2 = 0;
+        }
+
+        //choque con la de abajo
+        if (getYPosition() == space.getHeight() && this.getYVelocity() > 0) {
+            countery2++;
+        }
+
+        if (getYPosition() == space.getHeight() && countery2 > 20) {
+            this.velocity = new Vector2D(getXVelocity(), -0.05);
+            counterx = 0;
+            countery1 = 0;
+            countery2 = 0;
+            counterx2 = 0;
+        }
+
+
+        //choque con la pared izquierda
+        if (getXPosition() == space.getWidth() && this.getXVelocity() > 0) {
+            counterx2++;
+        }
+
+        if (getXPosition() == space.getWidth() && counterx2 > 20) {
+            this.velocity = new Vector2D(0.05, 0);
+            this.position = new Vector2D(0.0001, getYPosition());
+            counterx = 0;
+            countery1 = 0;
+            countery2 = 0;
+            counterx2 = 0;
+        }
+
     }
 
 
@@ -103,6 +164,7 @@ public class Particle {
         //
 
         this.position = position;
+        counterx2 = 0;
     }
 
 }
