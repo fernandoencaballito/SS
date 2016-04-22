@@ -1,4 +1,4 @@
-package ar.edu.itba.ss.tp4;
+package ar.edu.itba.ss;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
