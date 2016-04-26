@@ -1,8 +1,0 @@
-/target/
-.project
-.classpath
-/EventDrivenSimulation_*
-/tp3.iml
-/target
-/.settings
-/.idea
