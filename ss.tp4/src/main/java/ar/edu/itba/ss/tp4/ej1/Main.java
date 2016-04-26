@@ -56,12 +56,13 @@ public class Main {
 		int i = 1;
 		
 		for (double t = paso; t <= tf; t += paso) {
-
+		
 			current_pos_analitic = AnalyticSpringSolution.getPosition(resorte, mass, t);
-			current_pos_aprox = vvintegrator.updatePosition(mass, paso);
+			//current_pos_aprox = vvintegrator.updatePosition(mass, paso);
 
 			//r2 = Math.pow(Math.abs(current_pos_analitic - current_pos_aprox), 2);
 
+			
 			
 			posiciones[i][0] = t;
 			posiciones[i][1] = current_pos_analitic;

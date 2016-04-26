@@ -14,6 +14,8 @@ public class DlmWriter {
 	}
 
 	public void write(double[][] matrix, int rows, int cols) throws IOException {
+		
+		System.out.println("writing in file");
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
 				writer.write(matrix[i][j]+ "");
@@ -24,6 +26,7 @@ public class DlmWriter {
 			}
 			writer.write("\n");
 		}
+		writer.flush();
 	}
 
 	public void closeWriter() throws IOException {
