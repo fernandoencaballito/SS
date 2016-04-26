@@ -25,7 +25,7 @@ public class Main {
 		double paso = 0.01;
 
 		double initialPosition = 1;
-		double initialVelocity = 0;
+		double initialVelocity = -gamma/mass/2;
 
 		VelocityVerletIntegration vvintegrator = new VelocityVerletIntegration(initialPosition, initialVelocity,
 				resorte);
