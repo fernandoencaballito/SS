@@ -22,7 +22,7 @@ public class Main {
 		// tiempo en segundos
 		double tf = 5;
 
-		double paso = 0.01;
+		double paso = 0.001;
 
 		double initialPosition = 1;
 		double initialVelocity = -gamma/mass/2;
@@ -58,7 +58,7 @@ public class Main {
 		for (double t = paso; t <= tf; t += paso) {
 		
 			current_pos_analitic = AnalyticSpringSolution.getPosition(resorte, mass, t);
-			//current_pos_aprox = vvintegrator.updatePosition(mass, paso);
+			current_pos_aprox = vvintegrator.updatePosition(mass, paso);
 
 			//r2 = Math.pow(Math.abs(current_pos_analitic - current_pos_aprox), 2);
 
