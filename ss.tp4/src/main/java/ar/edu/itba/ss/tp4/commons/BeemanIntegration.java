@@ -27,7 +27,8 @@ public class BeemanIntegration {
 		a_t = calculator.calculateForce(previousPosition, previousVelocity)/mass;
 
 		newPosition = this.previousPosition + this.previousVelocity * dt + (2.0/3.0) * a_t * Math.pow(dt, 2) - (1.0/6.0) * this.previousAcceleration * Math.pow(dt, 2);
-
+	
+		
 		a_tmdt = calculator.calculateForce(newPosition, previousVelocity)/mass;
 
 		newVelocity = this.previousVelocity + (1.0/3.0) * a_tmdt * dt + (5.0/6.0) * a_t * dt - (1.0/6.0) * this.previousAcceleration * dt;

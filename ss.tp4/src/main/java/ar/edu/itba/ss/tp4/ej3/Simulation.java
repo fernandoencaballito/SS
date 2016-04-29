@@ -9,6 +9,7 @@ public class Simulation {
 	private final Double interval;
 	private Double time = 0.0;
 	private final ParticleWriter writer;
+	private int count = 0;
 
 	public Simulation(SimpleSolarSystem system, Integrator integrator, Double interval, ParticleWriter writer) {
 		super();
@@ -24,7 +25,7 @@ public class Simulation {
 		String id = "sim1";
 		Double sunMass = 2 * Math.pow(10, 30);
 		Double sunRadius = Math.pow(10, 6);
-		Integer initialParticlesCant = 1000;
+		Integer initialParticlesCant = 100;
 		Double minDistanceFromSun = Math.pow(10, 9);
 		Double maxDistanceFromSun = Math.pow(10, 10);
 		Double maxParticleMass = null;
@@ -41,17 +42,20 @@ public class Simulation {
 	public void simulate() {
 
 		Particle sun = system.getSun();
-		//system.setParticles(Collider.collisions(system.getParticles(),sun));
+		system.setParticles(Collider.collisions(system.getParticles(),sun));
 		for (Particle particle : system.getParticles()) {
 			integrator.next(particle, system.getParticles(), sun, interval);
 		}
-		if(time%1 == 0) {
+		if(count == 100) {
+			count = 0;
+			//System.out.println(system.getParticles().size());
 			try {
 				writer.write(time, sun, system.getParticles());
 			}catch(IOException e) {
 				e.printStackTrace();
 			}
 		}
+		count++;
 		time = time + interval;
 	}
 
