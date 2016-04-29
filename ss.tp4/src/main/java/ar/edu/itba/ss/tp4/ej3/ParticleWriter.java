@@ -5,6 +5,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
+
 public class ParticleWriter {
 
 	private BufferedWriter writer;
@@ -16,16 +18,21 @@ public class ParticleWriter {
 
 	public void write(Double t, Particle sun, List<Particle> particles) throws IOException {
 
-		writer.write((particles.size() + 1) + "\n" + "Time =" + t + "\n");
-		writer.write("" + sun.getPosition().getX() + " " + sun.getPosition().getY() + " " + sun.getVelocity().getX()
-				+ " " + sun.getVelocity().getY() + " " + sun.getMass() + " " + sun.getRadius() + "\n");
+		writer.write(String.format("%d\nTime = %g\n", particles.size() + 1, t));
+		writer.write(formatParticle(sun));
+
 		for (Particle particle : particles) {
-			writer.write("" + particle.getPosition().getX() + " " + particle.getPosition().getY() + " "
-					+ particle.getVelocity().getX() + " " + particle.getVelocity().getY() + " " + particle.getMass()
-					+ " " + particle.getRadius()  +"\n");
+			writer.write(formatParticle(particle));
 		}
 		writer.flush();
 
+	}
+
+	private static String formatParticle(Particle p) {
+
+		Vector2D pos = p.getPosition();
+		// id posX posY mass radius
+		return String.format("%s %f %f %f %f\n", p.getId(), pos.getX(), pos.getY(), p.getMass(), p.getRadius());
 	}
 
 	public void closeWriter() throws IOException {
