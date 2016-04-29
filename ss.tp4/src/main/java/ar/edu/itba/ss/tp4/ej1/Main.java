@@ -18,14 +18,14 @@ public class Main {
 		// no me acuerdo las unidades
 		double k = 10000;
 
-		double gamma = 100;
+		double gamma = 0;//DEBERIA SER 100
 
 		Spring resorte = new Spring(k, gamma);
 
 		// tiempo en segundos
 		double tf = 5;
 
-		double paso = 0.01;
+		double paso = 0.0001;
 
 		double initialPosition = 1;
 		double initialVelocity = -gamma / mass / 2;
