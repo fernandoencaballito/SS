@@ -1,5 +1,7 @@
 package ar.edu.itba.ss.tp4.commons;
 
+import javax.swing.plaf.synth.SynthSpinnerUI;
+
 public class GearPredictorCorrectorIntegration {
 	private ForceCalculator1D calculator;
 	private double r;
@@ -30,17 +32,19 @@ public class GearPredictorCorrectorIntegration {
 
 		r5p = r5;
 		r4p = r4 + r5 * dt;
-		r3p = r3 + r4 * dt + r5 * Math.pow(dt, 2) / 2.0;
-		r2p = r2 + r3 * dt + r4 * Math.pow(dt, 2) / 2.0 + r5 * Math.pow(dt, 3) / 6.0;
-		r1p = r1 + r2 * dt + r3 * Math.pow(dt, 2) / 2.0 + r4 * Math.pow(dt, 3) / 6.0 + r5 * Math.pow(dt, 4) / 24.0;
-		rp = r + r1 * dt + r2 * Math.pow(dt, 2) / 2.0 + r3 * Math.pow(dt, 3) / 6.0 + r4 * Math.pow(dt, 4) / 24.0
-				+ r5 * Math.pow(dt, 5) / 120.0;
+		r3p = r3 + r4 * dt + (r5 * Math.pow(dt, 2)) / 2.0;
+		r2p = r2 + r3 * dt + ( r4 * Math.pow(dt, 2)) / 2.0 + (r5 * Math.pow(dt, 3)) / 6.0;
+		r1p = r1 + r2 * dt + (r3 * Math.pow(dt, 2)) / 2.0 + (r4 * Math.pow(dt, 3) ) / 6.0 + (r5 * Math.pow(dt, 4) )/ 24.0;
+		rp = r + r1 * dt + (r2 * Math.pow(dt, 2)) / 2.0 + (r3 * Math.pow(dt, 3)) / 6.0 + (r4 * Math.pow(dt, 4) ) / 24.0
+				+ (r5 * Math.pow(dt, 5)) / 120.0;
 
 		// evaluar
-
-		double da = calculator.calculateForce(rp, r1p)/mass - r2p;
-		double dR2 = da * Math.pow(dt, 2) / 2.0;
-
+		double force=calculator.calculateForce(rp, r1p);
+		double da = (force/mass) - r2p;
+		double dR2 = (da * Math.pow(dt, 2) )/ 2.0;
+//		System.out.println("force="+force);
+		
+		
 		// correct
 
 		// 3/16 251/360 1 11/18 1/6 1/60
@@ -48,11 +52,17 @@ public class GearPredictorCorrectorIntegration {
 
 		rc = rp + (3.0 / 16.0) * dR2;
 		r1c = r1p * dt + (251.0 / 360.0) * dR2;
-		r2c = r2p * Math.pow(dt, 2) / 2.0 + dR2;
-		r3c = r3p * Math.pow(dt, 3) / 6.0 + (11.0 / 18.0) * dR2;
-		r4c = r4p * Math.pow(dt, 4) / 24.0 + (1.0 / 6.0) * dR2;
-		r5c = r5p * Math.pow(dt, 5) / 120.0 + (1.0 / 60.0) * dR2;
-
+//		r2c = r2p * Math.pow(dt, 2) / 2.0 + dR2;
+//		r3c = r3p * Math.pow(dt, 3) / 6.0 + (11.0 / 18.0) * dR2;
+//		r4c = r4p * Math.pow(dt, 4) / 24.0 + (1.0 / 6.0) * dR2;
+//		r5c = r5p * Math.pow(dt, 5) / 120.0 + (1.0 / 60.0) * dR2;
+		
+		r2c=r2p + ( (1)* dR2 *2.0)/ Math.pow(dt,2.0) ;
+		r3c=r3p + ( (11.0/18.0)* dR2 * 6.0)/ Math.pow(dt, 3.0);
+		r4c=r4p + ((1.0/6.0)*dR2 * 24.0)* Math.pow(dt,4.0);
+		r5c=r5p + ( ( 1.0/60.0) * dR2* 120.0)/Math.pow(dt, 5.0);
+		
+		
 		this.r = rc;
 		this.r1 = r1c;
 		this.r2 = r2c;

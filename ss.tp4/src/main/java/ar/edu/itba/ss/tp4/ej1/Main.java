@@ -13,20 +13,22 @@ public class Main {
 	public static void main(String[] args) {
 
 		// mass in kg
-		double mass = 70;
+		double mass = 70.0;
 
 		// no me acuerdo las unidades
-		double k = 10000;
+		double k = 10000.0;
 
-		double gamma = 0;//DEBERIA SER 100
+		double gamma = 0;// DEBERIA SER 100
 
 		Spring resorte = new Spring(k, gamma);
 
 		// tiempo en segundos
 		double tf = 5;
 
-		double paso = 0.0001;
-
+		double paso_simulacion = 0.01;// usar 0.00001
+		double paso_graph = 0.01;
+		int cant_cuadros =(int)Math.ceil( paso_graph / paso_simulacion);
+		double current_frame = 1;
 		double initialPosition = 1;
 		double initialVelocity = -gamma / mass / 2;
 
@@ -40,7 +42,7 @@ public class Main {
 		double current_pos_aprox_beeman = initialPosition;
 		double current_pos_aprox_gear = initialPosition;
 
-		int rows = (int)(tf/paso)+1;
+		int rows = (int) ((tf / paso_graph) + 1);
 		int cols = 5;
 
 		double[][] posiciones = new double[rows][cols];
@@ -61,28 +63,37 @@ public class Main {
 		int i = 1;
 
 		EulerIntegration euler = new EulerIntegration(initialPosition, initialVelocity, resorte);
-		double[] prev = euler.updatePosition(mass, -paso);
+		double[] prev = euler.updatePosition(mass, -paso_simulacion);
 		double acceleration = resorte.calculateForce(prev[0], prev[1]) / mass;
 		BeemanIntegration bee = new BeemanIntegration(initialPosition, initialVelocity, resorte, acceleration);
 
-		GearPredictorCorrectorIntegration gear = new GearPredictorCorrectorIntegration(initialPosition, initialVelocity, resorte, mass);
-		for (double t = paso; t <= tf; t += paso) {
+		GearPredictorCorrectorIntegration gear = new GearPredictorCorrectorIntegration(initialPosition, initialVelocity,
+				resorte, mass);
+		for (double t = paso_simulacion; t <= tf; t += paso_simulacion) {
 
 			current_pos_analitic = AnalyticSpringSolution.getPosition(resorte, mass, t);
-			current_pos_aprox_verlet = vvintegrator.updatePosition(mass, paso);
-			current_pos_aprox_beeman = bee.updatePosition(mass, paso);
-			current_pos_aprox_gear = gear.updatePosition(paso,mass);
+			current_pos_aprox_verlet = vvintegrator.updatePosition(mass, paso_simulacion);
+			current_pos_aprox_beeman = bee.updatePosition(mass, paso_simulacion);
+			current_pos_aprox_gear = gear.updatePosition(paso_simulacion, mass);
 
 			// r2 = Math.pow(Math.abs(current_pos_analitic - current_pos_aprox),
 			// 2);
 
-			posiciones[i][0] = t;
-			posiciones[i][1] = current_pos_analitic;
-			posiciones[i][2] = current_pos_aprox_verlet;
-			posiciones[i][3] = current_pos_aprox_beeman;
-			posiciones[i][4] = current_pos_aprox_gear;
+			if ((current_frame % cant_cuadros) == 0) {
+				
+					current_frame++;
+				// se grafica
+				posiciones[i][0] = t;
+				posiciones[i][1] = current_pos_analitic;
+				posiciones[i][2] = current_pos_aprox_verlet;
+				posiciones[i][3] = current_pos_aprox_beeman;
+				posiciones[i][4] = current_pos_aprox_gear;
+				i++;
+			} else {
 
-			i++;
+				current_frame++;
+			}
+
 		}
 		try {
 			writer.write(posiciones, rows, cols);

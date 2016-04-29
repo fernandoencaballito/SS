@@ -22,11 +22,11 @@ public class VelocityVerletIntegration {
 		double force_t;
 
 		force_t = calculator.calculateForce(previousPosition, previousVelocity);
-		newPosition = previousPosition + dt * previousVelocity + (Math.pow(dt, 2) / mass) * force_t;
+		newPosition = previousPosition + dt * previousVelocity + (Math.pow(dt, 2.0) / mass) * force_t;
 
 		double v_media = (newPosition - previousPosition)/dt;
 		force_tmdt = calculator.calculateForce(newPosition, v_media);
-		newVelocity = previousVelocity + (dt / (2 * mass)) * (force_t + force_tmdt);
+		newVelocity = previousVelocity + (dt / (2.0 * mass)) * (force_t + force_tmdt);
 
 		previousPosition = newPosition;
 		previousVelocity = newVelocity;
