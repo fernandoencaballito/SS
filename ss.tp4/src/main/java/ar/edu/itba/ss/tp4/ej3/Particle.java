@@ -60,7 +60,7 @@ public class Particle {
 		super();
 		this.id = id;
 		this.mass = mass;
-		this.radius = Math.pow(10, 7);
+		this.radius = 5*Math.pow(10, 6);
 		this.velocity = velocity;
 		this.position = position;
 	}
@@ -145,7 +145,7 @@ public class Particle {
 
 	public void setMass(Double mass) {
 		this.mass = mass;
-		//this.radius = Math.pow(this.mass/Math.PI,0.28);
+		this.radius = Math.pow(this.mass/Math.PI,0.278);
 	}
 
 	public void setPosition(Vector2D position) {

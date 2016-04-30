@@ -1,11 +1,14 @@
 package ar.edu.itba.ss.tp4.ej3;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Collider {
+
+    private static final Vector2D xAxis =  new Vector2D(1, 0);
 
 	public static List<Particle> collisions(List<Particle> particles, final Particle sun) {
 
@@ -55,14 +58,17 @@ public class Collider {
 					double vf_tan = (p1.getMass() * p1_tan_velocity * normP1Pos
 							+ p2.getMass() * p2_tan_velocity * normP2Pos) / (totalMass * massCenter.getNorm());
 
-					double r_angle = Math.PI / 2.0 - Vector2D.angle(massCenter, new Vector2D(1, 0));
+                    // r ^ eje X
+                    double r_angle = Vector2D.angle(massCenter, xAxis);
 
-					Vector2D radialVelocity = new Vector2D(Math.cos(r_angle) * vf_radial,
-							Math.sin(r_angle) * vf_radial);
+                    if(massCenter.getY() < 0){
+                        r_angle = -r_angle;
+                    }
 
-					Vector2D tanVelocity = new Vector2D(-Math.sin(r_angle) * vf_tan, Math.cos(r_angle) * vf_tan);
+                    double xComponent = Math.cos(r_angle) * vf_radial+-Math.sin(r_angle) * vf_tan;
+                    double yComponent = Math.sin(r_angle) * vf_radial+Math.cos(r_angle) * vf_tan;
 
-					p2.setVelocity(radialVelocity.add(tanVelocity));
+					p2.setVelocity(new Vector2D(xComponent, yComponent));
 
 					particleVector[i] = null;
 					System.out.println("choco particula");
@@ -71,7 +77,7 @@ public class Collider {
 			}
 		}
 
-		List<Particle> particleList = new ArrayList<Particle>();
+		List<Particle> particleList = new ArrayList<Particle>(size);
 
 		for (int i = 0; i < particleVector.length; i++) {
 			if (particleVector[i] != null)
