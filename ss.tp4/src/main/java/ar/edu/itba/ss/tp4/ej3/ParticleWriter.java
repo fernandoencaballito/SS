@@ -16,12 +16,13 @@ public class ParticleWriter {
 
 	public void write(Double t, Particle sun, List<Particle> particles) throws IOException {
 
-
 		writer.write((particles.size() + 1) + "\n" + "Time =" + t + "\n");
-		writer.write("" + sun.getPosition().getX() + " " + sun.getPosition().getY() + " " + sun.getVelocity().getX()  + " " + sun.getVelocity().getY() + " " +sun.getMass() + "\n");
+		writer.write("" + sun.getPosition().getX() + " " + sun.getPosition().getY() + " " + sun.getVelocity().getX()
+				+ " " + sun.getVelocity().getY() + " " + sun.getMass() + " " + sun.getRadius() + "\n");
 		for (Particle particle : particles) {
 			writer.write("" + particle.getPosition().getX() + " " + particle.getPosition().getY() + " "
-					+ particle.getVelocity().getX()  + " " + particle.getVelocity().getY() + " " + particle.getMass() + "\n");
+					+ particle.getVelocity().getX() + " " + particle.getVelocity().getY() + " " + particle.getMass()
+					+ " " + particle.getRadius()  +"\n");
 		}
 		writer.flush();
 

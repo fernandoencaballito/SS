@@ -16,7 +16,7 @@ xlabel('Tiempo');
 ylabel('Posicion');
 
 #print("Ejercicio1_posiciones.png");
-axis([0 1 -1 1]);
+axis([0 1.5 -2 2]);
 print -dpng Ejercicio1_posiciones.png
 
 

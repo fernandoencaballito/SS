@@ -6,10 +6,10 @@ public class GearPredictorCorrectorIntegration {
 	private ForceCalculator1D calculator;
 	private double r;
 	private double r1;
-	private double r2;
-	private double r3;
-	private double r4;
-	private double r5;
+	private double r2=0.0;
+	private double r3=0.0;
+	private double r4=0.0;
+	private double r5=0.0;
 
 	public GearPredictorCorrectorIntegration(double initialPosition, double initialVelocity,
 			ForceCalculator1D calculator, double mass) {
@@ -21,6 +21,7 @@ public class GearPredictorCorrectorIntegration {
 		this.r3 = calculator.calculateForce(r1, r2) / mass;
 		this.r4 = calculator.calculateForce(r2, r3) / mass;
 		this.r5 = calculator.calculateForce(r3, r4) / mass;
+		
 
 	}
 
@@ -48,21 +49,25 @@ public class GearPredictorCorrectorIntegration {
 		// correct
 
 		// 3/16 251/360 1 11/18 1/6 1/60
+		
 		double rc, r1c, r2c, r3c, r4c, r5c;
 
 		rc = rp + (3.0 / 16.0) * dR2;
-		r1c = r1p * dt + (251.0 / 360.0) * dR2;
+		r1c = r1p * dt + (325.0 / 360.0) * dR2;
+
+		//version original de luis
 //		r2c = r2p * Math.pow(dt, 2) / 2.0 + dR2;
 //		r3c = r3p * Math.pow(dt, 3) / 6.0 + (11.0 / 18.0) * dR2;
 //		r4c = r4p * Math.pow(dt, 4) / 24.0 + (1.0 / 6.0) * dR2;
 //		r5c = r5p * Math.pow(dt, 5) / 120.0 + (1.0 / 60.0) * dR2;
-		
+//		
+		//version fer
 		r2c=r2p + ( (1)* dR2 *2.0)/ Math.pow(dt,2.0) ;
 		r3c=r3p + ( (11.0/18.0)* dR2 * 6.0)/ Math.pow(dt, 3.0);
 		r4c=r4p + ((1.0/6.0)*dR2 * 24.0)* Math.pow(dt,4.0);
 		r5c=r5p + ( ( 1.0/60.0) * dR2* 120.0)/Math.pow(dt, 5.0);
 		
-		
+//		
 		this.r = rc;
 		this.r1 = r1c;
 		this.r2 = r2c;

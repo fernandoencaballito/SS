@@ -30,7 +30,8 @@ public class Main {
 		int cant_cuadros =(int)Math.ceil( paso_graph / paso_simulacion);
 		double current_frame = 1;
 		double initialPosition = 1;
-		double initialVelocity = -gamma / mass / 2;
+		
+		double initialVelocity =(gamma==0)? 0.0 :( -gamma / mass / 2);
 
 		VelocityVerletIntegration vvintegrator = new VelocityVerletIntegration(initialPosition, initialVelocity,
 				resorte);
