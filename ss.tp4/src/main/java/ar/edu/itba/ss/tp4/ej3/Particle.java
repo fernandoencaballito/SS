@@ -38,7 +38,7 @@ public class Particle {
 			velocity = new Vector2D(Math.cos(velocity_angle) * velocity_module,
 					Math.sin(velocity_angle) * velocity_module);
 			position = new Vector2D(Math.cos(angles[i]) * positions[i], Math.sin(angles[i]) * positions[i]);
-			id = "" + i;
+			id = "" + (i+1);
 			particles.add(new Particle(id, meanMass + masses[i] * var, velocity, position));
 
 		}

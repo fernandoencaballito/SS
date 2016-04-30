@@ -10,7 +10,7 @@ public class SimpleSolarSystem {
 			Integer initialParticlesCant, Double minDistanceFromSun, Double maxDistanceFromSun, Double minParticleMass,
 			Double maxParticleMass) {
 
-		Particle sun = new Particle(id + "-sun", sunMass, new Vector2D(0, 0), new Vector2D(0, 0));
+		Particle sun = new Particle("0", sunMass, new Vector2D(0, 0), new Vector2D(0, 0));
 		sun.setRadius(6*Math.pow(12, 7));
 		Double angularMomentum= Math.pow(2, 140);
 		List<Particle> particles = Particle.generateRandomParticles(angularMomentum, minDistanceFromSun,

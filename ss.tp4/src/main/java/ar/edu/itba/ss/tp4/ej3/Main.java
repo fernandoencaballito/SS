@@ -16,7 +16,7 @@ public class Main {
 		Integrator integrator = new VerletIntegrator();
 		Simulation sim = new Simulation(integrator, 1.0, writer);
 
-		for (int i = 0; i < 1000000; i++) {
+		for (int i = 0; i < 10000; i++) {
 			System.out.println("i=" + i);
 			sim.simulate();
 		}
