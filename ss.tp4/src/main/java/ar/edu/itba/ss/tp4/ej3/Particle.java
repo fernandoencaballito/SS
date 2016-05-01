@@ -1,12 +1,28 @@
 package ar.edu.itba.ss.tp4.ej3;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import org.apache.commons.math3.distribution.UniformRealDistribution;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class Particle {
+
+	private final String id;
+	private boolean collided;
+	private Double mass;
+	private Vector2D position;
+	private Double radius;
+	private Vector2D velocity;
+
+	public Particle(String id, Double mass, Vector2D velocity, Vector2D position) {
+		super();
+		this.id = id;
+		this.mass = mass;
+		this.radius = 5 * Math.pow(10, 6);
+		this.velocity = velocity;
+		this.position = position;
+	}
 
 	public static List<Particle> generateRandomParticles(Double angularMomentum, Double minDistanceFromSun,
 			Double maxDistanceFromSun, Double sunMass, int cant) {
@@ -44,25 +60,6 @@ public class Particle {
 		}
 
 		return particles;
-	}
-	private boolean collided;
-
-	private final String id;
-
-	private Double mass;
-
-	private Vector2D position;
-
-	private Double radius;
-
-	private Vector2D velocity;
-	public Particle(String id, Double mass, Vector2D velocity, Vector2D position) {
-		super();
-		this.id = id;
-		this.mass = mass;
-		this.radius = 5*Math.pow(10, 6);
-		this.velocity = velocity;
-		this.position = position;
 	}
 
 	@Override
@@ -110,16 +107,33 @@ public class Particle {
 		return mass;
 	}
 
+	public void setMass(Double mass) {
+		this.mass = mass;
+		//this.radius = Math.pow(this.mass/Math.PI,0.278);
+	}
+
 	public Vector2D getPosition() {
 		return position;
+	}
+
+	public void setPosition(Vector2D position) {
+		this.position = position;
 	}
 
 	public Double getRadius() {
 		return radius;
 	}
 
+	public void setRadius(Double radius) {
+		this.radius = radius;
+	}
+
 	public Vector2D getVelocity() {
 		return velocity;
+	}
+
+	public void setVelocity(Vector2D velocity) {
+		this.velocity = velocity;
 	}
 
 	public boolean hasCollided() {
@@ -141,23 +155,6 @@ public class Particle {
 	public void setCollided(boolean b) {
 		// TODO Auto-generated method stub
 		this.collided = b;
-	}
-
-	public void setMass(Double mass) {
-		this.mass = mass;
-		this.radius = Math.pow(this.mass/Math.PI,0.278);
-	}
-
-	public void setPosition(Vector2D position) {
-		this.position = position;
-	}
-
-	public void setRadius(Double radius) {
-		this.radius = radius;
-	}
-
-	public void setVelocity(Vector2D velocity) {
-		this.velocity = velocity;
 	}
 
 	@Override

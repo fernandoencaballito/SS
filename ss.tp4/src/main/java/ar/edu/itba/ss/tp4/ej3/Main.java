@@ -11,11 +11,11 @@ public class Main {
 
 		ParticleWriter writer = null;
 		try {
-			writer = new ParticleWriter("solarSystem2");
+			writer = new ParticleWriter("solarSystemBeeman");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Integrator integrator = new VerletIntegrator();
+		Integrator integrator = new BeemanIntegrator();
 		Simulation sim = new Simulation(integrator, 1.0, writer);
 
 		for (int i = 0; i < 100000; i++) {
