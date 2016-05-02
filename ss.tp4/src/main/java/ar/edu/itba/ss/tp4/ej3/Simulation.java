@@ -25,7 +25,7 @@ public class Simulation {
 		String id = "sim";
 		Double sunMass = 2 * Math.pow(10, 30);
 		Double sunRadius = Math.pow(10, 6);
-		Integer initialParticlesCant = 500;
+		Integer initialParticlesCant = 1000;
 		Double minDistanceFromSun = Math.pow(10, 9);
 		Double maxDistanceFromSun = Math.pow(10, 10);
 		Double maxParticleMass = null;

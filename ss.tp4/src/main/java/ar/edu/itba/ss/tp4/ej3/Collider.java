@@ -35,7 +35,12 @@ public class Collider {
 
 					p2.setMass(totalMass);
 					p2.setRadius(Math.sqrt(Math.pow(p1.getRadius(), 2) + Math.pow(p2.getRadius(), 2)));
-					Vector2D massCenter = p2.getPosition();
+					
+					
+					double massCenterX = (p1.getPosition().getX() * p1.getMass() + p2.getPosition().getX() * p2.getMass())/(p1.getMass() + p2.getMass());
+					double massCenterY = (p1.getPosition().getY() * p1.getMass() + p2.getPosition().getY() * p2.getMass())/(p1.getMass() + p2.getMass());
+				//	Vector2D massCenter = p2.getPosition();
+					Vector2D massCenter = new Vector2D(massCenterX, massCenterY);
 
 					double p1_angle = Vector2D.angle(p1.getPosition(), p1.getVelocity());
 					double p2_angle = Vector2D.angle(p2.getPosition(), p2.getVelocity());

@@ -12,7 +12,7 @@ public class SimpleSolarSystem {
 
 		Particle sun = new Particle("0", sunMass, new Vector2D(0, 0), new Vector2D(0, 0));
 		sun.setRadius(6*Math.pow(12, 7));
-		Double angularMomentum= 1.5*Math.pow(2, 140);
+		Double angularMomentum= 0.8*Math.pow(2, 140);
 		List<Particle> particles = Particle.generateRandomParticles(angularMomentum, minDistanceFromSun,
 				maxDistanceFromSun, sunMass, initialParticlesCant);
 
