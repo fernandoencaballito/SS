@@ -21,10 +21,10 @@ public class DlmWriter {
 			for (int j = 0; j < cols; j++) {
 				double d=matrix[i][j];
 				//String str=new DecimalFormat("#.0###").format(d);
-				writer.write(matrix[i][j]+ "");
+				writer.append(matrix[i][j]+ "");
 				//writer.write(str);
 				if(j+1 < cols) {
-					writer.write(",");
+					writer.append(",");
 				}
 				
 			}

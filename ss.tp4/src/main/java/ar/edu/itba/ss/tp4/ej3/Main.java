@@ -20,16 +20,17 @@ public class Main {
 
         long timeStart = System.currentTimeMillis();
 
-        int STEPS = 1000000;
+        int STEPS = 10000;//deberia valer 1000000
 
         for (int i = 0; i < STEPS; i++) {
             if (i % 100 == 0 && i>0) {
                 long elapsedTime = System.currentTimeMillis() - timeStart;
                 System.out.printf("i=%d, prog= %g, remaining= %d seconds\n", i, (double) i / STEPS, ((elapsedTime / i) * (STEPS - i))/1000);
             }
-            sim.simulate();
+            sim.simulate(i);
         }
 
+        sim.clean();//se liberan recursos
         time = System.currentTimeMillis() - time;
 
         System.out.println("Time: " + time);

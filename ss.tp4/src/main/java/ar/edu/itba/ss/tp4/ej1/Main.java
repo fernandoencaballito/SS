@@ -94,6 +94,7 @@ public class Main {
 		}
 		try {
 			writer.write(posiciones, rows, cols);
+			writer.closeWriter();
 		} catch (IOException io) {
 			io.printStackTrace();
 		}
