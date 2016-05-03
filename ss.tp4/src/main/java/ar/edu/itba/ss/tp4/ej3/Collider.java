@@ -33,10 +33,6 @@ public class Collider {
 				if (distance < p1.getRadius() + p2.getRadius()) {
 					double totalMass = p1.getMass() + p2.getMass();
 
-					p2.setMass(totalMass);
-					p2.setRadius(Math.sqrt(Math.pow(p1.getRadius(), 2) + Math.pow(p2.getRadius(), 2)));
-
-
 					double massCenterX = (p1.getPosition().getX() * p1.getMass() + p2.getPosition().getX() * p2.getMass())/(p1.getMass() + p2.getMass());
 					double massCenterY = (p1.getPosition().getY() * p1.getMass() + p2.getPosition().getY() * p2.getMass())/(p1.getMass() + p2.getMass());
 				//	Vector2D massCenter = p2.getPosition();
@@ -74,6 +70,9 @@ public class Collider {
                     double yComponent = Math.sin(r_angle) * vf_radial+Math.cos(r_angle) * vf_tan;
 
 					p2.setVelocity(new Vector2D(xComponent, yComponent));
+
+					p2.setMass(totalMass);
+					p2.setRadius(Math.sqrt(Math.pow(p1.getRadius(), 2) + Math.pow(p2.getRadius(), 2)));
 
 					particleVector[i] = null;
 					System.out.println("choco particula");
