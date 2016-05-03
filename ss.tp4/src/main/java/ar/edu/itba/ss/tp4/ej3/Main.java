@@ -16,7 +16,7 @@ public class Main {
             e.printStackTrace();
         }
         Integrator integrator = new BeemanIntegrator();
-        Simulation sim = new Simulation(integrator, 1.0, writer);
+        Simulation sim = new Simulation(integrator, 0.1, writer);
 
         long timeStart = System.currentTimeMillis();
 

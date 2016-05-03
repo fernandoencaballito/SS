@@ -6,7 +6,7 @@ potential=data(:,3);
 totalEnergy=data(:,4);
 
 plot(time,kinetic,time,potential,time,totalEnergy);
-legend('Ek','Eg','Etotal');
+legend('Ek','Epot','Etotal');
 xlabel('Tiempo');
 ylabel('Energia[J]');
 print -dpng Ejercicio3_energias.png

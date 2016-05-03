@@ -44,7 +44,7 @@ public class GearPredictorCorrectorIntegration {
 		double force=calculator.calculateForce(rp, r1p);
 		double da = (force/mass) - r2p;
 		double dR2 = (da * Math.pow(dt, 2.0) )/ 2.0;
-		System.out.println("force in gear="+force +" ,p="+rp+ " v="+r1p);
+		//System.out.println("force in gear="+force +" ,p="+rp+ " v="+r1p);
 		
 		
 		// correct

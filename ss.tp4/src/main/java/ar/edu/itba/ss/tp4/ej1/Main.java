@@ -23,9 +23,9 @@ public class Main {
 		Spring resorte = new Spring(k, gamma);
 
 		// tiempo en segundos
-		double tf = 5.0;
+		double tf = 5;
 
-		double paso_simulacion = 0.01;// usar 0.00001
+		double paso_simulacion = 0.00001;// usar 0.00001
 		double paso_graph = 0.01;
 		int cant_cuadros =(int)Math.ceil( paso_graph / paso_simulacion);
 		int current_frame = 1;
@@ -70,7 +70,7 @@ public class Main {
 		GearPredictorCorrectorIntegration gear = new GearPredictorCorrectorIntegration(initialPosition, initialVelocity,
 				resorte, mass);
 		for (double t = paso_simulacion; t <= tf; t += paso_simulacion) {
-			System.out.println("t="+t);
+			//System.out.println("t="+t);
 			current_pos_analitic = AnalyticSpringSolution.getPosition(resorte, mass, t);
 			current_pos_aprox_verlet = vvintegrator.updatePosition(mass, paso_simulacion);
 			current_pos_aprox_beeman = bee.updatePosition(mass, paso_simulacion);
