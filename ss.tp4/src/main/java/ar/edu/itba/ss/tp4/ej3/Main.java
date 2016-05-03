@@ -4,30 +4,36 @@ import java.io.IOException;
 
 public class Main {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
 
-		long time = System.currentTimeMillis();
+        long time = System.currentTimeMillis();
 
-		ParticleWriter writer = null;
-		try {
-			writer = new ParticleWriter("solarSystemBeeman");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		Integrator integrator = new BeemanIntegrator();
-		Simulation sim = new Simulation(integrator, 1.0, writer);
+        ParticleWriter writer = null;
+        try {
+            writer = new ParticleWriter("solarSystemBeeman");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Integrator integrator = new BeemanIntegrator();
+        Simulation sim = new Simulation(integrator, 1.0, writer);
 
-		for (int i = 0; i < 100000; i++) {
-			if(i%100==0)
-				System.out.println("i=" + i);
-			sim.simulate();
-		}
+        long timeStart = System.currentTimeMillis();
 
-		time = System.currentTimeMillis()-time;
+        int STEPS = 1000000;
 
-		System.out.println("Time: "+time);
+        for (int i = 0; i < STEPS; i++) {
+            if (i % 100 == 0 && i>0) {
+                long elapsedTime = System.currentTimeMillis() - timeStart;
+                System.out.printf("i=%d, prog= %g, remaining= %d seconds\n", i, (double) i / STEPS, ((elapsedTime / i) * (STEPS - i))/1000);
+            }
+            sim.simulate();
+        }
 
-	}
+        time = System.currentTimeMillis() - time;
+
+        System.out.println("Time: " + time);
+
+    }
 
 }
