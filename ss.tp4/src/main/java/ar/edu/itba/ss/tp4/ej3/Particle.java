@@ -163,4 +163,13 @@ public class Particle {
 				+ velocity + "]";
 	}
 
+	
+	public double getKineticEnergy(){
+		return 0.5 *mass*velocity.dotProduct(velocity);
+	}
+	
+	public double getPotentialEnergy(double G, double sunMass){
+		return (-G*sunMass*mass)/position.getNorm();
+		
+	}
 }
