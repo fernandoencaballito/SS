@@ -16,12 +16,18 @@ public class Main {
 			e.printStackTrace();
 		}
 		Integrator integrator = new BeemanIntegrator();
-		Simulation sim = new Simulation(integrator, 1.0, writer);
+		Simulation sim = new Simulation(integrator, 0.5, writer);
 
 		for (int i = 0; i < 100000; i++) {
 			if(i%100==0)
 				System.out.println("i=" + i);
 			sim.simulate();
+		}
+		try {
+			writer.closeWriter();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		time = System.currentTimeMillis()-time;

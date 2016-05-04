@@ -14,6 +14,8 @@ public class Particle {
 	private Vector2D position;
 	private Double radius;
 	private Vector2D velocity;
+	private Vector2D previous_velocity;
+	private Vector2D previous_position;
 
 	public Particle(String id, Double mass, Vector2D velocity, Vector2D position) {
 		super();
@@ -117,9 +119,13 @@ public class Particle {
 	}
 
 	public void setPosition(Vector2D position) {
+		this.previous_position=this.position;
 		this.position = position;
 	}
 
+	public Vector2D getPreviousPosition() {
+		return this.previous_position;
+	}
 	public Double getRadius() {
 		return radius;
 	}
@@ -133,9 +139,13 @@ public class Particle {
 	}
 
 	public void setVelocity(Vector2D velocity) {
+		this.previous_velocity = this.velocity;
 		this.velocity = velocity;
 	}
 
+	public Vector2D getPreviousVelocity() {
+		return this.previous_velocity;
+	}
 	public boolean hasCollided() {
 		return this.collided;
 	}

@@ -6,6 +6,8 @@ import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.management.RuntimeErrorException;
+
 public class Collider {
 
     private static final Vector2D xAxis =  new Vector2D(1, 0);
@@ -33,8 +35,6 @@ public class Collider {
 				if (distance < p1.getRadius() + p2.getRadius()) {
 					double totalMass = p1.getMass() + p2.getMass();
 
-					p2.setMass(totalMass);
-					p2.setRadius(Math.sqrt(Math.pow(p1.getRadius(), 2) + Math.pow(p2.getRadius(), 2)));
 					
 					
 					double massCenterX = (p1.getPosition().getX() * p1.getMass() + p2.getPosition().getX() * p2.getMass())/(p1.getMass() + p2.getMass());
@@ -57,12 +57,14 @@ public class Collider {
 					double p2_radial_velocity = Math.cos(p2_angle) * normP2Vel;
 					double p2_tan_velocity = Math.sin(p2_angle) * normP2Vel;
 
-					double vf_radial = (p1.getMass() * p1_radial_velocity + p2.getMass() * p2_radial_velocity)
-							/ totalMass;
+					
+	
+					double vf_radial = (p1.getMass() * p1_radial_velocity + p2.getMass() * p2_radial_velocity)/ totalMass;
 
 					double vf_tan = (p1.getMass() * p1_tan_velocity * normP1Pos
 							+ p2.getMass() * p2_tan_velocity * normP2Pos) / (totalMass * massCenter.getNorm());
-
+			
+					
                     // r ^ eje X
                     double r_angle = Vector2D.angle(massCenter, xAxis);
 
@@ -75,6 +77,9 @@ public class Collider {
 
 					p2.setVelocity(new Vector2D(xComponent, yComponent));
 
+					p2.setMass(totalMass);
+					p2.setRadius(Math.sqrt(Math.pow(p1.getRadius(), 2) + Math.pow(p2.getRadius(), 2)));
+					
 					particleVector[i] = null;
 					System.out.println("choco particula");
 
