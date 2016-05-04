@@ -18,6 +18,7 @@ public class ParticleWriter {
 
 	public void write(Double t, Particle sun, List<Particle> particles) throws IOException {
 
+		//System.out.println("writing");
 		writer.write(String.format("%d\nTime = %g\n", particles.size() + 1, t));
 		writer.write(formatParticle(sun));
 

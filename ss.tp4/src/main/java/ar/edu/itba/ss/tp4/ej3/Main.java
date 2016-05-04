@@ -21,7 +21,7 @@ public class Main {
 
         long timeStart = System.currentTimeMillis();
 
-        int STEPS = 10000;//deberia valer 1000000
+        int STEPS = 500000;//deberia valer 1000000
 
         for (int i = 0; i < STEPS; i++) {
             if (i % 100 == 0 && i>0) {

@@ -62,7 +62,7 @@ public class Simulation {
 		for (Particle particle : system.getParticles()) {
 			integrator.next(particle, system.getParticles(), sun, interval);
 		}
-		if(time % 100 == 0) {
+		if(count % 1000 == 0) {
 			//count = 0;
 			//System.out.println(system.getParticles().size());
 			try {
