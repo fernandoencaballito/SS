@@ -18,25 +18,24 @@ public class Main {
 		// no me acuerdo las unidades
 		double k = 10000.0;
 
-		double gamma = 0;// DEBERIA SER 100
+		double gamma = 100.0;// DEBERIA SER 100
 
 		Spring resorte = new Spring(k, gamma);
 
 		// tiempo en segundos
 		double tf = 5;
 
-		double paso_simulacion = 0.01;// usar 0.00001
+		double paso_simulacion = 0.00001;// usar 0.00001
 		double paso_graph = 0.01;
 		int cant_cuadros =(int)Math.ceil( paso_graph / paso_simulacion);
-		double current_frame = 1;
-		double initialPosition = 1;
+		int current_frame = 1;
+		double initialPosition = 1.0;
 		
 		double initialVelocity =(gamma==0)? 0.0 :( -gamma / mass / 2);
 
 		VelocityVerletIntegration vvintegrator = new VelocityVerletIntegration(initialPosition, initialVelocity,
 				resorte);
 
-		double r2 = 0;
 
 		double current_pos_analitic = initialPosition;
 		double current_pos_aprox_verlet = initialPosition;
@@ -55,11 +54,11 @@ public class Main {
 			io.printStackTrace();
 		}
 
-		posiciones[0][0] = 0;
-		posiciones[0][1] = 1;
-		posiciones[0][2] = 1;
-		posiciones[0][3] = 1;
-		posiciones[0][4] = 1;
+		posiciones[0][0] = 0.0;
+		posiciones[0][1] = initialPosition;
+		posiciones[0][2] = initialPosition;
+		posiciones[0][3] = initialPosition;
+		posiciones[0][4] = initialPosition;
 
 		int i = 1;
 
@@ -71,15 +70,12 @@ public class Main {
 		GearPredictorCorrectorIntegration gear = new GearPredictorCorrectorIntegration(initialPosition, initialVelocity,
 				resorte, mass);
 		for (double t = paso_simulacion; t <= tf; t += paso_simulacion) {
-
+			//System.out.println("t="+t);
 			current_pos_analitic = AnalyticSpringSolution.getPosition(resorte, mass, t);
 			current_pos_aprox_verlet = vvintegrator.updatePosition(mass, paso_simulacion);
 			current_pos_aprox_beeman = bee.updatePosition(mass, paso_simulacion);
 			current_pos_aprox_gear = gear.updatePosition(paso_simulacion, mass);
-
-			// r2 = Math.pow(Math.abs(current_pos_analitic - current_pos_aprox),
-			// 2);
-
+						
 			if ((current_frame % cant_cuadros) == 0) {
 				
 					current_frame++;
@@ -98,6 +94,7 @@ public class Main {
 		}
 		try {
 			writer.write(posiciones, rows, cols);
+			writer.closeWriter();
 		} catch (IOException io) {
 			io.printStackTrace();
 		}
