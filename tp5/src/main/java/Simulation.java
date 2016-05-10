@@ -26,12 +26,12 @@ public class Simulation {
         this.interval = interval;
         this.writer = writer;
 
-        this.particles = Particle.generateRandomParticles(n, d, width, height, 5000L);
+        this.particles = Particle.generateRandomParticles(n, d, width, height, 10000L);
     }
 
     public void simulate() {
 
-        particles = (Collider.collisions(particles, width, height, dStart, d));
+        particles = Collider.collisions(particles, width, height, dStart, d);
         for (Particle particle : particles) {
             integrator.next(particle, interval);
         }

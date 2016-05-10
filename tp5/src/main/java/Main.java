@@ -5,7 +5,7 @@ public class Main {
     private static final double WIDTH = 2.0;
     private static final double HEIGHT = 10.0;
     private static final double D = 0.5;
-    private static final int N = 10;
+    private static final int N = 100;
     private static final double DSTART = (WIDTH / 2) - (D / 2);
 
 
@@ -22,11 +22,11 @@ public class Main {
             e.printStackTrace();
         }
         Integrator integrator = new BeemanIntegrator();
-        Simulation sim = new Simulation(integrator, 0.1, writer, WIDTH, HEIGHT, D, DSTART, N);
+        Simulation sim = new Simulation(integrator, 0.01, writer, WIDTH, HEIGHT, D, DSTART, N);
 
         long timeStart = System.currentTimeMillis();
 
-        int STEPS = 1;
+        int STEPS = 1000;
 
         for (int i = 0; i < STEPS; i++) {
             if (i % 1 == 0 && i > 0) {

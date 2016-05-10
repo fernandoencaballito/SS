@@ -18,7 +18,7 @@ public class ParticleWriter {
     public void write(double t, List<Particle> particles) throws IOException {
 
         //System.out.println("writing");
-        writer.write(String.format("%d\nTime = %g\n", particles.size() + 1, t));
+        writer.write(String.format("%d\nTime = %g\n", particles.size(), t));
 
         for (Particle particle : particles) {
             writer.write(formatParticle(particle));
@@ -30,8 +30,9 @@ public class ParticleWriter {
     private static String formatParticle(Particle p) {
 
         Vector2D pos = p.getPosition();
+        Vector2D vel = p.getVelocity();
         // id posX posY mass radius
-        return String.format("%s %f %f %f %f\n", p.getId(), pos.getX(), pos.getY(), p.getMass(), p.getRadius());
+        return String.format("%s %f %f %f %f %f %f\n", p.getId(), pos.getX(), pos.getY(), p.getMass(), p.getRadius(), vel.getX(), vel.getY());
     }
 
     public void closeWriter() throws IOException {

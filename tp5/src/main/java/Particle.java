@@ -35,11 +35,21 @@ public class Particle {
 
         int i = 0;
 
+        final double RADIUS = diameter / 2.0;
+
         Random random = new Random();
 
         while (System.currentTimeMillis() < maxTime && particles.size() < cant) {
 
             Vector2D position = new Vector2D(width * random.nextDouble(), height * random.nextDouble());
+
+            if (position.getX() < RADIUS || (position.getX() + RADIUS) > width) {
+                continue;
+            }
+
+            if (position.getY() < RADIUS || (position.getY() + RADIUS) > height) {
+                continue;
+            }
 
             boolean overlaps = false;
             boolean expired = false;
@@ -65,7 +75,8 @@ public class Particle {
                 break;
 
 
-            particles.add(new Particle(i, position, diameter / 2.0));
+            particles.add(new Particle(i, position, RADIUS));
+            i++;
         }
 
         return particles;

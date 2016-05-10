@@ -18,14 +18,18 @@ public class Collider {
         for (int i = 0; i < size; i++) {
             Particle p1 = particleVector[i];
 
-            if (p1.getPosition().getX() <= p1.getRadius() ||
-                    (p1.getPosition().getX() + p1.getRadius()) >= width) {
+            Vector2D position = p1.getPosition();
+
+            if ((position.getX() <= p1.getRadius() && p1.getVelocity().getX() < 0) ||
+                    (position.getX() + p1.getRadius()) >= width && p1.getVelocity().getX() > 0) {
                 Vector2D velocity = p1.getVelocity();
                 p1.setVelocity(new Vector2D(-velocity.getX(), velocity.getY()));
             }
 
-            if ((p1.getPosition().getY() >= 0 && p1.getPosition().getY() <= p1.getRadius()) ||
-                    (p1.getPosition().getY() + p1.getRadius()) >= height) {
+            boolean outsideHole = position.getX() < dStart || position.getX() > (dStart + d);
+
+            if ((position.getY() >= 0 && position.getY() <= p1.getRadius() && outsideHole && p1.getVelocity().getY() < 0) ||
+                    (position.getY() + p1.getRadius()) >= height) {
                 Vector2D velocity = p1.getVelocity();
                 p1.setVelocity(new Vector2D(velocity.getX(), -velocity.getY()));
             }
@@ -33,9 +37,6 @@ public class Collider {
 
             for (int j = i + 1; j < size; j++) {
                 Particle p2 = particleVector[j];
-
-
-
 
 
 //                double distance = p1.getPosition().distance(p2.getPosition());
