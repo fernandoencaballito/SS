@@ -20,6 +20,7 @@ public class Collider {
 
             Vector2D position = p1.getPosition();
 
+            //choque paredes  verticales
             if ((position.getX() <= p1.getRadius() && p1.getVelocity().getX() < 0) ||
                     (position.getX() + p1.getRadius()) >= width && p1.getVelocity().getX() > 0) {
                 Vector2D velocity = p1.getVelocity();
@@ -28,16 +29,23 @@ public class Collider {
 
             boolean outsideHole = position.getX() < dStart || position.getX() > (dStart + d);
 
+            //choques paredes horizontales
             if ((position.getY() >= 0 && position.getY() <= p1.getRadius() && outsideHole && p1.getVelocity().getY() < 0) ||
                     (position.getY() + p1.getRadius()) >= height) {
                 Vector2D velocity = p1.getVelocity();
                 p1.setVelocity(new Vector2D(velocity.getX(), -velocity.getY()));
             }
 
-
+            //choques con otras particulas	
             for (int j = i + 1; j < size; j++) {
                 Particle p2 = particleVector[j];
 
+
+              double superposition = p1.getPosition().distance(p2.getPosition());
+
+//              if (distance < p1.getRadius() + p2.getRadius()) {
+//
+//              }
 
 //                double distance = p1.getPosition().distance(p2.getPosition());
 //
