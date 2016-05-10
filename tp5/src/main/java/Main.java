@@ -22,14 +22,14 @@ public class Main {
             e.printStackTrace();
         }
         Integrator integrator = new BeemanIntegrator();
-        Simulation sim = new Simulation(integrator, 0.01, writer, WIDTH, HEIGHT, D, DSTART, N);
+        Simulation sim = new Simulation(integrator, 0.0001, writer, WIDTH, HEIGHT, D, DSTART, N);
 
         long timeStart = System.currentTimeMillis();
 
-        int STEPS = 1000;
+        int STEPS = 100000;
 
         for (int i = 0; i < STEPS; i++) {
-            if (i % 1 == 0 && i > 0) {
+            if (i % 100 == 0 && i > 0) {
                 long elapsedTime = System.currentTimeMillis() - timeStart;
                 System.out.printf("i=%d, prog= %g, remaining= %d seconds\n", i, (double) i / STEPS, ((elapsedTime / i) * (STEPS - i)) / 1000);
             }
