@@ -4,7 +4,7 @@ import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 public class BeemanIntegrator implements Integrator {
     public void next(Particle particle, double dt) {
 
-        Vector2D force = Gravity.gravitationalForce(particle);
+        Vector2D force = particle.getTotalForces();
         Vector2D acceleration = force.scalarMultiply(10 / particle.getMass());
         //Particle previous = new Particle("", particle.getMass(), particle.getVelocity().subtract(acceleration.scalarMultiply(dt / 2.0)), particle.getPosition().subtract(particle.getVelocity().scalarMultiply(dt / 2.0)));
         Vector2D previous_velocity = particle.getPreviousVelocity();

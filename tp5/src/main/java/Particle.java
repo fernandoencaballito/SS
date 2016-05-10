@@ -7,14 +7,14 @@ import java.util.Random;
 public class Particle {
 
     private final int id;
-    private boolean collided;
     private final double mass = 0.01;
     private Vector2D position;
     private Double radius;
     private Vector2D velocity;
     private Vector2D previous_velocity;
     private Vector2D previous_position;
-
+    private List<Vector2D> forces;
+    private static final double g=9.8;
     public Particle(int id, Vector2D position, double radius) {
         this(id, position, new Vector2D(0.0, 0.0), radius);
     }
@@ -25,6 +25,7 @@ public class Particle {
         this.radius = radius;
         this.velocity = velocity;
         this.position = position;
+        this.forces=new ArrayList<Vector2D>();
     }
 
     public static List<Particle> generateRandomParticles(int cant, double diameter, double width, double height, long timeout) {
@@ -143,5 +144,29 @@ public class Particle {
     public double getKineticEnergy() {
         return 0.5 * mass * velocity.dotProduct(velocity);
     }
+
+	public void addForce(double f_x, double f_y) {
+			forces.add(new Vector2D(f_x,f_y));
+		
+	}
+	
+	//metodo que devuelve la suma de todas las fuerzas.
+	//la fuerza de gravedad no esta incluida en la lista de fuerzas, sino que la calcula
+	public Vector2D getTotalForces(){
+		double ansx=0.0;
+		double ansy=-mass*g;
+		
+		for(Vector2D v: forces){
+			
+			ansx+=v.getX();
+			ansy+=v.getY();
+		}
+		
+		forces.clear();
+		return new Vector2D(ansx,ansy);
+		
+		
+		
+	}
 
 }

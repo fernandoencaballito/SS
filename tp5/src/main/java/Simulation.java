@@ -15,8 +15,10 @@ public class Simulation {
     private double time = 0.0;
     private long count = 0;
     private List<Particle> particles;
+    private double k_n;
+    private double k_t;
 
-    public Simulation(Integrator integrator, double interval, ParticleWriter writer, double width, double height, double d, double dStart, int n) {
+    public Simulation(Integrator integrator, double interval, ParticleWriter writer, double width, double height, double d, double dStart, int n,double k_n,double k_t) {
         this.width = width;
         this.height = height;
         this.d = d;
@@ -26,15 +28,25 @@ public class Simulation {
         this.interval = interval;
         this.writer = writer;
 
-        this.particles = Particle.generateRandomParticles(n, d, width, height, 10000L);
+        this.particles =Particle.generateRandomParticles(n, d, width, height, 10000L);
+        
+        this.k_n=k_n;
+        this.k_t=k_t;
     }
 
     public void simulate() {
 
-        particles = Collider.collisions(particles, width, height, dStart, d);
-        for (Particle particle : particles) {
-            integrator.next(particle, interval);
-        }
+        particles = Collider.collisions(particles, width, height, dStart, d,k_n,k_t);
+        
+        //VERSION ORIGINAL
+//        for (Particle particle : particles) {
+//            integrator.next(particle, interval);
+//        }
+        
+        //VERSION CON THREADSS
+        particles.parallelStream().forEach(e->integrator.next(e, interval));
+        
+        
         if (count % 1 == 0) {
             try {
                 writer.write(time, particles);
