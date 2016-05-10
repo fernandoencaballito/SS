@@ -80,6 +80,7 @@ public class Particle {
             i++;
         }
 
+        System.out.println("[generateRandomParticles]: done");
         return particles;
     }
 

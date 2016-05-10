@@ -6,13 +6,21 @@ public class Main {
     private static final double HEIGHT = 10.0;
     private static final double D = 0.5;
     private static final int N = 100;
-    private static final double DSTART = (WIDTH / 2) - (D / 2);
-
-
+    private static final double DSTART = (WIDTH / 2.0) - (D / 2.0);
+    private static final double KN=Math.pow(10.0, 5.0);
+    private static final double KT=2*KN;
+    private static final double DROP_DEPTH=1.0;//Profundidad que caen las particulas luego de salir del silo. A una profundida mayor, se pierda la particula
+    
+    
     public static void main(String[] args) {
         // TODO Auto-generated method stub
-
-        long time = System.currentTimeMillis();
+    	double total_time=10.0;
+    	double paso_simulacion=0.0001;
+    	double paso_grafico=0.1;
+    	int cant_cuadros=(int)Math.ceil( paso_grafico / paso_simulacion);
+    	int current_frame=1;
+    	
+       
 
 
         ParticleWriter writer = null;
@@ -22,24 +30,30 @@ public class Main {
             e.printStackTrace();
         }
         Integrator integrator = new BeemanIntegrator();
-        Simulation sim = new Simulation(integrator, 0.0001, writer, WIDTH, HEIGHT, D, DSTART, N);
+        Simulation sim = new Simulation(integrator, paso_simulacion, writer, WIDTH, HEIGHT, D, DSTART, N, KN,KT,DROP_DEPTH);
 
         long timeStart = System.currentTimeMillis();
 
-        int STEPS = 100000;
+        sim.writeData();
 
-        for (int i = 0; i < STEPS; i++) {
-            if (i % 100 == 0 && i > 0) {
-                long elapsedTime = System.currentTimeMillis() - timeStart;
-                System.out.printf("i=%d, prog= %g, remaining= %d seconds\n", i, (double) i / STEPS, ((elapsedTime / i) * (STEPS - i)) / 1000);
-            }
+        for (double time = paso_simulacion; time<total_time; time+=paso_simulacion) {
+            
             sim.simulate();
+            
+            if((current_frame%cant_cuadros)==0){
+            	//se graba a archivo
+            	
+            	sim.writeData();
+            	
+            }
+            current_frame++;
+            
         }
 
         //sim.clean();//se liberan recursos
-        time = System.currentTimeMillis() - time;
+        double elapsedTime = System.currentTimeMillis() - timeStart;
 
-        System.out.println("Time: " + time);
+        System.out.println("Time: " + elapsedTime);
 
     }
 
