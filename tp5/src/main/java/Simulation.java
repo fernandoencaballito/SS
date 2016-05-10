@@ -43,7 +43,7 @@ public class Simulation {
 
     public void simulate() {
 
-        particles = Collider.collisions(particles, width, height, dStart, d,k_n,k_t);
+        particles = Collider.collisions(particles, width, height, dStart, d,k_n,k_t,drop_depht);
         
         //VERSION ORIGINAL
         for (Particle particle : particles) {

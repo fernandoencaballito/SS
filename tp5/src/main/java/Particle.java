@@ -30,6 +30,7 @@ public class Particle {
 
     public static List<Particle> generateRandomParticles(int cant, double diameter, double width, double height, long timeout) {
 
+    	 System.out.println("[generateRandomParticles]: starting");
         List<Particle> particles = new ArrayList<Particle>(cant);
 
         long maxTime = System.currentTimeMillis() + timeout;
@@ -146,6 +147,10 @@ public class Particle {
         return 0.5 * mass * velocity.dotProduct(velocity);
     }
 
+    public void addForce(Vector2D f){
+    	forces.add(f);
+    }
+    
 	public void addForce(double f_x, double f_y) {
 			forces.add(new Vector2D(f_x,f_y));
 		

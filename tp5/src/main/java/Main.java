@@ -8,15 +8,15 @@ public class Main {
     private static final int N = 100;
     private static final double DSTART = (WIDTH / 2.0) - (D / 2.0);
     private static final double KN=Math.pow(10.0, 5.0);
-    private static final double KT=2*KN;
-    private static final double DROP_DEPTH=1.0;//Profundidad que caen las particulas luego de salir del silo. A una profundida mayor, se pierda la particula
+    private static final double KT=2.0*KN;
+    private static final double DROP_DEPTH=5.0;//Profundidad que caen las particulas luego de salir del silo. A una profundida mayor, se pierda la particula
     
     
     public static void main(String[] args) {
         // TODO Auto-generated method stub
     	double total_time=10.0;
     	double paso_simulacion=0.0001;
-    	double paso_grafico=0.1;
+    	double paso_grafico=0.01;
     	int cant_cuadros=(int)Math.ceil( paso_grafico / paso_simulacion);
     	int current_frame=1;
     	
@@ -44,6 +44,7 @@ public class Main {
             	//se graba a archivo
             	
             	sim.writeData();
+            	System.out.println("SimulationTime: "+time);
             	
             }
             current_frame++;
@@ -53,7 +54,7 @@ public class Main {
         //sim.clean();//se liberan recursos
         double elapsedTime = System.currentTimeMillis() - timeStart;
 
-        System.out.println("Time: " + elapsedTime);
+        System.out.println("ElapsedTime: " + elapsedTime);
 
     }
 
