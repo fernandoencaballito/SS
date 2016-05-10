@@ -11,6 +11,11 @@ public class Spring implements ForceCalculator1D {
 		this.k = k;
 		this.gamma = gamma;
 	}
+	
+	public double calculateNDeriv(double di, double di_sig) {
+		return calculateForce(di,di_sig);
+	}
+	
 
 	public double calculateForce(double position, double velocity) {
 		return -k * position - gamma * velocity;
