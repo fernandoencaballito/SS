@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.Locale;
 
 public class Main {
 
@@ -10,17 +11,17 @@ public class Main {
     private static final double KN=Math.pow(10.0, 5.0);
     private static final double KT=2.0*KN;
     private static final double DROP_DEPTH=5.0;//Profundidad que caen las particulas luego de salir del silo. A una profundida mayor, se pierda la particula
-    
-    
+
+
     public static void main(String[] args) {
         // TODO Auto-generated method stub
     	double total_time=10.0;
-    	double paso_simulacion=0.0001;
+    	double paso_simulacion=0.00001;
     	double paso_grafico=0.01;
     	int cant_cuadros=(int)Math.ceil( paso_grafico / paso_simulacion);
     	int current_frame=1;
-    	
-       
+
+        Locale.setDefault(new Locale("en", "US"));
 
 
         ParticleWriter writer = null;
@@ -37,22 +38,23 @@ public class Main {
         sim.writeData();
 
         for (double time = paso_simulacion; time<total_time; time+=paso_simulacion) {
-            
+
             sim.simulate();
-            
+
             if((current_frame%cant_cuadros)==0){
             	//se graba a archivo
-            	
+
             	sim.writeData();
-            	System.out.println("SimulationTime: "+time);
-            	
+                long elapsedTime = System.currentTimeMillis() - timeStart;
+                System.out.printf("time=%g, prog= %g, remaining= %d seconds\n", time, time/total_time, 0);
+
             }
             current_frame++;
-            
+
         }
 
         //sim.clean();//se liberan recursos
-        double elapsedTime = System.currentTimeMillis() - timeStart;
+        long elapsedTime = System.currentTimeMillis() - timeStart;
 
         System.out.println("ElapsedTime: " + elapsedTime);
 
