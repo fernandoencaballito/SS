@@ -1,3 +1,4 @@
+package tp5;
 import java.io.IOException;
 import java.util.Locale;
 
@@ -30,7 +31,7 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Integrator integrator = new BeemanIntegrator();
+        Integrator integrator = new VerletIntegrator();
         Simulation sim = new Simulation(integrator, paso_simulacion, writer, WIDTH, HEIGHT, D, DSTART, N, KN,KT,DROP_DEPTH);
 
         long timeStart = System.currentTimeMillis();
