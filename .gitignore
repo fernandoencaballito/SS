@@ -3,3 +3,5 @@ octave-workspace
 .settings
 .classpath
 .project
+
+*.xyz

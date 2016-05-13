@@ -16,7 +16,7 @@ public class Main {
     public static void main(String[] args) {
         // TODO Auto-generated method stub
     	double total_time=10.0;
-    	double paso_simulacion=0.00001;
+    	double paso_simulacion=0.0001;
     	double paso_grafico=0.01;
     	int cant_cuadros=(int)Math.ceil( paso_grafico / paso_simulacion);
     	int current_frame=1;
