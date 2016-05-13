@@ -47,6 +47,8 @@ public class CellIndexMethod {
                 cell.clear();
             }
         }
+
+        //grid.stream().forEach(row->row.stream().forEach(cell->cell.clear()));
     }
 
     public void addParticles(List<Particle> particles) {

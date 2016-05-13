@@ -61,6 +61,8 @@ public class Collider {
 
             List<Particle> neighbors = cim.getNeighbors(p1);
 
+           // neighbors.stream().forEach(p2->Collider.collide(p1,p2,position1,k_t,k_n));
+
             for (Particle p2 : neighbors) {
                 Vector2D position2 = p2.getPosition();
                 double centerDistance = position1.distance(position2);
@@ -103,6 +105,37 @@ public class Collider {
 
         return particleList;
     }
+
+    private static void collide(Particle p1, Particle p2, Vector2D position1, double k_t, double k_n) {
+        Vector2D position2 = p2.getPosition();
+        double centerDistance = position1.distance(position2);
+        double superposition = p1.getRadius() + p2.getRadius() - centerDistance;
+
+        // colisión entre 2 particulas
+        if (superposition > 0.0) {
+            Vector2D positionDifference = position2.subtract(position1);
+            double enx = positionDifference.getX() / centerDistance;
+            double eny = positionDifference.getY() / centerDistance;
+
+            double f_n = k_n * superposition;
+
+            Vector2D rRel = p2.getVelocity().subtract(p1.getVelocity());
+            Vector2D tangencialVersor = new Vector2D(-eny, enx);
+            double f_t = -k_t * superposition * (rRel.dotProduct(tangencialVersor));
+
+
+            double f_x = f_n * enx + f_t * (-eny);
+            double f_y = f_n * eny + f_t * enx;
+
+            p2.addForce(f_x, f_y);
+            p1.addForce(-f_x, -f_y);
+
+
+        }
+
+    }
+
+
 
     //devuelve "Enormal" y "Etangecial" para colisiones con paredes
     private static Vector2D[] getE(Vector2D velocity) {

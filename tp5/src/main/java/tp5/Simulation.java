@@ -62,7 +62,6 @@ public class Simulation {
         cim.addParticles(particles);
 
         particles = Collider.collisions(particles, width, height, dStart, d, k_n, k_t, drop_depht, cim);
-        flow=previousParticlesCount-particles.size();
         //VERSION ORIGINAL
         for (Particle particle : particles) {
             integrator.next(particle, interval);
@@ -74,14 +73,14 @@ public class Simulation {
             	}
             }
         }
-        
+
         //VERSION CON THREADS(para N=100 tarda mas)
-        // particles.parallelStream().forEach(e->integrator.next(e, interval));
+        // particles.stream().forEach(e->integrator.next(e, interval));
         
         
        
         time = time + interval;
-        return particles.size()-flow;
+        return flow;
     }
 
 
