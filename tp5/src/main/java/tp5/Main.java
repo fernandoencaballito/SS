@@ -7,7 +7,7 @@ public class Main {
     private static final double WIDTH = 2.0;
     private static final double HEIGHT = 10.0;
     private static final double D = 0.5;
-    private static final int N = 1000;
+    private static final int N = 500;
     private static final double DSTART = (WIDTH / 2.0) - (D / 2.0);
     private static final double KN=Math.pow(10.0, 5.0);
     private static final double KT=2.0*KN;
@@ -19,7 +19,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         // TODO Auto-generated method stub
        DlmWriter energyDataWriter=null;
-       double total_time = 5.0;
+       double total_time = 60.0;
         double paso_simulacion = 0.00001;
         double paso_grafico = 0.1;
         int cant_cuadros=(int)Math.ceil( paso_grafico / paso_simulacion);

@@ -27,7 +27,7 @@ public class Particle {
         this.forces=new ArrayList<Vector2D>();
     }
 
-    public static List<Particle> generateRandomParticles(int cant, double diameter, double width, double height, long timeout) {
+    public static List<Particle> generateRandomParticles(int cant, double diameter, double width, double height, long timeout,double drop_height) {
 
     	 System.out.println("[generateRandomParticles]: starting");
         List<Particle> particles = new ArrayList<Particle>(cant);
@@ -42,13 +42,13 @@ public class Particle {
 
         while (System.currentTimeMillis() < maxTime && particles.size() < cant) {
 
-            Vector2D position = new Vector2D(width * random.nextDouble(), height * random.nextDouble());
+            Vector2D position = new Vector2D(width * random.nextDouble(), (height * random.nextDouble()) + drop_height);
 
             if (position.getX() < RADIUS || (position.getX() + RADIUS) > width) {
                 continue;
             }
 
-            if (position.getY() < RADIUS || (position.getY() + RADIUS) > height) {
+            if (position.getY() < (RADIUS+drop_height) || (position.getY() + RADIUS) > (height+drop_height)) {
                 continue;
             }
 

@@ -9,7 +9,7 @@ import java.util.List;
 public class Collider {
 
     private static final Vector2D xAxis = new Vector2D(1, 0);
-
+    
     public static List<Particle> collisions(List<Particle> particles, double width, double height, double dStart,
                                             double d, double k_n, double k_t,
                                             double drop_depth, CellIndexMethod cim) {
@@ -17,7 +17,13 @@ public class Collider {
         Particle[] particleVector = particles.toArray(new Particle[particles.size()]);
 
         int size = particleVector.length;
-
+         double y_upper_wall=height+drop_depth;
+        double y_bottom_wall=drop_depth;
+        double x_rigth_wall=width;
+        double x_left_wall=0.0;
+        
+        
+        
         for (int i = 0; i < size; i++) {
             Particle p1 = particleVector[i];
 
@@ -27,7 +33,7 @@ public class Collider {
 
 
             // choque paredes vertical derecha
-            if ((position1.getX() + p1.getRadius()) >= width) {
+            if ((position1.getX() + p1.getRadius()) >= x_rigth_wall) {
 
                 p1.addForce(getWallForce(p1, k_n, k_t, WallDirection.RIGHT, width));
 
@@ -40,14 +46,16 @@ public class Collider {
             boolean outsideHole = position1.getX() < dStart || position1.getX() > (dStart + d);
 
             // choques pared horizontal inferior
-            if (position1.getY() >= 0 && position1.getY() <= p1.getRadius() && outsideHole
+            if (position1.getY() >= y_bottom_wall 
+            		&&( position1.getY() <= (p1.getRadius()+y_bottom_wall) )
+            		&& outsideHole
                     && p1.getVelocity().getY() < 0) {
-                p1.addForce(getWallForce(p1, k_n, k_t, WallDirection.BOTTOM, 0));
+                p1.addForce(getWallForce(p1, k_n, k_t, WallDirection.BOTTOM, y_bottom_wall));
 
 
             }//choque pared horizontal superior
-            else if ((position1.getY() + p1.getRadius()) >= height) {
-                p1.addForce(getWallForce(p1, k_n, k_t, WallDirection.UPPER, height));
+            else if ((position1.getY() + p1.getRadius()) >= y_upper_wall) {
+                p1.addForce(getWallForce(p1, k_n, k_t, WallDirection.UPPER, y_upper_wall));
             }
 
 

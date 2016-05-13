@@ -42,14 +42,14 @@ public class Simulation {
 
         this.diameter = d / 10.0;
 
-        this.particles = Particle.generateRandomParticles(n, this.diameter, width, height, 10000L);
+        this.particles = Particle.generateRandomParticles(n, this.diameter, width, height, 10000L,drop_depth);
 
         this.k_n = k_n;
         this.k_t = k_t;
 
         this.drop_depht = drop_depth;
 
-        this.cim = new CellIndexMethod(width, height, n, this.diameter);
+        this.cim = new CellIndexMethod(width, height+drop_depth, n, this.diameter);
     }
 
     public void simulate() {
