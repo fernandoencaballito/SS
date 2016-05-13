@@ -2,6 +2,7 @@ package tp5;
 import java.io.IOException;
 import java.util.List;
 
+
 public class Simulation {
 
 
@@ -47,12 +48,12 @@ public class Simulation {
         particles = Collider.collisions(particles, width, height, dStart, d,k_n,k_t,drop_depht);
         
         //VERSION ORIGINAL
-        for (Particle particle : particles) {
+       for (Particle particle : particles) {
             integrator.next(particle, interval);
         }
         
         //VERSION CON THREADS(para N=100 tarda mas)
-        // particles.parallelStream().forEach(e->integrator.next(e, interval));
+//         particles.parallelStream().forEach(e->integrator.next(e, interval));
         
         
        
@@ -68,5 +69,36 @@ public class Simulation {
 		}
     }
     
+    
+  public double getMeanKineticEnergy(){
+	  return getTotalKineticEnergy()/particles.size();
+  }
+  public double getTotalKineticEnergy(){
+		double ans=0.0;
+		
+		for(Particle particle:particles){
+			ans+=particle.getKineticEnergy();
+		}
+		return ans;
+		
+	}
+  
+  public double getMeanPotentialEnergy(){
+	  return getTotalPotentialEnergy()/particles.size();
+  }
+	
+	public double getTotalPotentialEnergy(){
+		double ans=0.0;
+		
+		for(Particle particle:particles){
+			
+			ans+=particle.getPotentialEnergy();
+		}
+		return ans;
+		
+	}
+	
+	
+	
 
 }
