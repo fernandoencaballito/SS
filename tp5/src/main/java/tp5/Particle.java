@@ -7,27 +7,23 @@ import java.util.Random;
 
 public class Particle {
 
+    private static final double g = 9.8;
     private final int id;
     private final double mass = 0.01;
     private Vector2D position;
     private Double radius;
     private Vector2D velocity;
-    private Vector2D acceleration;
-    private Vector2D previous_acceleration;
-    private Vector2D previous_velocity;
     private Vector2D previous_position;
     private List<Vector2D> forces;
-    private static final double g=9.8;
 
 
-    public Particle(int id, Vector2D position, Vector2D velocity, Vector2D acceleration, double radius) {
+    public Particle(int id, Vector2D position, Vector2D velocity, double radius) {
         super();
         this.id = id;
         this.radius = radius;
         this.velocity = velocity;
         this.position = position;
-        this.acceleration =  acceleration;
-        this.previous_acceleration = acceleration;
+        this.previous_position = position;
         this.forces=new ArrayList<Vector2D>();
     }
 
@@ -80,7 +76,7 @@ public class Particle {
                 break;
 
 
-            particles.add(new Particle(i, position, new Vector2D(0.0,0.0), new Vector2D(0,-9.81),RADIUS));
+            particles.add(new Particle(i, position, new Vector2D(0.0, 0.0), RADIUS));
             i++;
         }
 
@@ -131,13 +127,9 @@ public class Particle {
     }
 
     public void setVelocity(Vector2D velocity) {
-        this.previous_velocity = this.velocity;
         this.velocity = velocity;
     }
 
-    public Vector2D getPreviousVelocity() {
-        return this.previous_velocity;
-    }
 
     @Override
     public String toString() {
@@ -159,19 +151,6 @@ public class Particle {
 		
 	}
 
-    public Vector2D getAcceleration() {
-        return this.acceleration;
-    }
-
-    public Vector2D getGetPreviousAcceleration() {
-        return  this.previous_acceleration;
-    }
-
-    public void setAcceleration(Vector2D acceleration) {
-        this.previous_acceleration = this.acceleration;
-        this.acceleration = acceleration;
-    }
-	
 	//metodo que devuelve la suma de todas las fuerzas.
 	//la fuerza de gravedad no esta incluida en la lista de fuerzas, sino que la calcula
 	public Vector2D getTotalForces(){

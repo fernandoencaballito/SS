@@ -1,7 +1,6 @@
 package tp5;
 
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
-import org.apache.commons.math3.ml.distance.DistanceMeasure;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +28,11 @@ public class Collider {
             // choque paredes vertical derecha
             if ((position1.getX() + p1.getRadius()) >= width) {
 
-                p1.addForce(getWallForce(p1, k_n, k_t, WallDirection.VERTICAL, width));
+                p1.addForce(getWallForce(p1, k_n, k_t, WallDirection.RIGHT, width));
 
             }//pared vertical izquierda
             else if (position1.getX() <= p1.getRadius()) {
-                p1.addForce(getWallForce(p1, k_n, k_t, WallDirection.VERTICAL, 0));
+                p1.addForce(getWallForce(p1, k_n, k_t, WallDirection.LEFT, 0));
             }
 
 
@@ -42,12 +41,12 @@ public class Collider {
             // choques pared horizontal inferior
             if (position1.getY() >= 0 && position1.getY() <= p1.getRadius() && outsideHole
                     && p1.getVelocity().getY() < 0) {
-                p1.addForce(getWallForce(p1, k_n, k_t, WallDirection.HORIZONTAL, 0));
+                p1.addForce(getWallForce(p1, k_n, k_t, WallDirection.BOTTOM, 0));
 
 
             }//choque pared horizontal superior
             else if ((position1.getY() + p1.getRadius()) >= height) {
-                p1.addForce(getWallForce(p1, k_n, k_t, WallDirection.HORIZONTAL, height));
+                p1.addForce(getWallForce(p1, k_n, k_t, WallDirection.UPPER, height));
             }
 
 
@@ -115,11 +114,11 @@ public class Collider {
         double centerDistance = 0.0;
 
 
-            if (wallDirection == WallDirection.HORIZONTAL) {
+        if (wallDirection == WallDirection.BOTTOM || wallDirection == WallDirection.UPPER) {
                 centerDistance = Math.abs(wallPos - position1.getY());
 
 
-            } else if (wallDirection == WallDirection.VERTICAL) {
+        } else if (wallDirection == WallDirection.LEFT || wallDirection == WallDirection.RIGHT) {
                 centerDistance = Math.abs(wallPos - position1.getX());
             }
 
@@ -127,28 +126,30 @@ public class Collider {
 
         if (superposition > 0.0) {
             double f_n = k_n * superposition;//Formula N1
-
-//            Vector2D[] e = getE(velocity1);
-//            Vector2D eNormal = e[0];
-//            Vector2D eTangencial = e[1];
-
-            //formula t.3
-            //double f_t = -k_t * superposition * (velocity1.dotProduct(eTangencial));
             double f_t;
-            if (wallDirection == WallDirection.HORIZONTAL) {
+            if (wallDirection == WallDirection.BOTTOM || wallDirection == WallDirection.UPPER) {
                 f_t = -k_t * superposition * velocity1.getX();
-                return new Vector2D(f_t, f_n);
-            }
-            else {
+
+                if (wallDirection == WallDirection.BOTTOM)
+                    return new Vector2D(f_t, f_n);
+
+                if (wallDirection == WallDirection.UPPER)
+                    return new Vector2D(f_t, -f_n);
+            } else if (wallDirection == WallDirection.RIGHT || wallDirection == WallDirection.LEFT) {
                 f_t = -k_t * superposition * velocity1.getY();
-                return new Vector2D(f_n, f_t);
+
+                if (wallDirection == WallDirection.RIGHT)
+                    return new Vector2D(-f_n, f_t);
+
+                if (wallDirection == WallDirection.LEFT)
+                    return new Vector2D(f_n, f_t);
             }
         }
         return new Vector2D(0, 0);
     }
 
     private enum WallDirection {
-        HORIZONTAL, VERTICAL;
+        LEFT, RIGHT, UPPER, BOTTOM;
     }
 
 }

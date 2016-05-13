@@ -4,10 +4,9 @@ import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 public class VerletIntegrator implements Integrator {
 
-	@Override
-	public void next(Particle particle, double dt) {
+
+    public void next(Particle particle, double dt) {
         Vector2D force = particle.getTotalForces();
-        Vector2D previous_velocity = particle.getPreviousVelocity();
         Vector2D previous_position = particle.getPreviousPosition();
         Vector2D acceleration = force.scalarMultiply(1.0/particle.getMass());
 

@@ -34,7 +34,7 @@ public class Simulation {
         this.interval = interval;
         this.writer = writer;
 
-        this.particles =Particle.generateRandomParticles(n, d, width, height, 10000L);
+        this.particles = Particle.generateRandomParticles(n, diameter, width, height, 10000L);
         
         this.k_n=k_n;
         this.k_t=k_t;
