@@ -73,15 +73,6 @@ public class Simulation {
         time = time + interval;
     }
 
-    public void writeData() {
-        try {
-            writer.write(time, particles);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
 
     public void writeData(){
     	try {
