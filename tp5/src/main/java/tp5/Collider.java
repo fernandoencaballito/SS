@@ -1,5 +1,6 @@
 package tp5;
 
+import cellIndexMethod.CellIndexMethod;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ public class Collider {
 
     public static List<Particle> collisions(List<Particle> particles, double width, double height, double dStart,
                                             double d, double k_n, double k_t,
-                                            double drop_depth) {
+                                            double drop_depth, CellIndexMethod cim) {
 
         Particle[] particleVector = particles.toArray(new Particle[particles.size()]);
 
@@ -50,9 +51,9 @@ public class Collider {
             }
 
 
-            // se analizan choques con otras particulas
-            for (int j = i + 1; j < size; j++) {
-                Particle p2 = particleVector[j];
+            List<Particle> neighbors = cim.getNeighbors(p1);
+
+            for (Particle p2 : neighbors) {
                 Vector2D position2 = p2.getPosition();
                 double centerDistance = position1.distance(position2);
                 double superposition = p1.getRadius() + p2.getRadius() - centerDistance;
@@ -78,8 +79,9 @@ public class Collider {
 
 
                 }
-
             }
+
+
         }
 
         List<Particle> particleList = new ArrayList<Particle>(size);
@@ -115,12 +117,12 @@ public class Collider {
 
 
         if (wallDirection == WallDirection.BOTTOM || wallDirection == WallDirection.UPPER) {
-                centerDistance = Math.abs(wallPos - position1.getY());
+            centerDistance = Math.abs(wallPos - position1.getY());
 
 
         } else if (wallDirection == WallDirection.LEFT || wallDirection == WallDirection.RIGHT) {
-                centerDistance = Math.abs(wallPos - position1.getX());
-            }
+            centerDistance = Math.abs(wallPos - position1.getX());
+        }
 
         double superposition = p.getRadius() - centerDistance;
 
