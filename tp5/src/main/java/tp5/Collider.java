@@ -97,7 +97,7 @@ public class Collider {
         for (int i = 0; i < particleVector.length; i++) {
             Particle current = particleVector[i];
             if (current != null
-                    && (current.getPosition().getY() > (-drop_depth)))
+                    && (current.getPosition().getY() > 0.0))
                 particleList.add(particleVector[i]);
         }
 

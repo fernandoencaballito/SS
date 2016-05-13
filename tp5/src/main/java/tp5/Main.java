@@ -7,18 +7,19 @@ public class Main {
     private static final double WIDTH = 2.0;
     private static final double HEIGHT = 10.0;
     private static final double D = 0.5;
-    private static final int N = 500;
+    private static final int N = 100;
     private static final double DSTART = (WIDTH / 2.0) - (D / 2.0);
     private static final double KN=Math.pow(10.0, 5.0);
     private static final double KT=2.0*KN;
     private static final double DROP_DEPTH=1.0;//Profundidad que caen las particulas luego de salir del silo. A una profundida mayor, se pierda la particula
 
 
-    private static final String  ENERGY_OUTPUT_FILE="system_energy.csv";
+   
 
     public static void main(String[] args) throws IOException {
         // TODO Auto-generated method stub
        DlmWriter energyDataWriter=null;
+       DlmWriter flowWriter=null;
        double total_time = 20.0;
         double paso_simulacion = 0.00001;
         double paso_grafico = 0.1;
@@ -30,9 +31,15 @@ public class Main {
 
         ParticleWriter writer = null;
         try {
-        	String outputFilename=String.format("tp5-N=%d-deltaSim=%g-L=%g.xyz",N,paso_simulacion,HEIGHT);
+        	String outputFilename=String.format("tp5_N=%d_deltaSim=%g_L=%g_D=%g.xyz",N,paso_simulacion,HEIGHT,D);
             writer = new ParticleWriter(outputFilename);
+            
+             String  ENERGY_OUTPUT_FILE=String.format("system_energy_N=%d_deltaSim=%g_L=%g_D=%g.csv",N,paso_simulacion,HEIGHT,D);
             energyDataWriter=new DlmWriter(ENERGY_OUTPUT_FILE);
+
+            String  FLOW_OUTPUT_FILE=String.format("FLOW_N=%d_deltaSim=%g_L=%g_D=%g.csv",N,paso_simulacion,HEIGHT,D);
+            flowWriter=new DlmWriter(FLOW_OUTPUT_FILE);
+            
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -46,13 +53,15 @@ public class Main {
 
 
         long previousTime=timeStart;
+        long currentFlow = 0;
         for (double time = paso_simulacion; time<total_time; time+=paso_simulacion) {
 
-            sim.simulate();
+        	currentFlow=sim.simulate();
 
             if((current_frame%cant_cuadros)==0){
             	//se graba a archivo
-
+            	double avgFlow = currentFlow;
+            	//currentFlow = 0;
             	sim.writeData();
             	long currentSystemTime=System.currentTimeMillis();
                 //long elapsedTime = currentSystemTime - timeStart;
@@ -67,7 +76,9 @@ public class Main {
 				double totalEnergy=totalKinetic+totalPotential;
 				double[][] energyData={{current_frame*paso_simulacion,totalKinetic,totalPotential,totalEnergy}};
 				energyDataWriter.write(energyData, 1, 4);
-
+				
+				double[][] flowData={{current_frame*paso_simulacion,avgFlow}};
+				flowWriter.write(flowData, 1, 2);
 
             }
             current_frame++;
@@ -82,7 +93,8 @@ public class Main {
         System.out.println("ElapsedTime: " + elapsedTime);
 
         energyDataWriter.closeWriter();
-
+        flowWriter.closeWriter();
+        
 
     }
 

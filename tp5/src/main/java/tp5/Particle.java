@@ -15,6 +15,7 @@ public class Particle {
     private Vector2D velocity;
     private Vector2D previous_position;
     private List<Vector2D> forces;
+    private boolean inside;
 
 
     public Particle(int id, Vector2D position, Vector2D velocity, double radius) {
@@ -25,6 +26,7 @@ public class Particle {
         this.position = position;
         this.previous_position = position;
         this.forces=new ArrayList<Vector2D>();
+        this.inside = true;
     }
 
     public static List<Particle> generateRandomParticles(int cant, double diameter, double width, double height, long timeout,double drop_height) {
@@ -130,7 +132,13 @@ public class Particle {
         this.velocity = velocity;
     }
 
-
+    public boolean wasInside() {
+    	return this.inside;
+    }
+    public void setOutside() {
+    	this.inside = false;
+    }
+    
     @Override
     public String toString() {
         return "Particle [id=" + id + ", mass=" + mass + ", position=" + position + ", radius=" + radius + ", velocity="

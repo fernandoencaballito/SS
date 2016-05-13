@@ -23,6 +23,7 @@ public class Simulation {
     private double k_t;
     private double drop_depht;
 
+    private long previousParticlesCount;
     private CellIndexMethod cim;
 
 
@@ -50,19 +51,28 @@ public class Simulation {
         this.drop_depht = drop_depth;
 
         this.cim = new CellIndexMethod(width, height+drop_depth, n, this.diameter);
+        this.previousParticlesCount=n;
     }
 
-    public void simulate() {
+    public long simulate() {
 
+    	long flow = 0;
         cim.clearGrid();
 
         cim.addParticles(particles);
 
         particles = Collider.collisions(particles, width, height, dStart, d, k_n, k_t, drop_depht, cim);
-
+        flow=previousParticlesCount-particles.size();
         //VERSION ORIGINAL
         for (Particle particle : particles) {
             integrator.next(particle, interval);
+            if(particle.wasInside()) {
+            	double yPos = particle.getPosition().getY();
+            	if(yPos < drop_depht) {
+            		particle.setOutside();
+            		flow++;
+            	}
+            }
         }
         
         //VERSION CON THREADS(para N=100 tarda mas)
@@ -71,6 +81,7 @@ public class Simulation {
         
        
         time = time + interval;
+        return particles.size()-flow;
     }
 
 
