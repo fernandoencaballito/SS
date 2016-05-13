@@ -12,7 +12,7 @@ public class Simulation {
     private double height;
     private double d;
     private double dStart;
-    private double diameter = d / 10.0;
+    private double diameter;
     private double time = 0.0;
     private List<Particle> particles;
     private double k_n;
@@ -34,7 +34,7 @@ public class Simulation {
         this.interval = interval;
         this.writer = writer;
 
-        this.particles = Particle.generateRandomParticles(n, diameter, width, height, 10000L);
+        this.particles = Particle.generateRandomParticles(n, d / 10.0, width, height, 10000L);
         
         this.k_n=k_n;
         this.k_t=k_t;
@@ -52,7 +52,7 @@ public class Simulation {
         }
         
         //VERSION CON THREADS(para N=100 tarda mas)
-       //particles.parallelStream().forEach(e->integrator.next(e, interval));
+        // particles.parallelStream().forEach(e->integrator.next(e, interval));
         
         
        
