@@ -170,4 +170,9 @@ public class Particle {
 		
 	}
 
+	public double getPotentialEnergy() {
+		
+		return mass*g*position.getY();
+	}
+
 }
