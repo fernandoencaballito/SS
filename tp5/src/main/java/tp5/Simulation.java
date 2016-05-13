@@ -112,6 +112,16 @@ public class Simulation {
 
 	}
 
+	public void clean() {
+		try {
+			writer.closeWriter();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
 
 
 

@@ -25,7 +25,7 @@ public class ParticleWriter {
         for (Particle particle : particles) {
             writer.write(formatParticle(particle));
         }
-        writer.flush();
+        //writer.flush();
 
     }
 

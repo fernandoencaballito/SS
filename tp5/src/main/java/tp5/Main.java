@@ -11,7 +11,7 @@ public class Main {
     private static final double DSTART = (WIDTH / 2.0) - (D / 2.0);
     private static final double KN=Math.pow(10.0, 5.0);
     private static final double KT=2.0*KN;
-    private static final double DROP_DEPTH=5.0;//Profundidad que caen las particulas luego de salir del silo. A una profundida mayor, se pierda la particula
+    private static final double DROP_DEPTH=1.0;//Profundidad que caen las particulas luego de salir del silo. A una profundida mayor, se pierda la particula
 
 
     private static final String  ENERGY_OUTPUT_FILE="system_energy.csv";
@@ -19,7 +19,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         // TODO Auto-generated method stub
        DlmWriter energyDataWriter=null;
-       double total_time = 60.0;
+       double total_time = 20.0;
         double paso_simulacion = 0.00001;
         double paso_grafico = 0.1;
         int cant_cuadros=(int)Math.ceil( paso_grafico / paso_simulacion);
@@ -30,7 +30,7 @@ public class Main {
 
         ParticleWriter writer = null;
         try {
-        	String outputFilename=String.format("tp5-N=%d-deltaSim=%g.xyz",N,paso_simulacion);
+        	String outputFilename=String.format("tp5-N=%d-deltaSim=%g-L=%g.xyz",N,paso_simulacion,HEIGHT);
             writer = new ParticleWriter(outputFilename);
             energyDataWriter=new DlmWriter(ENERGY_OUTPUT_FILE);
 
@@ -74,7 +74,7 @@ public class Main {
 
         }
 
-        //sim.clean();//se liberan recursos
+        sim.clean();//se liberan recursos
 
 
         long elapsedTime = System.currentTimeMillis() - timeStart;
