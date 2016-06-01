@@ -7,7 +7,7 @@ public class Main {
     private static final double WIDTH = 20.0;
     private static final double HEIGHT = 20.0;
     private static final double D = 1.2;
-    private static final int N = 10;
+    private static final int N = 100;
     private static final double DSTART = (WIDTH / 2.0) - (D / 2.0);
     private static final double KN=1.2*Math.pow(10.0, 5.0);
     private static final double KT=2.4*Math.pow(10.0, 5.0);
@@ -20,7 +20,7 @@ public class Main {
         // TODO Auto-generated method stub
        DlmWriter energyDataWriter=null;
        DlmWriter flowWriter=null;
-       double total_time = 50;
+       double total_time = 20;
         double paso_simulacion = 0.00001;
         double paso_grafico = 0.1;
         int cant_cuadros=(int)Math.ceil( paso_grafico / paso_simulacion);
@@ -73,14 +73,14 @@ public class Main {
 
                 System.out.printf("time=%g, prog= %g, remaining= %d seconds, procesing steptime= %d\n", time, time/total_time, 0,timeStep);
 
-               	double totalKinetic=sim.getMeanKineticEnergy();
-				double totalPotential=sim.getMeanPotentialEnergy();
-				double totalEnergy=totalKinetic+totalPotential;
-				double[][] energyData={{current_frame*paso_simulacion,totalKinetic,totalPotential,totalEnergy}};
-				energyDataWriter.write(energyData, 1, 4);
-				
-				double[][] flowData={{current_frame*paso_simulacion,avgFlow}};
-				flowWriter.write(flowData, 1, 2);
+//               	double totalKinetic=sim.getMeanKineticEnergy();
+//				double totalPotential=sim.getMeanPotentialEnergy();
+//				double totalEnergy=totalKinetic+totalPotential;
+//				double[][] energyData={{current_frame*paso_simulacion,totalKinetic,totalPotential,totalEnergy}};
+//				energyDataWriter.write(energyData, 1, 4);
+//				
+//				double[][] flowData={{current_frame*paso_simulacion,avgFlow}};
+//				flowWriter.write(flowData, 1, 2);
 
             }
             current_frame++;
@@ -94,9 +94,9 @@ public class Main {
 
         System.out.println("ElapsedTime: " + elapsedTime);
 
-        energyDataWriter.closeWriter();
-        flowWriter.closeWriter();
-        
+//        energyDataWriter.closeWriter();
+//        flowWriter.closeWriter();
+//        
 
     }
 

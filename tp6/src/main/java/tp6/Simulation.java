@@ -24,6 +24,7 @@ public class Simulation {
     private double k_t;
     private double drop_depht;
 
+    private static final double RC=0.65;
     private long previousParticlesCount;
     private CellIndexMethod cim;
 
@@ -44,14 +45,21 @@ public class Simulation {
         this.drivingVelocity=drivingVelocity;
         this.diameter = 0.3;
 
-        this.particles = Particle.generateRandomParticles(n, this.diameter, width, height, 10000L,drop_depth,TAU,drivingVelocity);
+        this.particles = Particle.generateRandomParticles(n
+        		, this.diameter
+        		, width
+        		, height
+        		, 10000L
+        		,drop_depth
+        		,TAU
+        		,drivingVelocity,d,dStart,0.1);
 
         this.k_n = k_n;
         this.k_t = k_t;
 
         this.drop_depht = drop_depth;
 
-        this.cim = new CellIndexMethod(width, height+drop_depth, n, 0.3);
+        this.cim = new CellIndexMethod(width, height+drop_depth, n, RC);
         this.previousParticlesCount=n;
     }
 

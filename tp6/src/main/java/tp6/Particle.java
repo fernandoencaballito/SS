@@ -9,12 +9,14 @@ import java.util.List;
 import java.util.Random;
 
 public class Particle {
-
+	private static final  double RADIOUS_MIN=0.25;
+	private static final double RADIOUS_MAX=0.28;
+	
 	private double TAU;
 	private double drivingVelocity;
 	private static final double g = 9.8;
 	private final int id;
-	private final double mass = 0.01;
+	private final double mass = 80.0;
 	private Vector2D position;
 	private Double radius;
 	private Vector2D velocity;
@@ -22,7 +24,12 @@ public class Particle {
 	private List<Vector2D> forces;
 	private boolean inside;
 
-	public Particle(int id, Vector2D position, Vector2D velocity, double radius, double tau, double velocidadDeseo) {
+	double widthRoom;
+	double widthDoor;
+	double startDoorX;
+
+	public Particle(int id, Vector2D position, Vector2D velocity,double radius, double tau, double velocidadDeseo,
+			double width, double widthDoor, double startDoorX,double doorMargin) {
 		super();
 		this.id = id;
 		this.radius = radius;
@@ -33,11 +40,13 @@ public class Particle {
 		this.inside = true;
 		this.TAU = tau;
 		this.drivingVelocity = velocidadDeseo;
-
+		this.widthRoom = width;
+		this.widthDoor = widthDoor;
+		this.startDoorX = startDoorX;
 	}
 
 	public static List<Particle> generateRandomParticles(int cant, double diameter, double width, double height,
-			long timeout, double drop_height, double tau, double drivingVelocity) {
+			long timeout, double drop_height, double tau, double drivingVelocity, double widthDoor, double startDoorX,double marginDoor) {
 
 		System.out.println("[generateRandomParticles]: starting");
 		List<Particle> particles = new ArrayList<Particle>(cant);
@@ -46,19 +55,18 @@ public class Particle {
 
 		int i = 0;
 
-		final double RADIUS = diameter / 2.0;
-
+		
 		Random random = new Random();
 
 		while (System.currentTimeMillis() < maxTime && particles.size() < cant) {
 
 			Vector2D position = new Vector2D(width * random.nextDouble(), (height * random.nextDouble()) + drop_height);
 
-			if (position.getX() < RADIUS || (position.getX() + RADIUS) > width) {
+			if (position.getX() < RADIOUS_MAX || (position.getX() + RADIOUS_MAX) > width) {
 				continue;
 			}
 
-			if (position.getY() < (RADIUS + drop_height) || (position.getY() + RADIUS) > (height + drop_height)) {
+			if (position.getY() < (RADIOUS_MAX + drop_height) || (position.getY() + RADIOUS_MAX) > (height + drop_height)) {
 				continue;
 			}
 
@@ -84,7 +92,11 @@ public class Particle {
 			if (expired)
 				break;
 
-			particles.add(new Particle(i, position, new Vector2D(0.0, 0.0), RADIUS, tau, drivingVelocity));
+			
+			double radious=random.nextDouble()*(RADIOUS_MAX - RADIOUS_MIN ) + RADIOUS_MIN;
+//			System.out.println("radio:"+radious);
+			particles.add(new Particle(i, position, new Vector2D(0.0, 0.0), radious, tau, drivingVelocity, width,
+					widthDoor, startDoorX, marginDoor));
 			i++;
 		}
 
@@ -165,12 +177,12 @@ public class Particle {
 	}
 
 	// metodo que devuelve la suma de todas las fuerzas.
-	// la fuerza de gravedad no esta incluida en la lista de fuerzas, sino que
-	// la calcula
+	//
 	public Vector2D getTotalForces() {
 
-		Vector2D target=new Vector2D(10.0,0);
-		Vector2D drivingForce=drivingForce(target);
+		double targetX = startDoorX + (this.position.getX() / widthRoom) * widthDoor;
+		Vector2D target = new Vector2D(targetX, 0.0);
+		Vector2D drivingForce = drivingForce(target);
 		double ansx = drivingForce.getX();
 		double ansy = drivingForce.getY();
 
