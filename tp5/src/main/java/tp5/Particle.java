@@ -1,4 +1,5 @@
 package tp5;
+import org.apache.commons.math3.geometry.euclidean.twod.Segment;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class Particle {
         this.previous_position = position;
         this.forces=new ArrayList<Vector2D>();
         this.inside = true;
+
     }
 
     public static List<Particle> generateRandomParticles(int cant, double diameter, double width, double height, long timeout,double drop_height) {
