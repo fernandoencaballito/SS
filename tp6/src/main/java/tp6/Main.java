@@ -18,20 +18,23 @@ public class Main {
 													// profundida mayor, se
 													// pierda la particula
 
-	private static double total_time = 2;
-	private static int REPEAT = 3;
+	private static double total_time =40;
+	private static int REPEAT =3;
 	//private static double DRIVING_VELOCITY = 1.3;
 
 	private static double paso_simulacion = 0.00001;
 	private static double paso_grafico = 0.1;
+	private static double paso_flow = 1;
 	private static int cant_cuadros = (int) Math.ceil(paso_grafico / paso_simulacion);
+	private static int cant_flow = (int) Math.ceil(paso_flow / paso_simulacion);
+	private static boolean writeSimulationPositions =true;
+	
 
-	private static boolean writeSimulationPositions =false;
 
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 
-		for (double DRIVING_VELOCITY = 1.0; DRIVING_VELOCITY <= 6; DRIVING_VELOCITY++) {
+		for (double DRIVING_VELOCITY = 1.0; DRIVING_VELOCITY <= 3.0; DRIVING_VELOCITY++) {
 			DlmWriter flowWriter = null;
 
 			Locale.setDefault(new Locale("en", "US"));
@@ -52,7 +55,7 @@ public class Main {
 				e.printStackTrace();
 			}
 			Integrator integrator = new VerletIntegrator();
-			int flowRows = (int) Math.ceil(total_time / paso_grafico) + 1;
+			int flowRows = (int) Math.ceil(total_time / paso_flow) + 1;
 			int flowCols = (REPEAT + 1);
 			double[][] flow = new double[flowRows][flowCols];
 
@@ -69,19 +72,18 @@ public class Main {
 					sim.writeData(); // ESCRITURA DE PARTICULAS
 
 				long previousTime = timeStart;
-				long currentFlow = 0;
-				flow[0][repeat] = currentFlow;
+				long cantPeatones = 0;
+				flow[0][repeat] = cantPeatones;
 				for (double time = paso_simulacion; time < total_time; time += paso_simulacion) {
 
-					currentFlow += sim.simulate();
+					cantPeatones += sim.simulate();
 
 					if ((current_frame % cant_cuadros) == 0) {
 						// se graba a archivo
-						double avgFlow = ((double) currentFlow) / cant_cuadros;
-						currentFlow = 0;
-						if (writeSimulationPositions)
+						
+						if (writeSimulationPositions) {
 							sim.writeData();
-
+						}
 						long currentSystemTime = System.currentTimeMillis();
 						long timeStep = currentSystemTime - previousTime;
 						previousTime = currentSystemTime;
@@ -89,22 +91,31 @@ public class Main {
 						System.out.printf("time=%g, prog= %g, remaining= %d seconds, procesing steptime= %d\n", time,
 								time / total_time, 0, timeStep);
 
-						flow[current_frame_graph][0] = time;
 
-						flow[current_frame_graph][repeat + 1] = avgFlow;
+					}
+					if (current_frame % cant_flow == 0) {		
+						flow[current_frame_graph][0] = time;
+						flow[current_frame_graph][repeat + 1] = cantPeatones;
 						current_frame_graph++;
 					}
 					current_frame++;
 
 				}
 
-				sim.clean();// se liberan recursos
+				
 
 				long elapsedTime = System.currentTimeMillis() - timeStart;
 
 				System.out.println("ElapsedTime: " + elapsedTime);
 			}
-
+			
+			try {
+				writer.closeWriter();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			flowWriter.write(flow, flowRows, flowCols);
 			flowWriter.closeWriter();
 			//

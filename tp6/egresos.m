@@ -1,7 +1,14 @@
 graphics_toolkit('gnuplot')
-data= csvread ('FLOW_N=100_DrivingVelocity=1.30000.csv');
 
-time=data(:,1);
-flow1=data(:,2);
-flow2=data(:,3);
-errorbar(time,flow1,flow2);
+##GRAFICO PUNTO B DEL ENUNCIADO
+
+
+[time,meanExits1,errorExits1]=getExitData('FLOW_N=100_DrivingVelocity=1.00000.csv');
+[time,meanExits2,errorExits2]=getExitData('FLOW_N=100_DrivingVelocity=2.00000.csv');
+[time,meanExits3,errorExits3]=getExitData('FLOW_N=100_DrivingVelocity=3.00000.csv');
+errorbar(time,meanExits1,errorExits1,'~',time,meanExits2,errorExits2, '~');
+legend('v=1.0','v=2.0');
+xlabel('t [seg]');
+ylabel('Personas evacuadas');
+
+
