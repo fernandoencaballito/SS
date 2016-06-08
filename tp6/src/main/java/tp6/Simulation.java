@@ -63,6 +63,7 @@ public class Simulation {
         this.previousParticlesCount=n;
     }
 
+    //devuelve la cantidad que salieron
     public long simulate() {
 
     	long flow = 0;

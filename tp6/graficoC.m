@@ -15,7 +15,15 @@ while (i + interval <= row)
    endfor
    i++;
 endwhile
-size(time(interval/2:(end-1)-interval/2))
-size(c(:,1))
 
-plot(time(interval/2:(end-1)-interval/2),c(:,1),time(interval/2:(end-1)-interval/2),c(:,2))
+caudalMean = mean(c')';
+errorCaudal = std(c')'./2;
+
+fontsize=14;
+
+maxTime=max(time);
+errorbar(1:length(c(:,1)), caudalMean, errorCaudal);
+axis([-1 50 -0.1 3])
+xlabel('Tiempo [seg]','fontsize',fontsize);
+ylabel('Caudal promedio [personas/ tiempo]','fontsize',fontsize);
+title('N=100; Velocidad deseada=1.0; Repeticiones=5','fontsize',20);

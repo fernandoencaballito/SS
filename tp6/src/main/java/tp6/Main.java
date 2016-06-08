@@ -18,8 +18,8 @@ public class Main {
 													// profundida mayor, se
 													// pierda la particula
 
-	private static double total_time =40;
-	private static int REPEAT =3;
+	private static double total_time =60;//poner 60
+	private static int REPEAT =10;
 	//private static double DRIVING_VELOCITY = 1.3;
 
 	private static double paso_simulacion = 0.00001;
@@ -27,14 +27,14 @@ public class Main {
 	private static double paso_flow = 1;
 	private static int cant_cuadros = (int) Math.ceil(paso_grafico / paso_simulacion);
 	private static int cant_flow = (int) Math.ceil(paso_flow / paso_simulacion);
-	private static boolean writeSimulationPositions =true;
+	private static boolean writeSimulationPositions =false;
 	
 
 
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 
-		for (double DRIVING_VELOCITY = 1.0; DRIVING_VELOCITY <= 3.0; DRIVING_VELOCITY++) {
+		for (double DRIVING_VELOCITY = 7.0; DRIVING_VELOCITY <= 8.0; DRIVING_VELOCITY++) {
 			DlmWriter flowWriter = null;
 
 			Locale.setDefault(new Locale("en", "US"));
@@ -57,7 +57,7 @@ public class Main {
 			Integrator integrator = new VerletIntegrator();
 			int flowRows = (int) Math.ceil(total_time / paso_flow) + 1;
 			int flowCols = (REPEAT + 1);
-			double[][] flow = new double[flowRows][flowCols];
+			double[][] exitsData = new double[flowRows][flowCols];
 
 			for (int repeat = 0; repeat < REPEAT; repeat++) {
 				int current_frame = 1;
@@ -72,11 +72,11 @@ public class Main {
 					sim.writeData(); // ESCRITURA DE PARTICULAS
 
 				long previousTime = timeStart;
-				long cantPeatones = 0;
-				flow[0][repeat] = cantPeatones;
+				long exits = 0;
+				exitsData[0][repeat] = exits;
 				for (double time = paso_simulacion; time < total_time; time += paso_simulacion) {
 
-					cantPeatones += sim.simulate();
+					exits += sim.simulate();
 
 					if ((current_frame % cant_cuadros) == 0) {
 						// se graba a archivo
@@ -94,8 +94,8 @@ public class Main {
 
 					}
 					if (current_frame % cant_flow == 0) {		
-						flow[current_frame_graph][0] = time;
-						flow[current_frame_graph][repeat + 1] = cantPeatones;
+						exitsData[current_frame_graph][0] = time;
+						exitsData[current_frame_graph][repeat + 1] = exits;
 						current_frame_graph++;
 					}
 					current_frame++;
@@ -116,7 +116,7 @@ public class Main {
 				e.printStackTrace();
 			}
 			
-			flowWriter.write(flow, flowRows, flowCols);
+			flowWriter.write(exitsData, flowRows, flowCols);
 			flowWriter.closeWriter();
 			//
 
