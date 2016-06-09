@@ -1,5 +1,5 @@
   # graphics_toolkit('gnuplot')
-   data= csvread ('FLOW_N=100_DrivingVelocity=1.00000.csv');
+   data= csvread ('N=100_Repeticiones=10/FLOW_N=100_DrivingVelocity=1.00000.csv');
    time=data(:,1);
    exits=data(:,2:end);
   
@@ -20,9 +20,13 @@
   #legend('v=1.0','fontsize', fontsize);
   ylabel('t [seg]','fontsize', fontsize);
   xlabel('Personas evacuadas','fontsize', fontsize);
-  title('v = 1m/s N = 100', 'fontsize', 20);
+  title('v = 1m/s; N = 100; Repeticiones=10', 'fontsize', 20);
   hold on
-  plot(peatones,resProm);
+  plot(peatones,resProm,'r');
+  axis([-0.1 101]);
   hold off
+  print -dpng "N=100_Repeticiones=10/graficoBinverso.png"
+  
+  
   
   
