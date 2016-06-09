@@ -19,7 +19,7 @@ public class Main {
 													// pierda la particula
 
 	private static double total_time =60;//poner 60
-	private static int REPEAT =10;
+	private static int REPEAT =1;
 	//private static double DRIVING_VELOCITY = 1.3;
 
 	private static double paso_simulacion = 0.00001;
@@ -27,14 +27,14 @@ public class Main {
 	private static double paso_flow = 1;
 	private static int cant_cuadros = (int) Math.ceil(paso_grafico / paso_simulacion);
 	private static int cant_flow = (int) Math.ceil(paso_flow / paso_simulacion);
-	private static boolean writeSimulationPositions =false;
-	
+	private static boolean writeSimulationPositions =true;
+
 
 
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 
-		for (double DRIVING_VELOCITY = 7.0; DRIVING_VELOCITY <= 8.0; DRIVING_VELOCITY++) {
+		for (double DRIVING_VELOCITY = 1.0; DRIVING_VELOCITY <= 1.0; DRIVING_VELOCITY++) {
 			DlmWriter flowWriter = null;
 
 			Locale.setDefault(new Locale("en", "US"));
@@ -80,7 +80,7 @@ public class Main {
 
 					if ((current_frame % cant_cuadros) == 0) {
 						// se graba a archivo
-						
+
 						if (writeSimulationPositions) {
 							sim.writeData();
 						}
@@ -93,7 +93,7 @@ public class Main {
 
 
 					}
-					if (current_frame % cant_flow == 0) {		
+					if (current_frame % cant_flow == 0) {
 						exitsData[current_frame_graph][0] = time;
 						exitsData[current_frame_graph][repeat + 1] = exits;
 						current_frame_graph++;
@@ -102,20 +102,20 @@ public class Main {
 
 				}
 
-				
+
 
 				long elapsedTime = System.currentTimeMillis() - timeStart;
 
 				System.out.println("ElapsedTime: " + elapsedTime);
 			}
-			
+
 			try {
 				writer.closeWriter();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 			flowWriter.write(exitsData, flowRows, flowCols);
 			flowWriter.closeWriter();
 			//

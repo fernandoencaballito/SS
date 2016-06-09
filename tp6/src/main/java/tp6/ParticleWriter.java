@@ -6,7 +6,6 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
 
 public class ParticleWriter {
 
@@ -34,7 +33,7 @@ public class ParticleWriter {
         Vector2D pos = p.getPosition();
         Vector2D vel = p.getVelocity();
         // id posX posY mass radius
-        return String.format("%s %f %f %f %f %f %f\n", p.getId(), pos.getX(), pos.getY(), p.getMass(), p.getRadius(), vel.getX(), vel.getY());
+        return String.format("%s %f %f %f %f %f %f 0\n", p.getId(), pos.getX(), pos.getY(), p.getVelocity().getNorm() / p.getDrivingVelocity(), p.getRadius(), vel.getX(), vel.getY());
     }
 
     public void closeWriter() throws IOException {
