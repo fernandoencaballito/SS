@@ -13,6 +13,11 @@ public class Particle {
 	private static final double RADIOUS_MAX=0.28;
 	
 	private double TAU;
+
+	public double getDrivingVelocity() {
+		return drivingVelocity;
+	}
+
 	private double drivingVelocity;
 	private static final double g = 9.8;
 	private final int id;
